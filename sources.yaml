@@ -29,7 +29,6 @@ concurrency: 8
 sources:
   # ---- Big Tech (bespoke careers sites) ----
   - { ats: google, query: "software engineer", location: "United States" }
-  - { ats: apple,  query: "software engineer" }   # newest-first; filters narrow further
 
   # ---- Quant / HFT (top total-comp; via levels.fyi leaderboard) ----
   - { ats: greenhouse, company: janestreet }    # Jane Street

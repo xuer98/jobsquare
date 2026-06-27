@@ -97,14 +97,12 @@ career URL (e.g. `https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCaree
 | `ats` | Config | Notes |
 |-------|--------|-------|
 | `google` | `query` (recommended), `location`, `max_pages` | Global board is huge — narrow server-side with `query` |
-| `apple` | `query` (optional), `max_pages` | ~6.4k roles; newest-first, paginated. Provides real post dates |
 | `deshaw` | `company` (label) | Single-page careers site |
 | `twosigma` | `company`, `max_pages` | Avature portal, paginated |
 | `optiver` | `company`, `max_pages` | JSON API, paginated |
 
 ```yaml
   - { ats: google,  query: "software engineer", location: "United States" }
-  - { ats: apple,   query: "software engineer" }
   - { ats: deshaw,   company: deshaw }
   - { ats: twosigma, company: twosigma }
   - { ats: optiver,  company: optiver }

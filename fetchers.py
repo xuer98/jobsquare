@@ -383,94 +383,6 @@ async def fetch_optiver(client: httpx.AsyncClient, source: dict) -> list[Job]:
 
 
 # --------------------------------------------------------------------------
-# Apple — bespoke. jobs.apple.com server-renders search results into
-# window.__staticRouterHydrationData = JSON.parse("...") (React Router loader
-# data), paginated via ?page=N (20/page). Sorted newest-first; postDateInGMT
-# gives a real (nanosecond) timestamp. Board is ~6400 roles — cap pages.
-# --------------------------------------------------------------------------
-def _apple_hydration(html: str) -> dict | None:
-    """Decode the JSON.parse("...") hydration blob into a dict, or None."""
-    i = html.find("window.__staticRouterHydrationData")
-    if i == -1:
-        return None
-    i = html.find('JSON.parse("', i)
-    if i == -1:
-        return None
-    start = i + len("JSON.parse(")          # at the opening quote
-    j = start + 1
-    esc = False
-    while j < len(html):                     # scan to the closing unescaped quote
-        ch = html[j]
-        if esc:
-            esc = False
-        elif ch == "\\":
-            esc = True
-        elif ch == '"':
-            break
-        j += 1
-    try:
-        return json.loads(json.loads(html[start:j + 1]))  # JS-string, then JSON
-    except (ValueError, json.JSONDecodeError):
-        return None
-
-
-def _apple_posted_at(value: str) -> str:
-    """Apple's postDateInGMT is nanosecond-precision (e.g. ...:03.812668311Z),
-    which datetime.fromisoformat rejects. Trim to microseconds + explicit UTC."""
-    m = re.match(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?Z?", value or "")
-    return m.group(1) + (m.group(2) or "")[:7] + "+00:00" if m else ""
-
-
-def parse_apple(company: str, results: list) -> list[Job]:
-    out: list[Job] = []
-    for j in results:
-        pid = str(j.get("positionId") or "")
-        locs = "; ".join(dict.fromkeys(filter(None, (
-            loc.get("name") or loc.get("city") or loc.get("countryName")
-            for loc in (j.get("locations") or [])))))
-        out.append(Job(
-            source="apple", company=company,
-            # `id` is unique per role×location (e.g. "200658020-0836"); a single
-            # req posted to N locations yields N results, one per location.
-            external_id=str(j.get("id") or pid),
-            title=j.get("postingTitle", ""),
-            url=(f"https://jobs.apple.com/en-us/details/{pid}/"
-                 f"{j.get('transformedPostingTitle', '')}") if pid else "",
-            location=locs,
-            department=(j.get("team") or {}).get("teamName", ""),
-            posted_at=_apple_posted_at(j.get("postDateInGMT", "")),
-            raw={"id": j.get("id"), "positionId": pid},
-        ))
-    return out
-
-
-async def fetch_apple(client: httpx.AsyncClient, source: dict) -> list[Job]:
-    """Apple Jobs. No JSON API — parse the server-rendered hydration blob,
-    paginated newest-first via ?page=N. Config: company (label, default "apple");
-    query (optional keyword search); max_pages (default 10; 20 roles per page)."""
-    company = source.get("company", "apple")
-    base = "https://jobs.apple.com/en-us/search"
-    params = {"sort": "newest"}
-    if source.get("query"):
-        params["search"] = source["query"]
-    max_pages = int(source.get("max_pages", 10))
-
-    jobs: list[Job] = []
-    seen: set[str] = set()
-    for page in range(1, max_pages + 1):
-        html = await _get_text(client, base, params={**params, "page": page})
-        data = _apple_hydration(html) or {}
-        results = (((data.get("loaderData") or {}).get("search") or {})
-                   .get("searchResults") or [])
-        fresh = [j for j in parse_apple(company, results) if j.external_id not in seen]
-        if not fresh:
-            break
-        seen.update(j.external_id for j in fresh)
-        jobs.extend(fresh)
-    return jobs
-
-
-# --------------------------------------------------------------------------
 # endpoint builders + registry
 # --------------------------------------------------------------------------
 def _greenhouse_url(c: str) -> tuple[str, str]:
@@ -593,7 +505,6 @@ async def fetch_google(client: httpx.AsyncClient, source: dict) -> list[Job]:
 
 FETCHERS: dict[str, SourceFetcher] = {
     "google":          fetch_google,
-    "apple":           fetch_apple,
     "deshaw":          fetch_deshaw,
     "twosigma":        fetch_twosigma,
     "optiver":         fetch_optiver,
