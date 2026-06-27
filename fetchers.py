@@ -503,8 +503,80 @@ async def fetch_google(client: httpx.AsyncClient, source: dict) -> list[Job]:
     return jobs
 
 
+# --------------------------------------------------------------------------
+# Meta — bespoke GraphQL (metacareers.com). A single persisted-query POST
+# returns the entire public board (~500 roles, no pagination). The /graphql
+# endpoint needs an `lsd` token + `__spin_*` build params scraped from the
+# careers page. NOTE: Meta rotates the persisted-query doc_id on redeploys —
+# if this fetcher starts returning a graphql error, re-capture the doc_id for
+# CareersJobSearchResultsV2DataQuery from the live site's network panel.
+# --------------------------------------------------------------------------
+_META_DOC_ID = "27129360303422352"  # CareersJobSearchResultsV2DataQuery
+
+
+def parse_meta(company: str, results: list) -> list[Job]:
+    out: list[Job] = []
+    seen: set[str] = set()
+    for j in results:
+        jid = str(j.get("id") or "")
+        if not jid or jid in seen:
+            continue
+        seen.add(jid)
+        out.append(Job(
+            source="meta", company=company,
+            external_id=jid,
+            title=j.get("title", ""),
+            url=f"https://www.metacareers.com/jobs/{jid}/",
+            location="; ".join(j.get("locations") or []),
+            department="; ".join(j.get("teams") or []),
+            raw={"id": jid},
+        ))
+    return out
+
+
+async def fetch_meta(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Meta Careers GraphQL. One POST returns the whole board. Config: company
+    (label, default "meta"); query (optional keyword search); remote_only (bool).
+    Scrapes lsd + __spin_* tokens from the careers page each run."""
+    company = source.get("company", "meta")
+    page = await _get_text(client, "https://www.metacareers.com/jobs")
+    tok = lambda p: (re.search(p, page) or [None, ""])[1] if re.search(p, page) else ""
+    lsd = tok(r'\["LSD",\[\],\{"token":"([^"]+)"')
+    rev = tok(r'"__spin_r":(\d+)')
+
+    variables = {
+        "search_input": {
+            "q": source.get("query"), "divisions": [], "offices": [], "roles": [],
+            "leadership_levels": [], "saved_jobs": [], "saved_searches": [],
+            "sub_teams": [], "teams": [], "is_leadership": False,
+            "is_remote_only": bool(source.get("remote_only", False)),
+            "sort_by_new": True, "results_per_page": None,
+        },
+        "viewasUserID": None, "isLoggedIn": False,
+    }
+    body = {
+        "lsd": lsd, "doc_id": _META_DOC_ID,
+        "fb_api_req_friendly_name": "CareersJobSearchResultsV2DataQuery",
+        "variables": json.dumps(variables), "__a": "1", "__comet_req": "1",
+        "__rev": rev, "__spin_r": rev,
+        "__spin_b": tok(r'"__spin_b":"([^"]+)"'), "__spin_t": tok(r'"__spin_t":(\d+)'),
+    }
+    text = await _get_text(client, "https://www.metacareers.com/graphql",
+                           method="POST", data=body,
+                           headers={"X-FB-LSD": lsd,
+                                    "content-type": "application/x-www-form-urlencoded"})
+    if text.startswith("for (;;);"):
+        text = text[9:]
+    data = json.loads(text)
+    if data.get("errors"):  # surfaces a rotated doc_id as a logged failure
+        raise RuntimeError(f"meta graphql: {data['errors'][0].get('message', '?')[:80]}")
+    node = (data.get("data") or {}).get("job_search_with_featured_jobs_v2") or {}
+    return parse_meta(company, node.get("all_jobs") or [])
+
+
 FETCHERS: dict[str, SourceFetcher] = {
     "google":          fetch_google,
+    "meta":            fetch_meta,
     "deshaw":          fetch_deshaw,
     "twosigma":        fetch_twosigma,
     "optiver":         fetch_optiver,

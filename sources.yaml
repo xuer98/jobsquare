@@ -29,6 +29,7 @@ concurrency: 8
 sources:
   # ---- Big Tech (bespoke careers sites) ----
   - { ats: google, query: "software engineer", location: "United States" }
+  - { ats: meta,   query: "software engineer" }   # whole board in 1 GraphQL call
 
   # ---- Quant / HFT (top total-comp; via levels.fyi leaderboard) ----
   - { ats: greenhouse, company: janestreet }    # Jane Street

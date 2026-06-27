@@ -6,8 +6,8 @@ seen, and notifies you about anything **new** or **changed**.
 
 - **Many sources, one shape.** Each board is normalized into a common `Job`
   record regardless of which ATS it came from.
-- **Bespoke fetchers** for companies with no standard ATS (Google, D. E. Shaw,
-  Two Sigma, Optiver) sit behind the same interface as the slug-based ones.
+- **Bespoke fetchers** for companies with no standard ATS (Google, Meta,
+  D. E. Shaw, Two Sigma, Optiver) sit behind the same interface as the slug-based ones.
 - **Stateful dedup.** A local SQLite DB tracks every listing so repeat runs only
   surface diffs, not the whole board.
 - **Pluggable notifiers.** Console always; Slack / generic webhook / email
@@ -97,6 +97,7 @@ career URL (e.g. `https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCaree
 | `ats` | Config | Notes |
 |-------|--------|-------|
 | `google` | `query` (recommended), `location`, `max_pages` | Global board is huge — narrow server-side with `query` |
+| `meta` | `query` (optional), `remote_only` | GraphQL; whole board in one request. `doc_id` may rotate on Meta redeploys |
 | `deshaw` | `company` (label) | Single-page careers site |
 | `twosigma` | `company`, `max_pages` | Avature portal, paginated |
 | `optiver` | `company`, `max_pages` | JSON API, paginated |
@@ -122,7 +123,7 @@ it passes **every** configured check.
 
 > **Recency caveat:** `max_age_days` only drops a listing when its posted date is
 > **confirmed** older than the cutoff. Sources that don't expose a machine-readable
-> date (Workday, Google, D. E. Shaw, Two Sigma, Optiver) carry no timestamp, so
+> date (Workday, Google, Meta, D. E. Shaw, Two Sigma, Optiver) carry no timestamp, so
 > their listings are **kept** rather than silently dropped. Source dates come in
 > many formats (Lever sends unix milliseconds, others ISO-8601); `parse_posted_at`
 > in `models.py` normalizes them.
