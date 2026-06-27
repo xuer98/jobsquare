@@ -28,8 +28,11 @@ concurrency: 8
 
 sources:
   # ---- Big Tech (bespoke careers sites) ----
-  - { ats: google, query: "software engineer", location: "United States" }
-  - { ats: meta,   query: "software engineer" }   # whole board in 1 GraphQL call
+  - { ats: google,    query: "software engineer", location: "United States" }
+  - { ats: meta,      query: "software engineer" }   # whole board in 1 GraphQL call
+  - { ats: microsoft, query: "software engineer" }   # Phenom JSON API; real post dates
+  - { ats: netflix,   query: "software engineer" }   # Eightfold API on explore.jobs.netflix.net
+  - { ats: amazon,    query: "software engineer" }   # public amazon.jobs JSON API
 
   # ---- Quant / HFT (top total-comp; via levels.fyi leaderboard) ----
   - { ats: greenhouse, company: janestreet }    # Jane Street

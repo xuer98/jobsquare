@@ -6,8 +6,8 @@ seen, and notifies you about anything **new** or **changed**.
 
 - **Many sources, one shape.** Each board is normalized into a common `Job`
   record regardless of which ATS it came from.
-- **Bespoke fetchers** for companies with no standard ATS (Google, Meta,
-  D. E. Shaw, Two Sigma, Optiver) sit behind the same interface as the slug-based ones.
+- **Bespoke fetchers** for companies with no standard ATS (Google, Meta, Microsoft,
+  Netflix, Amazon, D. E. Shaw, Two Sigma, Optiver) sit behind the same interface as the slug-based ones.
 - **Stateful dedup.** A local SQLite DB tracks every listing so repeat runs only
   surface diffs, not the whole board.
 - **Pluggable notifiers.** Console always; Slack / generic webhook / email
@@ -98,6 +98,9 @@ career URL (e.g. `https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCaree
 |-------|--------|-------|
 | `google` | `query` (recommended), `location`, `max_pages` | Global board is huge — narrow server-side with `query` |
 | `meta` | `query` (optional), `remote_only` | GraphQL; whole board in one request. `doc_id` may rotate on Meta redeploys |
+| `microsoft` | `query` (optional), `location`, `max_pages` | Phenom JSON API, paginated; provides real post dates |
+| `netflix` | `query` (optional), `location`, `max_pages` | Eightfold JSON API (`explore.jobs.netflix.net`); real post dates |
+| `amazon` | `query` (optional), `max_pages` | Public `amazon.jobs` JSON API, paginated; real post dates |
 | `deshaw` | `company` (label) | Single-page careers site |
 | `twosigma` | `company`, `max_pages` | Avature portal, paginated |
 | `optiver` | `company`, `max_pages` | JSON API, paginated |
