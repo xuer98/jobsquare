@@ -574,9 +574,176 @@ async def fetch_meta(client: httpx.AsyncClient, source: dict) -> list[Job]:
     return parse_meta(company, node.get("all_jobs") or [])
 
 
+# --------------------------------------------------------------------------
+# Microsoft — bespoke, but a clean JSON API (Phenom "pcsx" platform). Paginated
+# via `start` (10/page). `postedTs` is a real unix-seconds timestamp, so the
+# recency filter engages. No tokens/cookies needed.
+# --------------------------------------------------------------------------
+def parse_microsoft(company: str, positions: list) -> list[Job]:
+    out: list[Job] = []
+    for j in positions:
+        jid = str(j.get("id") or "")
+        locs = j.get("standardizedLocations") or j.get("locations") or []
+        ts = j.get("postedTs")
+        out.append(Job(
+            source="microsoft", company=company,
+            external_id=jid,
+            title=j.get("name", ""),
+            url=f"https://jobs.careers.microsoft.com/global/en/job/{jid}" if jid else "",
+            location="; ".join(locs),
+            department=j.get("department", ""),
+            posted_at=(datetime.fromtimestamp(ts, timezone.utc).isoformat()
+                       if ts else ""),
+            raw={"id": jid, "displayJobId": j.get("displayJobId")},
+        ))
+    return out
+
+
+async def fetch_microsoft(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Microsoft Careers (Phenom pcsx JSON API), sorted newest-first and
+    paginated via `start` (10/page). Config: company (label, default
+    "microsoft"); query (optional keyword); location (optional); max_pages
+    (default 40 — the board is thousands of roles)."""
+    company = source.get("company", "microsoft")
+    url = "https://apply.careers.microsoft.com/api/pcsx/search"
+    base = {"domain": "microsoft.com", "query": source.get("query", ""),
+            "location": source.get("location", ""), "sort_by": "timestamp"}
+    max_pages = int(source.get("max_pages", 40))
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for pg in range(max_pages):
+        data = await _get_json(client, url, params={**base, "start": pg * 10},
+                               headers={"Accept": "application/json"})
+        positions = ((data or {}).get("data") or {}).get("positions") or []
+        fresh = [j for j in parse_microsoft(company, positions)
+                 if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+    return jobs
+
+
+# --------------------------------------------------------------------------
+# Netflix — bespoke. jobs.netflix.com is just a Contentful marketing site; the
+# real ATS is Eightfold at explore.jobs.netflix.net, with a clean JSON API at
+# /api/apply/v2/jobs paginated via `start` (server-capped at 10/page). `t_create`
+# is a real unix-seconds timestamp, so the recency filter engages.
+# --------------------------------------------------------------------------
+def parse_netflix(company: str, positions: list) -> list[Job]:
+    out: list[Job] = []
+    for j in positions:
+        jid = str(j.get("id") or "")
+        locs = j.get("locations") or ([j["location"]] if j.get("location") else [])
+        ts = j.get("t_create") or j.get("t_update")
+        out.append(Job(
+            source="netflix", company=company,
+            external_id=jid,
+            title=j.get("name", ""),
+            url=f"https://explore.jobs.netflix.net/careers/job/{jid}" if jid else "",
+            # raw locations are comma-packed ("City,State,Country") — space them out
+            location="; ".join(l.replace(",", ", ") for l in locs),
+            department=j.get("department", ""),
+            posted_at=(datetime.fromtimestamp(ts, timezone.utc).isoformat()
+                       if ts else ""),
+            raw={"id": jid, "display_job_id": j.get("display_job_id")},
+        ))
+    return out
+
+
+async def fetch_netflix(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Netflix Careers (Eightfold JSON API). Paginated via start (10/page).
+    Config: company (label, default "netflix"); query (optional keyword);
+    location (optional); max_pages (default 30)."""
+    company = source.get("company", "netflix")
+    url = "https://explore.jobs.netflix.net/api/apply/v2/jobs"
+    base = {"domain": "netflix.com", "query": source.get("query", ""),
+            "location": source.get("location", "")}
+    max_pages = int(source.get("max_pages", 30))
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for pg in range(max_pages):
+        data = await _get_json(client, url, params={**base, "start": pg * 10, "num": 10},
+                               headers={"Accept": "application/json"})
+        positions = (data or {}).get("positions") or []
+        fresh = [j for j in parse_netflix(company, positions)
+                 if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+    return jobs
+
+
+# --------------------------------------------------------------------------
+# Amazon — a clean, long-standing public JSON API (amazon.jobs/en/search.json),
+# paginated via `offset` (10/page). posted_date is a US-format string
+# ("June 26, 2026"), so we normalize it to ISO for the recency filter.
+# --------------------------------------------------------------------------
+_AMZ_MONTHS = {m: i for i, m in enumerate(
+    ("January", "February", "March", "April", "May", "June", "July", "August",
+     "September", "October", "November", "December"), 1)}
+
+
+def _amazon_posted_at(value: str) -> str:
+    """'June 26, 2026' -> '2026-06-26T00:00:00+00:00' (locale-independent)."""
+    try:
+        mon, day, year = value.replace(",", "").split()
+        return f"{int(year):04d}-{_AMZ_MONTHS[mon]:02d}-{int(day):02d}T00:00:00+00:00"
+    except (ValueError, KeyError):
+        return ""
+
+
+def parse_amazon(company: str, jobs_raw: list) -> list[Job]:
+    out: list[Job] = []
+    for j in jobs_raw:
+        jid = str(j.get("id") or j.get("id_icims") or "")
+        path = j.get("job_path", "")
+        out.append(Job(
+            source="amazon", company=company,
+            external_id=jid,
+            title=(j.get("title") or "").strip(),
+            url=("https://www.amazon.jobs" + path) if path else "",
+            location=j.get("normalized_location") or j.get("location", ""),
+            department=j.get("job_category") or j.get("business_category", ""),
+            employment_type=j.get("job_schedule_type", ""),
+            posted_at=_amazon_posted_at(j.get("posted_date", "")),
+            raw={"id": jid, "id_icims": j.get("id_icims")},
+        ))
+    return out
+
+
+async def fetch_amazon(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Amazon Jobs public JSON API, sorted newest-first, paginated via `offset`
+    (10/page). Config: company (label, default "amazon"); query (optional
+    base_query); max_pages (default 40 — the board is thousands of roles)."""
+    company = source.get("company", "amazon")
+    url = "https://www.amazon.jobs/en/search.json"
+    base = {"base_query": source.get("query", ""), "sort": "recent", "result_limit": 10}
+    max_pages = int(source.get("max_pages", 40))
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for pg in range(max_pages):
+        data = await _get_json(client, url, params={**base, "offset": pg * 10},
+                               headers={"Accept": "application/json"})
+        jobs_raw = (data or {}).get("jobs") or []
+        fresh = [j for j in parse_amazon(company, jobs_raw) if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+    return jobs
+
+
 FETCHERS: dict[str, SourceFetcher] = {
     "google":          fetch_google,
     "meta":            fetch_meta,
+    "microsoft":       fetch_microsoft,
+    "netflix":         fetch_netflix,
+    "amazon":          fetch_amazon,
     "deshaw":          fetch_deshaw,
     "twosigma":        fetch_twosigma,
     "optiver":         fetch_optiver,
