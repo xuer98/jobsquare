@@ -144,16 +144,21 @@ The console notifier always runs. Others activate when their env vars are set:
 | Slack | `SLACK_WEBHOOK_URL` |
 | Webhook | `WEBHOOK_URL` (receives `{new, changed}` JSON) |
 | Email | `SMTP_HOST`, `EMAIL_TO` (+ optional `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`) |
+| SMS (Twilio) | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM`, `TWILIO_TO` |
+
+The SMS text is a compact, ASCII-only summary (counts + the new roles, capped
+with a `+N more` overflow) to keep it to as few Twilio segments as possible.
 
 Salary is shown inline when a source provides it (currently Ashby and some Lever
 boards).
 
 ## Scheduling
 
-`scrape.yaml` is a GitHub Actions workflow that runs every 30 minutes and commits
-the updated `jobs.db` back to the repo so dedup state persists across runs. Set
-`SLACK_WEBHOOK_URL` (and any other notifier secrets) in the repo's Actions
-secrets.
+`.github/workflows/scrape.yaml` is a GitHub Actions workflow that runs **every 12
+hours** (00:00 & 12:00 UTC) and commits the updated `jobs.db` back to the repo so
+dedup state persists across runs. Add your notifier secrets in the repo's Actions
+secrets — `SLACK_WEBHOOK_URL` for Slack, and `TWILIO_ACCOUNT_SID`,
+`TWILIO_AUTH_TOKEN`, `TWILIO_FROM`, `TWILIO_TO` for SMS texts.
 
 ## Project layout
 
@@ -165,9 +170,9 @@ secrets.
 | `filters.py` | Keyword / location / recency filtering |
 | `models.py` | The `Job` dataclass, `parse_posted_at`, identity/dedup hashing |
 | `store.py` | SQLite dedup store + schema migrations |
-| `notify.py` | Console / Slack / webhook / email notifiers |
+| `notify.py` | Console / Slack / webhook / email / SMS notifiers |
 | `sources.yaml` | Your sources + filters |
-| `scrape.yaml` | GitHub Actions schedule |
+| `.github/workflows/scrape.yaml` | GitHub Actions schedule |
 
 ## Extending: add a new ATS
 

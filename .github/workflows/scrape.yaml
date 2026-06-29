@@ -1,7 +1,7 @@
 name: scrape-jobs
 on:
   schedule:
-    - cron: "*/30 * * * *"   # every 30 min (UTC); GitHub may delay under load
+    - cron: "0 */12 * * *"   # every 12h (00:00 & 12:00 UTC); GitHub may delay under load
   workflow_dispatch: {}
 
 permissions:
@@ -16,9 +16,13 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install -r requirements.txt
-      - run: python -m jobscraper --config sources.yaml
+      - run: python cli.py --config sources.yaml
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN:  ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_FROM:        ${{ secrets.TWILIO_FROM }}
+          TWILIO_TO:          ${{ secrets.TWILIO_TO }}
       # Persist dedup state across runs by committing jobs.db back to the repo.
       - name: persist dedup state
         run: |
