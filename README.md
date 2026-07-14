@@ -157,8 +157,68 @@ boards).
 `.github/workflows/scrape.yaml` is a GitHub Actions workflow that runs **every 12
 hours** (00:00 & 12:00 UTC) and commits the updated `jobs.db` back to the repo so
 dedup state persists across runs. Add your notifier secrets in the repo's Actions
-secrets — `SLACK_WEBHOOK_URL` for Slack, and `TWILIO_ACCOUNT_SID`,
-`TWILIO_AUTH_TOKEN`, `TWILIO_FROM`, `TWILIO_TO` for SMS texts.
+secrets — `SLACK_WEBHOOK_URL` for Slack; `TWILIO_ACCOUNT_SID`,
+`TWILIO_AUTH_TOKEN`, `TWILIO_FROM`, `TWILIO_TO` for SMS; and `SMTP_HOST`,
+`EMAIL_TO` (+ optional `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`) for email.
+
+## Agent CLI (`/jobsquare`)
+
+A [career-ops](https://github.com/santifer/career-ops)-style command center on
+top of the scraper, integrated with **Claude Code** only. The Python pipeline
+stays the scraping engine; the agent layer adds judgment — ranking fresh
+listings against your preferences and queueing the promising ones.
+
+```bash
+python agent.py            # interactive Claude session in the repo (/jobsquare available)
+python agent.py scan       # headless scan: claude -p "/jobsquare scan"
+python agent.py scan -i    # same, but in an interactive session
+python agent.py pipeline 5 # batch-evaluate the 5 oldest pending inbox entries
+python agent.py match {url} # score a JD against cv.md: A-F rubric + verdict
+python agent.py pdf {url}  # tailored ATS CV PDF for a JD (needs cv.md, see below)
+```
+
+`/jobsquare scan` **never scrapes portals** — the pipeline already did. It:
+
+1. dumps listings first seen in `jobs.db` since the last scan marker
+   (`python agent.py db-new`; first run covers the last 7 days),
+2. ranks them STRONG / MAYBE / SKIP against `config/profile.yml`
+   (copy `config/profile.example.yml`; falls back to `sources.yaml` filters),
+3. appends keepers to `data/pipeline.md`,
+4. advances the marker (`python agent.py db-mark "<watermark>"`) — only after
+   queueing succeeded, so a failed run is retried on the next scan.
+
+The marker lives in a `meta` table inside `jobs.db`; `db-new` never advances
+it, so dump-only runs are side-effect free. Mode instructions live in
+`modes/scan.md` with shared context in `modes/_shared.md`.
+
+`/jobsquare pipeline [N | company | all] [pdf]` drains the inbox: for each
+pending `data/pipeline.md` entry it fetches the JD (dead links get closed as
+expired), applies the `match` rubric with a tighter budget (≤1 web lookup per
+entry), writes a report, and annotates the entry ` | eval {F}/5 {date}`.
+With 3+ entries it fans out to parallel worker agents (≤5 at once) — workers
+only write their own reports; the main loop is the sole editor of
+`pipeline.md`, so parallel runs can't corrupt it. Add `pdf` to also render
+CVs for anything scoring ≥3.5. Discards are audited in `data/discard.log`.
+The intended loop: **scan → pipeline → pdf the top scorers → apply**.
+
+`/jobsquare match {JD}` (alias `oferta`) scores a JD against your `cv.md`:
+a requirement-by-requirement CV↔JD mapping with cited evidence and honest
+gaps, A–E dimension scores (CV match 35%, targets 20%, comp 15%, culture 15%,
+red flags 15%) rolled into a global verdict — ≥4.5 apply now, <3.5 skip —
+plus a posting-legitimacy tier (ghost-job/contractor-phrasing signals, ≤3 web
+lookups). Reports land in `reports/` (gitignored) with a machine-readable
+summary block; scored pipeline entries get annotated ` | eval {F}/5 {date}`.
+Score ≥3.5 ends with the top-5 CV changes to feed straight into `pdf` mode.
+
+`/jobsquare pdf {JD}` builds a one-page, ATS-optimized CV tailored to a JD
+(pasted text, a URL, or a company match against `data/pipeline.md`). It reads
+**`cv.md`** — your master CV at the repo root (gitignored; create it once with
+`# Name`, `## Summary`, `## Experience`, `## Projects`, `## Education`,
+`## Skills`) — fills `templates/cv-template.html`, and renders via
+`python agent.py pdf-render`, which ATS-normalizes text (smart quotes, dashes,
+bullets → ASCII) and prints to PDF with headless Chrome (auto-detected;
+`CHROME_PATH` overrides). Tailoring reorders and reframes what cv.md supports —
+it never invents experience. Output lands in `output/` (gitignored).
 
 ## Project layout
 
@@ -169,8 +229,13 @@ secrets — `SLACK_WEBHOOK_URL` for Slack, and `TWILIO_ACCOUNT_SID`,
 | `fetchers.py` | Async per-ATS fetchers + the `FETCHERS` registry |
 | `filters.py` | Keyword / location / recency filtering |
 | `models.py` | The `Job` dataclass, `parse_posted_at`, identity/dedup hashing |
-| `store.py` | SQLite dedup store + schema migrations |
+| `store.py` | SQLite dedup store + schema migrations + scan marker |
 | `notify.py` | Console / Slack / webhook / email / SMS notifiers |
+| `agent.py` | Claude agent CLI: launcher + db-new/db-mark/pdf-render helpers |
+| `modes/` | Agent mode instructions (`_shared.md`, `scan.md`, `pipeline.md`, `match.md`, `pdf.md`) |
+| `templates/cv-template.html` | ATS CV template (`pdf` mode fills a copy) |
+| `data/pipeline.md` | Offer inbox fed by `/jobsquare scan` |
+| `config/profile.example.yml` | Candidate preference template for agent ranking |
 | `sources.yaml` | Your sources + filters |
 | `.github/workflows/scrape.yaml` | GitHub Actions schedule |
 

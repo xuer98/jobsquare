@@ -124,7 +124,6 @@ sources:
   - { ats: greenhouse, company: dropbox }
   - { ats: greenhouse, company: faire }
   - { ats: greenhouse, company: seatgeek }
-  - { ats: greenhouse, company: opendoor }
   - { ats: greenhouse, company: nextdoor }
   
   # ---- Security ----
@@ -172,12 +171,6 @@ sources:
     host: broadcom.wd1.myworkdayjobs.com
     tenant: broadcom                               # set explicitly if != host's first label
     site: External_Career
-
-  - ats: workday
-    company: zoom                              # label for output + dedup key
-    host: zoom.wd5.myworkdayjobs.com
-    tenant: zoom                               # set explicitly if != host's first label
-    site: Career_Website
 
 filters:
   # Job is kept only if its title/dept/location matches at least one include

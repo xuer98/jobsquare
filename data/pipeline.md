@@ -1,0 +1,260 @@
+# jobsquare — offer pipeline
+
+Inbox fed by `/jobsquare scan`. Entry format: see `modes/_shared.md`.
+Work Pending top-down; tick to `[x]` + append ` | done {date}` when handled.
+
+## Pending
+
+- [ ] https://www.amazon.jobs/en/jobs/10464827/senior-software-engineer-programming-foundations-asbx | amazon | Senior Software Engineer, Programming Foundations, ASBX | Seattle, Washington, USA | first_seen 2026-07-06
+- [ ] https://www.amazon.jobs/en/jobs/10465169/software-engineer-programming-foundations-asbx | amazon | Software Engineer, Programming Foundations, ASBX | Seattle, Washington, USA | first_seen 2026-07-06
+- [ ] http://block.xyz/careers/jobs/5239566008?gh_jid=5239566008 | block | Senior Software Engineer, Product Platform | New York, NY, United States of America | first_seen 2026-07-06
+- [ ] http://block.xyz/careers/jobs/5231964008?gh_jid=5231964008 | block | Senior Software Engineer, Product Platform | Bay Area, CA, United States of America | first_seen 2026-07-06
+- [ ] http://block.xyz/careers/jobs/5201726008?gh_jid=5201726008 | block | Software Engineer, Cash App - Lending Products | New York, NY, United States of America | first_seen 2026-07-06
+- [ ] http://block.xyz/careers/jobs/5196173008?gh_jid=5196173008 | block | Software Engineer, Cash App - Lending Products | Bay Area, CA, United States of America | first_seen 2026-07-06
+- [ ] http://block.xyz/careers/jobs/4888459008?gh_jid=4888459008 | block | Software Engineer, Finance Applications | Bay Area, CA, United States of America | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/126405936309772998 | google | Senior Software Engineer, AI/ML, Gen AI, Geo | Mountain View, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/84212727349682886 | google | Senior Software Engineer, AI/ML, Workspace | Sunnyvale, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/94021745458979526 | google | Senior Software Engineer, Knowledge Catalog For AI | Kirkland, WA, USA; Sunnyvale, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/106157055294743238 | google | Senior Software Engineer, Search Ads Infrastructure | Mountain View, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/139356808895439558 | google | Senior Software Engineer, Security and Privacy, Workspace | Sunnyvale, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/74963635536831174 | google | Software Engineer III, AI/ML, Gmail Ads Quality | Mountain View, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/94295386415342278 | google | Software Engineer III, Infrastructure, Core | San Jose, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/133936491448410822 | google | Software Engineer III, Pixel Performance, SoC | Mountain View, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/102634082600395462 | google | Software Engineer III, Security/Privacy, Google Cloud Compute Infrastructure | Sunnyvale, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/88900495174705862 | google | Software Engineer, AI/ML GenAI, Geo | Mountain View, CA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/120865497217409734 | google | Software Engineer, Colab | Kirkland, WA, USA | first_seen 2026-07-06
+- [ ] https://www.google.com/about/careers/applications/jobs/results/128727829989728966 | google | Software Engineer, GDC LLM Serving and GPU Performance | Sunnyvale, CA, USA; Seattle, WA, USA; Kirkland, WA, USA | first_seen 2026-07-06
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556753224 | microsoft | Senior Software Engineer | Redmond, WA, US; Mountain View, CA, US | first_seen 2026-07-06
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556915388 | microsoft | Senior Software Engineer - Fullstack/Frontend | Redmond, WA, US | first_seen 2026-07-06
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556922841 | microsoft | Software Engineer | Redmond, WA, US | first_seen 2026-07-06
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556914099 | microsoft | Software Engineer | US | first_seen 2026-07-06
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556923938 | microsoft | Software Engineer II | Redmond, WA, US | first_seen 2026-07-06
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556918542 | microsoft | Software Engineer II | Mountain View, CA, US; Redmond, WA, US; Austin, TX, US | first_seen 2026-07-06
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556918719 | microsoft | Software Engineer II - Entra ID | Redmond, WA, US | first_seen 2026-07-06
+- [ ] https://www.pinterestcareers.com/jobs/?gh_jid=8015490 | pinterest | Security Software Engineer II, Detection and Response | San Francisco, CA, US; Remote, US | first_seen 2026-07-06
+- [ ] https://job-boards.greenhouse.io/reddit/jobs/8044767 | reddit | Senior Backend Engineer, IAM | Remote - United States | first_seen 2026-07-06
+- [ ] https://seatgeek.com/jobs/8016234?gh_jid=8016234 | seatgeek | Senior Software Engineer, Security | Remote - United States | first_seen 2026-07-06
+- [ ] https://careers.toasttab.com/jobs?gh_jid=7701507 | toast | Senior Software Engineer (Fullstack), New Ventures | Remote, US | first_seen 2026-07-06
+- [ ] https://careers.toasttab.com/jobs?gh_jid=7716303 | toast | Senior Software Engineer, AI & Strategy | Remote, USA | first_seen 2026-07-06
+- [ ] https://job-boards.greenhouse.io/affirm/jobs/7708921003 | affirm | Senior Software Engineer | Remote US | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/affirm/jobs/7799631003 | affirm | Senior Software Engineer, Backend (Lake Analytics Platform) | Remote US | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/affirm/jobs/7727320003 | affirm | Software Engineer II, Backend (Test Infra) | Remote US | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10466601/research-software-engineer-calibration-mqs-center-for-quantum-computing | amazon | Research Software Engineer, Calibration, MQS Center for Quantum Computing | San Francisco, California, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10467664/senior-software-engineer-aws-agentic-ai | amazon | Senior Software Engineer, AWS Agentic AI | Bellevue, Washington, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10466161/senior-software-engineer-amazon-foundational-security-services-identity | amazon | Senior Software Engineer, Amazon Foundational Security Services - Identity | Seattle, Washington, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10470133/software-dev-engineer-ii-aws-transactional-services-database-distributed-systems | amazon | Software Dev Engineer II, AWS Transactional Services (Database & Distributed Systems) | Seattle, Washington, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10468973/software-engineer-i-discovery | amazon | Software Engineer I, Discovery | San Francisco, California, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10470557/software-engineer-ii-autonomy-platform-data-and-tools | amazon | Software Engineer II, Autonomy Platform, Data and Tools | North Reading, Massachusetts, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10467928/software-engineer-programming-foundations-asbx | amazon | Software Engineer, Programming Foundations, ASBX | Arlington, Virginia, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10467930/software-engineer-programming-foundations-asbx | amazon | Software Engineer, Programming Foundations, ASBX | Arlington, Virginia, USA | first_seen 2026-07-10
+- [ ] https://www.amazon.jobs/en/jobs/10470559/sr-software-engineer-iii-resource-management | amazon | Sr. Software Engineer III, Resource Management | North Reading, Massachusetts, USA | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/amplitude/jobs/8623018002 | amplitude | Senior Software Engineer - SDK | San Francisco, CA | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/amplitude/jobs/8530627002 | amplitude | Senior Software Engineer, Data Pipeline | San Francisco, CA | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/amplitude/jobs/8530635002 | amplitude | Software Engineer II (Data Warehouse) | San Francisco, CA | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/anthropic/jobs/5238606008 | anthropic | Software Engineer, RL Data | San Francisco, CA | New York City, NY | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/anthropic/jobs/5283063008 | anthropic | Software Engineer, Research Infrastructure | San Francisco, CA | New York City, NY | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/anyscale/a83ce0ba-44ab-4d81-9c8c-bfda757377cd | anyscale | Software Engineer (Ray Data) | San Francisco | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/anyscale/8691daef-bfe5-4d01-871f-cf2226ba0c82 | anyscale | Software Engineer, Infrastructure | San Francisco or Palo Alto, CA | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/applied/d69de442-1d05-4241-9128-ffaa8b735de0 | applied | C++ Software Engineer – Autonomous Systems | Sunnyvale | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/applied/4b2f9161-b069-4a5b-a2e7-d7fde30b5610 | applied | Robotic Software Engineer, Perception | Sunnyvale | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/applied/b350d649-a241-42bc-99be-5aa5a911a6a8 | applied | Senior C++ Software Engineer (Collaborative Autonomy) | Sunnyvale | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/applied/b7c4b248-94fc-41ad-b4de-662a35a56a75 | applied | Senior Software Engineer, App Platform | Sunnyvale | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/checkr/jobs/7654395 | checkr | Senior Software Engineer | San Francisco, California, United States | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/checkr/jobs/7078460 | checkr | Senior Software Engineer, Product Foundations | Denver, Colorado, United States; San Francisco, California, United States | first_seen 2026-07-10
+- [ ] https://boards.greenhouse.io/chime/jobs/8587249002?gh_jid=8587249002 | chime | Senior Full-Stack Software Engineer, Unsecured Cards | San Francisco, CA, USA | first_seen 2026-07-10
+- [ ] https://boards.greenhouse.io/chime/jobs/8525883002?gh_jid=8525883002 | chime | Senior Software Engineer, Platform | San Francisco, CA, USA | first_seen 2026-07-10
+- [ ] https://boards.greenhouse.io/chime/jobs/8616359002?gh_jid=8616359002 | chime | Software Engineer, Infrastructure | San Francisco, CA, USA | first_seen 2026-07-10
+- [ ] https://boards.greenhouse.io/chime/jobs/8614188002?gh_jid=8614188002 | chime | Software Engineer, Membership | San Francisco, CA, USA | first_seen 2026-07-10
+- [ ] https://boards.greenhouse.io/chime/jobs/8607195002?gh_jid=8607195002 | chime | Software Engineer, Support Foundations | San Francisco, CA, USA | first_seen 2026-07-10
+- [ ] https://www.coinbase.com/careers/positions/7483221?gh_jid=7483221 | coinbase | Senior Software Engineer (EAA) | Remote - USA | first_seen 2026-07-10
+- [ ] https://cribl.io/job-detail/?gh_jid=5844014004 | cribl | Software Engineer, Core Platform | Remote - United States | first_seen 2026-07-10
+- [ ] https://cribl.io/job-detail/?gh_jid=6109907004 | cribl | Sr. Software Engineer - Systems Insights | Remote - United States | first_seen 2026-07-10
+- [ ] https://careers.datadoghq.com/detail/3851935/?gh_jid=3851935 | datadog | Senior Software Engineer | Boston, Massachusetts, USA; New York, New York, USA | first_seen 2026-07-10
+- [ ] https://careers.datadoghq.com/detail/7107875/?gh_jid=7107875 | datadog | Senior Software Engineer - AI Code Gen - Agent Engineer | New York, New York, USA | first_seen 2026-07-10 | eval 3.4/5 2026-07-13
+- [ ] https://careers.datadoghq.com/detail/7899164/?gh_jid=7899164 | datadog | Senior Software Engineer - Bits AI SRE | New York, New York, USA | first_seen 2026-07-10 | eval 3.9/5 2026-07-13
+- [ ] https://careers.datadoghq.com/detail/3851927/?gh_jid=3851927 | datadog | Senior Software Engineer - Distributed Systems | Boston, Massachusetts, USA; New York, New York, USA | first_seen 2026-07-10 | eval 3.9/5 2026-07-13
+- [ ] https://careers.datadoghq.com/detail/7983548/?gh_jid=7983548 | datadog | Senior Software Engineer - Linux Kernel/eBPF | Alabama, USA, Remote; Arizona, USA, Remote; Arkansas, USA, Remote; California, USA, Remote; Colorado, USA, Remote; Connecticut, USA, Remote; Delaware, USA, Remote; District of Columbia, USA, Remote; Florida, USA, Remote; Georgia, USA, Remote; Idaho, USA, Remote; Illinois, USA, Remote; Indiana, USA, Remote; Iowa, USA, Remote; Kansas, USA, Remote; Kentucky, USA, Remote; Louisiana, USA, Remote; Maine, USA, Remote; Maryland, USA, Remote; Massachusetts, USA, Remote; Michigan, USA, Remote; Minnesota, USA, Remote; Missouri, USA, Remote; Montana, USA, Remote; Nebraska, USA, Remote; Nevada, USA, Remote; New Hampshire, USA, Remote; New Jersey, USA, Remote; New Mexico, USA, Remote; New York, USA, Remote; North Carolina, USA, Remote; Ohio, USA, Remote; Oklahoma, USA, Remote; Oregon, USA, Remote; Pennsylvania, USA, Remote; Rhode Island, USA, Remote; South Carolina, USA, Remote; South Dakota, USA, Remote; Tennessee, USA, Remote; Texas, USA, Remote; Utah, USA, Remote; Vermont, USA, Remote; Virginia, USA, Remote; Washington, USA, Remote; Wisconsin, USA, Remote | first_seen 2026-07-10 | eval 3.8/5 2026-07-13
+- [ ] https://careers.datadoghq.com/detail/7950090/?gh_jid=7950090 | datadog | Senior Software Engineer - Synthetics Platform | New York, New York, USA | first_seen 2026-07-10 | eval 4.0/5 2026-07-13
+- [ ] https://jobs.ashbyhq.com/deepgram/2084edc0-2df0-4bd4-b759-0f05c38d5ef5 | deepgram | Backend Engineer- Inference Services | USA | Remote | first_seen 2026-07-10 | eval 3.8/5 2026-07-13
+- [ ] https://jobs.ashbyhq.com/deepgram/d483b474-0d4d-49ac-887f-0027456dd82e | deepgram | Senior Software Engineer - Saga / Voice OS | USA | Remote | first_seen 2026-07-10 | eval 3.9/5 2026-07-13
+- [ ] https://jobs.ashbyhq.com/deepgram/d98e6723-3485-4b58-9494-d6bf028fa905 | deepgram | Sr. Backend Engineer - Engine Team: API | USA | Remote | first_seen 2026-07-10 | eval 3.7/5 2026-07-13
+- [ ] https://careers.duolingo.com/jobs/8628275002?gh_jid=8628275002 | duolingo | Software Engineer II, Backend | New York, NY | first_seen 2026-07-10 | eval 3.6/5 2026-07-13
+- [ ] https://boards.greenhouse.io/figma/jobs/5691911004?gh_jid=5691911004 | figma | Software Engineer, Full Stack | San Francisco, CA • New York, NY • United States | first_seen 2026-07-10 | eval 4.6/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/137269750068585158 | google | Security Software Engineer, Emerging On-prem AI infrastructure | Reston, VA, USA | first_seen 2026-07-10 | eval 2.7/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/97796105810387654 | google | Senior Software Engineer, AI/ML Computer Vision, Pixel | Mountain View, CA, USA | first_seen 2026-07-10 | eval 3.1/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/105649470690992838 | google | Senior Software Engineer, BigQuery Platform Infrastructure | Kirkland, WA, USA | first_seen 2026-07-10 | eval 3.6/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/107906381515760326 | google | Senior Software Engineer, Discover Ads User Value | Mountain View, CA, USA | first_seen 2026-07-10 | eval 4.1/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/127361140257628870 | google | Senior Software Engineer, Display Ads, Audience Infrastructure | Mountain View, CA, USA | first_seen 2026-07-10 | eval 3.9/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/80405310782481094 | google | Senior Software Engineer, Embedded Systems, Health and Home | Mountain View, CA, USA | first_seen 2026-07-10 | eval 3.0/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/141438479685821126 | google | Senior Software Engineer, Gemini Enterprise App, Cloud AI | Kirkland, WA, USA; Sunnyvale, CA, USA | first_seen 2026-07-10 | eval 4.0/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/130103914962789062 | google | Senior Software Engineer, Gen AI, Google Security Operations | Reston, VA, USA | first_seen 2026-07-10 | eval 3.1/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/96815057970569926 | google | Senior Software Engineer, Google Distributed Cloud | Sunnyvale, CA, USA; Seattle, WA, USA | first_seen 2026-07-10 | eval 3.7/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/132126337753064134 | google | Senior Software Engineer, Infrastructure, Cloud AI | Sunnyvale, CA, USA; Kirkland, WA, USA | first_seen 2026-07-10 | eval 4.0/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/137681749101421254 | google | Senior Software Engineer, Infrastructure, Cloud AI | New York, NY, USA | first_seen 2026-07-10 | eval 3.8/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/125779398291792582 | google | Senior Software Engineer, Infrastructure, GDC VM Management | Sunnyvale, CA, USA | first_seen 2026-07-10 | eval 3.3/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/85110593484137158 | google | Senior Software Engineer, Infrastructure, Infra Spanner | Sunnyvale, CA, USA | first_seen 2026-07-10 | eval 2.6/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/124730807796277958 | google | Senior Software Engineer, Infrastructure, Managed Spark Platform and Foundations | Sunnyvale, CA, USA | first_seen 2026-07-10 | eval 3.6/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/73764458119209670 | google | Senior Software Engineer, Mobile, iOS, Maps Monetization | Mountain View, CA, USA | first_seen 2026-07-10 | eval 3.0/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/77539803091870406 | google | Senior Software Engineer, Pixel System Security | Mountain View, CA, USA | first_seen 2026-07-10 | eval 3.2/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/106823225123447494 | google | Senior Software Engineer, Vision, Camera and Imaging, XR | San Jose, CA, USA | first_seen 2026-07-10 | eval 2.7/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/98408705585750726 | google | Senior Software Engineer, iOS, Google One SDK | Mountain View, CA, USA | first_seen 2026-07-10 | eval 2.9/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/106637794205409990 | google | Smart NIC Senior Software Engineer, Embedded | Raleigh, NC, USA; Durham, NC, USA | first_seen 2026-07-10 | eval 2.6/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/138156162599002822 | google | Software Engineer II, Early Career, Google Cloud AI Career Catalyst Program | Sunnyvale, CA, USA | first_seen 2026-07-10 | eval 3.3/5 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/102213703012623046 | google | Software Engineer III, AI Agents | Sunnyvale, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/121713962638025414 | google | Software Engineer III, AI/ML GenAI, Google Cloud AI | Sunnyvale, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/95693255462527686 | google | Software Engineer III, AI/ML, Foundational Lanes | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/123428101265728198 | google | Software Engineer III, AI/ML, Google Fi | Mountain View, CA, USA; San Francisco, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/97555493152531142 | google | Software Engineer III, AI/ML, Keywordless Search Ads | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/135930647985169094 | google | Software Engineer III, Ads Bidding | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/80339340084814534 | google | Software Engineer III, Consensus, Google Cloud Infrastructure | New York, NY, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/123488574405255878 | google | Software Engineer III, Core Security | Chicago, IL, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/113807752479810246 | google | Software Engineer III, Data Cloud Memorystore | Kirkland, WA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/80904480471556806 | google | Software Engineer III, GCS Resource Engineering | Seattle, WA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/83618968522105542 | google | Software Engineer III, Infrastructure, Core | Sunnyvale, CA, USA; New York, NY, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/83664941852041926 | google | Software Engineer III, Infrastructure, Hover Platforms | Sunnyvale, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/95039595799814854 | google | Software Engineer III, Infrastructure, Platforms and Devices | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/110733225910772422 | google | Software Engineer III, Linux Kernel Networking | Sunnyvale, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/85988596468589254 | google | Software Engineer III, Mobile (iOS), Google One | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/135039579710202566 | google | Software Engineer III, RCS Video | San Jose, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/113099254674662086 | google | Software Engineer, AI/ML Computer Vision, Pixel Camera | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/139989967605506758 | google | Software Engineer, BigQuery Metadata | Kirkland, WA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/122744746199130822 | google | Software Engineer, BigQuery, Query Processing Core Runtime | Kirkland, WA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/134400093439566534 | google | Software Engineer, GPU Performance | Sunnyvale, CA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/83554578372403910 | google | Software Engineer, Infrastructure, Public Sector | Reston, VA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/114051526233596614 | google | Software Engineer, Infrastructure, Public Sector | Reston, VA, USA | first_seen 2026-07-10
+- [ ] https://www.google.com/about/careers/applications/jobs/results/130199503754928838 | google | Software Engineer, On-Device Machine Learning | Sunnyvale, CA, USA | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/gusto/jobs/7413644 | gusto | Sr Software Engineer, Database Infrastructure | Denver, CO;San Francisco, CA;New York, NY;Los Angeles, CA;Seattle, WA | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/janestreet/jobs/8419303002 | janestreet | Software Engineer | New York, New York, United States | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/janestreet/jobs/8599644002 | janestreet | Software Engineer | New York, New York, United States | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/janestreet/jobs/8594541002 | janestreet | Software Engineer | New York, New York, United States | first_seen 2026-07-10
+- [ ] https://boards.greenhouse.io/justworks/jobs/7913123?gh_jid=7913123 | justworks | Senior Software Engineer, Benefits | New York, New York | first_seen 2026-07-10
+- [ ] https://www.metacareers.com/jobs/2119062762001462/ | meta | Software Engineer Leadership, Machine Learning RecSys | Sunnyvale, CA | first_seen 2026-07-10
+- [ ] https://www.metacareers.com/jobs/2436192886889791/ | meta | Software Engineer, Camera Systems | Sunnyvale, CA | first_seen 2026-07-10
+- [ ] https://www.metacareers.com/jobs/1645503493182815/ | meta | Software Engineer, Machine Learning RecSys | Sunnyvale, CA; Bellevue, WA; Menlo Park, CA; New York, NY | first_seen 2026-07-10
+- [ ] https://www.metacareers.com/jobs/1346637694687934/ | meta | Software Engineer, Systems ML | Sunnyvale, CA; Menlo Park, CA | first_seen 2026-07-10
+- [ ] https://www.metacareers.com/jobs/2136998990191804/ | meta | Software Engineer, Systems ML Engineering | Sunnyvale, CA | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556924521 | microsoft | Senior Software Engineer | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556926020 | microsoft | Senior Software Engineer | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556926980 | microsoft | Senior Software Engineer | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556918739 | microsoft | Senior Software Engineer | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556869979 | microsoft | Senior Software Engineer | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556847376 | microsoft | Senior Software Engineer | US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556654030 | microsoft | Senior Software Engineer - CTJ - Poly | Redmond, WA, US; Reston, VA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556860172 | microsoft | Senior Software Engineer - Responsible AI (CoreAI) | Mountain View, CA, US; Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556926905 | microsoft | Software Engineer | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556860973 | microsoft | Software Engineer - CTJ - Poly | Reston, VA, US; MD,US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556867395 | microsoft | Software Engineer - CTJ - Poly | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556859432 | microsoft | Software Engineer - CTJ - Poly | Redmond, WA, US; Reston, VA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556914979 | microsoft | Software Engineer - Commercial Engineering & AI (CEAI) | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556631868 | microsoft | Software Engineer II | US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556927695 | microsoft | Software Engineer II | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556925915 | microsoft | Software Engineer II | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556627708 | microsoft | Software Engineer II | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556864971 | microsoft | Software Engineer II | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556863505 | microsoft | Software Engineer II | US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556918738 | microsoft | Software Engineer II | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556924448 | microsoft | Software Engineer II & Senior Software Engineer - Microsoft Defender for Endpoint | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556875597 | microsoft | Software Engineer II - CTJ - TS/SCI | Redmond, WA, US; Reston, VA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556922928 | microsoft | Software Engineer II - Compromise & Fraud Protection | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556914400 | microsoft | Software Engineer II, Data Intelligence | Redmond, WA, US | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/mixpanel/jobs/7941944 | mixpanel | Senior Software Engineer, AI Platform | San Francisco, US (Hybrid) | first_seen 2026-07-10
+- [ ] https://explore.jobs.netflix.net/careers/job/790317035713 | netflix | Full Stack Software Engineer 5 - Partner Test Tech | Los Gatos, California, United States of America | first_seen 2026-07-10
+- [ ] https://explore.jobs.netflix.net/careers/job/790317054101 | netflix | Software Engineer (L5) - Continuous Integration / Continuous Delivery | USA - Remote | first_seen 2026-07-10
+- [ ] https://explore.jobs.netflix.net/careers/job/790317014834 | netflix | Software Engineer 5 - Open Connect Control Plane | USA - Remote | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/notion/297b4ece-765f-4eea-b1b8-46057cb6501f | notion | Software Engineer, Early Career | San Francisco, California | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/notion/85947779-6b87-466a-98bc-30a640448c28 | notion | Software Engineer, Early Career (AI) | San Francisco, California | first_seen 2026-07-10
+- [ ] https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-MA-Westford/Senior-Software-Engineer--DPU---Networking_JR2017846 | nvidia | Senior Software Engineer, DPU - Networking | US, MA, Westford | first_seen 2026-07-10
+- [ ] https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Software-Engineer--Networking_JR2016798 | nvidia | Software Engineer, Linux Kernel - Networking | US, CA, Santa Clara | first_seen 2026-07-10
+- [ ] https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Systems-Software-Engineer--Autonomous-Systems-Mapping---New-College-Graduate-2026_JR2020838 | nvidia | Systems Software Engineer, Autonomous Systems Mapping - New College Graduate 2026 | US, CA, Santa Clara | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/openai/ca54cd23-2bcc-4327-bcb6-46d81ed414a8 | openai | Software Engineer, ChatGPT Shopping | San Francisco | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/openai/eefeb527-4e36-432e-a787-88e4672e29e1 | openai | Software Engineer, Codex Security | San Francisco | first_seen 2026-07-10
+- [ ] https://www.pinterestcareers.com/jobs/?gh_jid=7732971 | pinterest | Security Software Engineer II, Corporate Security | San Francisco, CA, US; Remote, US | first_seen 2026-07-10
+- [ ] https://www.pinterestcareers.com/jobs/?gh_jid=7782546 | pinterest | Software Engineer II, Big Data, tvScientific | San Francisco, CA, US; Remote, US | first_seen 2026-07-10
+- [ ] https://jobs.ashbyhq.com/ramp/8d61885c-0f08-4267-8ace-69e28b1d3f38 | ramp | Senior Software Engineer | Web + Design | New York, NY (HQ) | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/reddit/jobs/7950520 | reddit | Senior Software Engineer - DevX | Remote - United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7991654?gh_jid=7991654 | roblox | Software Engineer, Storage | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7913878?gh_jid=7913878 | roblox | Senior Frontend Software Engineer - Marketplace | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7760129?gh_jid=7760129 | roblox | Senior Frontend/Fullstack Software Engineer, Social Graph | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7918631?gh_jid=7918631 | roblox | Senior Fullstack Software Engineer, Consumer Platforms | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7859569?gh_jid=7859569 | roblox | Senior Fullstack Software Engineer, Social Play | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7896293?gh_jid=7896293 | roblox | Senior Security Software Engineer, Application Security | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8016408?gh_jid=8016408 | roblox | Senior Security Software Engineer, IAM | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7896061?gh_jid=7896061 | roblox | Senior Security Software Engineer, Infrastructure Security | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7922649?gh_jid=7922649 | roblox | Senior Security Software Engineer, Vulnerability Management | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8007947?gh_jid=8007947 | roblox | Senior Software Engineer (Backend / Full Stack), Communications Platform | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8001022?gh_jid=8001022 | roblox | Senior Software Engineer (Backend), Communications | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7545202?gh_jid=7545202 | roblox | Senior Software Engineer - Avatar Personalization | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8047817?gh_jid=8047817 | roblox | Senior Software Engineer - Bot Defense | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8003347?gh_jid=8003347 | roblox | Senior Software Engineer - Creator Business | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7437922?gh_jid=7437922 | roblox | Senior Software Engineer - Data Access | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7852258?gh_jid=7852258 | roblox | Senior Software Engineer - Data Infrastructure, Safety | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8008607?gh_jid=8008607 | roblox | Senior Software Engineer - Fraud | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7409676?gh_jid=7409676 | roblox | Senior Software Engineer - Game Engine Network (C++) | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7913302?gh_jid=7913302 | roblox | Senior Software Engineer - Marketplace Merchandise | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8016277?gh_jid=8016277 | roblox | Senior Software Engineer - NPC Behavior | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7923586?gh_jid=7923586 | roblox | Senior Software Engineer - Release | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7985997?gh_jid=7985997 | roblox | Senior Software Engineer - Safety Experience | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8011079?gh_jid=8011079 | roblox | Senior Software Engineer, Ads Platform | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7540219?gh_jid=7540219 | roblox | Senior Software Engineer, Avatar Animation | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8036535?gh_jid=8036535 | roblox | Senior Software Engineer, Client Systems (C++) | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7733855?gh_jid=7733855 | roblox | Senior Software Engineer, Co-Experience | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7872506?gh_jid=7872506 | roblox | Senior Software Engineer, Consumer Platforms (Frontend) | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7987819?gh_jid=7987819 | roblox | Senior Software Engineer, Content Suitability | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7708489?gh_jid=7708489 | roblox | Senior Software Engineer, Core UI | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8011273?gh_jid=8011273 | roblox | Senior Software Engineer, Data Insights | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7998339?gh_jid=7998339 | roblox | Senior Software Engineer, Engineering Acceleration Foundations | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7472910?gh_jid=7472910 | roblox | Senior Software Engineer, Frontend | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7998292?gh_jid=7998292 | roblox | Senior Software Engineer, Geometry | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/8015824?gh_jid=8015824 | roblox | Senior Software Engineer, Kubernetes Networking | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7997637?gh_jid=7997637 | roblox | Senior Software Engineer, UGC Validation | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7899865?gh_jid=7899865 | roblox | Senior Software Engineer, iOS | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7711780?gh_jid=7711780 | roblox | Software Engineer, User Co-Experience | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://careers.roblox.com/jobs/7561739?gh_jid=7561739 | roblox | Systems Software Engineer - Game Engine Network (C++) | San Mateo, CA, United States | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/scaleai/jobs/4711898005 | scaleai | Senior Software Engineer, Identity | San Francisco, CA; New York, NY; Washington, DC | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/scaleai/jobs/4591300005 | scaleai | Software Engineer, Gen AI | San Francisco, CA; New York, NY | first_seen 2026-07-10
+- [ ] https://jobs.lever.co/spotify/5b977d60-af96-435a-acf6-28c83be57888 | spotify | Senior Backend Engineer - Advertising | New York, NY | first_seen 2026-07-10
+- [ ] https://careers.twosigma.com/careers/JobDetail/New-York-New-York-United-States-Software-Engineer/14081 | twosigma | Software Engineer | United States - NY New York | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/vercel/jobs/6105394004 | vercel | Software Engineer, CDN Content | Hybrid - San Francisco | first_seen 2026-07-10
+- [ ] https://job-boards.greenhouse.io/verkada/jobs/4128603007 | verkada | Senior Backend Engineer - Streaming | San Mateo, CA United States | first_seen 2026-07-10
+- [ ] https://careers.withwaymo.com/jobs?gh_jid=7976352 | waymo | Senior Software Engineer, In-field Behavior Response | Mountain View, CA, USA; San Francisco, CA, USA) | first_seen 2026-07-10
+- [ ] https://careers.withwaymo.com/jobs?gh_jid=7466529 | waymo | Software Engineer, Bulk/Interactive Inference | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://careers.withwaymo.com/jobs?gh_jid=7416895 | waymo | Software Engineer, Labeling Infrastructure | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://careers.withwaymo.com/jobs?gh_jid=7926984 | waymo | Software Engineer, ML Tools | Mountain View, CA, USA | first_seen 2026-07-10
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556930463 | microsoft | Senior Software Engineer | US; Redmond, WA, US | first_seen 2026-07-12
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556918633 | microsoft | Senior Software Engineer | Redmond, WA, US | first_seen 2026-07-12
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556928923 | microsoft | Senior/Software Engineer II - Backend | Redmond, WA, US | first_seen 2026-07-12
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556918608 | microsoft | Software Engineer II | Redmond, WA, US | first_seen 2026-07-12
+- [ ] https://job-boards.greenhouse.io/reddit/jobs/7922994 | reddit | Backend Engineer, Moderation Enforcement | Remote - United States | first_seen 2026-07-12
+- [ ] https://careers.roblox.com/jobs/8047819?gh_jid=8047819 | roblox | Senior Software Engineer, Service Mesh | San Mateo, CA, United States | first_seen 2026-07-12
+- [ ] https://jobs.ashbyhq.com/snowflake/ca20a632-2587-4fb5-ad1b-083e15e81165 | snowflake | Senior Software Engineer, Security Foundations | US-WA-Bellevue | first_seen 2026-07-12
+- [ ] https://job-boards.greenhouse.io/affirm/jobs/7800444003 | affirm | Software Engineer II, Backend (ML Training & Serving) | Remote US | first_seen 2026-07-13
+- [ ] https://www.amazon.jobs/en/jobs/10473176/senior-software-engineer-gametech-cortex-aws-gametech-cortex | amazon | Senior Software Engineer, GameTech Cortex, AWS GameTech Cortex | San Diego, California, USA | first_seen 2026-07-13
+- [ ] https://www.amazon.jobs/en/jobs/10473009/sr-software-engineer-dynamodb | amazon | Sr. Software Engineer, DynamoDB | Seattle, Washington, USA | first_seen 2026-07-13
+- [ ] https://www.asana.com/jobs/apply/7403579?gh_jid=7403579 | asana | Senior Software Engineer, Infrastructure Security | San Francisco | first_seen 2026-07-13
+- [ ] https://job-boards.greenhouse.io/checkr/jobs/7590245 | checkr | Senior Software Engineer (Python) | Remote, United States | first_seen 2026-07-13
+- [ ] https://job-boards.greenhouse.io/discord/jobs/8544305002 | discord | Senior Software Engineer - Safety Platform | San Francisco Bay Area or Los Angeles Area | first_seen 2026-07-13
+- [ ] https://job-boards.greenhouse.io/discord/jobs/8377248002 | discord | Senior Software Engineer - Safety Processing | San Francisco Bay Area or Los Angeles Area | first_seen 2026-07-13
+- [ ] https://job-boards.greenhouse.io/discord/jobs/8545675002 | discord | Senior Software Engineer, Enforce - Safety Processing | San Francisco Bay Area or Los Angeles Area | first_seen 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/108772959887205062 | google | Senior Software Engineer, ML Compilers, TPU, YouTube | San Bruno, CA, USA; Mountain View, CA, USA | first_seen 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/87418657369400006 | google | Senior Software Engineer, Open Source Engineering, Sashiko.dev | Sunnyvale, CA, USA | first_seen 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/117503494528606918 | google | Software Engineer III, AI/ML Computer Vision, Google Cloud AI | Sunnyvale, CA, USA | first_seen 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/89253879715111622 | google | Software Engineer III, AI/ML, gUP Customer Support | Sunnyvale, CA, USA | first_seen 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/123654574891246278 | google | Software Engineer, Backend, Google Photos | Mountain View, CA, USA | first_seen 2026-07-13
+- [ ] https://www.google.com/about/careers/applications/jobs/results/139331686557983430 | google | Software Engineer, Calibration and System Test | San Jose, CA, USA | first_seen 2026-07-13
+- [ ] https://www.metacareers.com/jobs/704019139159184/ | meta | Software Engineer (Leadership) - Infrastructure | Sunnyvale, CA; Bellevue, WA; Redmond, WA; Menlo Park, CA; Seattle, WA; San Francisco, CA | first_seen 2026-07-13
+- [ ] https://www.metacareers.com/jobs/4043567932553615/ | meta | Software Engineer - Product (Technical Leadership) | Sunnyvale, CA; Los Angeles, CA; Bellevue, WA; Redmond, WA; Menlo Park, CA; Burlingame, CA; Washington, DC; New York, NY; Remote, US; San Francisco, CA | first_seen 2026-07-13
+- [ ] https://www.metacareers.com/jobs/1061795906099278/ | meta | Software Engineer - iOS (Technical Leadership) | Menlo Park, CA; New York, NY; San Francisco, CA | first_seen 2026-07-13
+- [ ] https://www.metacareers.com/jobs/1346912293520753/ | meta | Software Engineer, Sensors & Computer Vision | Sunnyvale, CA | first_seen 2026-07-13
+- [ ] https://www.metacareers.com/jobs/1974850966499630/ | meta | Software Engineer, Systems ML - Compilers / Backend | Sunnyvale, CA | first_seen 2026-07-13
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556928718 | microsoft | Senior CAD Software Engineer | Raleigh, NC, US; Mountain View, CA, US; Hillsboro, OR, US | first_seen 2026-07-13
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556859654 | microsoft | Senior Software Engineer | Redmond, WA, US | first_seen 2026-07-13
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556631021 | microsoft | Senior Software Engineer - Microsoft AI, Copilot | Redmond, WA, US; Mountain View, CA, US | first_seen 2026-07-13
+- [ ] https://jobs.careers.microsoft.com/global/en/job/1970393556932423 | microsoft | Software Engineer | Mountain View, CA, US | first_seen 2026-07-13
+- [ ] https://www.mongodb.com/careers/job/?gh_jid=8054991 | mongodb | Software Engineer 3, Documentation Platform | New York City; Palo Alto; Seattle | first_seen 2026-07-13
+- [ ] https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-TX-Remote/Senior-System-Software-Engineer-for-Cloud---GeForce-NOW_JR2021248 | nvidia | Senior System Software Engineer for Cloud – GeForce NOW | US, TX, Remote | first_seen 2026-07-13
+- [ ] https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-Remote/Software-Engineer--OpenShell_JR2020825 | nvidia | Software Engineer, OpenShell | US, Remote | first_seen 2026-07-13
+- [ ] https://jobs.ashbyhq.com/openai/fff02c39-1185-427c-bf89-70d7eaa5e3db | openai | Software Engineer, Codex -Enterprise Controls | San Francisco | first_seen 2026-07-13
+- [ ] https://jobs.ashbyhq.com/openai/d1c6cb87-a44d-4d04-92a8-dc40eccd090e | openai | Software Engineer, Codex — User Activation | San Francisco | first_seen 2026-07-13
+- [ ] https://careers.withwaymo.com/jobs?gh_jid=7896159 | waymo | Senior Software Engineer, ML Data Infrastructure | Mountain View, CA, USA | first_seen 2026-07-13
+
+## Done

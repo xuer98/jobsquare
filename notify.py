@@ -64,9 +64,9 @@ def notify_email(new: list[Job], changed: list[Job]) -> None:
     body = "\n".join(_line(j) for j in (new + changed))
     msg = MIMEText(f"{len(new)} new / {len(changed)} updated\n\n{body}")
     msg["Subject"] = f"[jobscraper] {len(new)} new listing(s)"
-    msg["From"] = os.getenv("EMAIL_FROM", to)
+    msg["From"] = os.getenv("EMAIL_FROM") or to
     msg["To"] = to
-    with smtplib.SMTP(host, int(os.getenv("SMTP_PORT", "587"))) as s:
+    with smtplib.SMTP(host, int(os.getenv("SMTP_PORT") or "587")) as s:
         s.starttls()
         if os.getenv("SMTP_USER"):
             s.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])

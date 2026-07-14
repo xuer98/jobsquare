@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-07-13T14:24:34.727Z",
+  "projectRoot": "/Users/richardtang/PycharmProjects/jobsquare",
+  "structure": {
+    "hasPackageJson": false,
+    "hasTsConfig": false,
+    "hasClaudeConfig": true,
+    "hasClaudeFlow": true
+  },
+  "scannedAt": 1783952674727
+}

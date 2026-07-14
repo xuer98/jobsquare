@@ -25,6 +25,10 @@ CREATE TABLE IF NOT EXISTS jobs (
     last_seen     TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_jobs_company ON jobs(company);
+CREATE TABLE IF NOT EXISTS meta (
+    k TEXT PRIMARY KEY,
+    v TEXT NOT NULL
+);
 """
 
 
@@ -91,6 +95,28 @@ class Store:
                WHERE key=:key""",
             {**r, "now": now},
         )
+
+    # --- agent-scan support (see agent.py / modes/scan.md) ----------------
+    def get_meta(self, key: str) -> str | None:
+        row = self.conn.execute("SELECT v FROM meta WHERE k = ?", (key,)).fetchone()
+        return row["v"] if row else None
+
+    def set_meta(self, key: str, value: str) -> None:
+        self.conn.execute(
+            "INSERT INTO meta (k, v) VALUES (?, ?) "
+            "ON CONFLICT(k) DO UPDATE SET v = excluded.v",
+            (key, value))
+        self.conn.commit()
+
+    def added_since(self, ts: str) -> list[sqlite3.Row]:
+        """Rows first seen strictly after `ts` (ISO UTC), oldest first.
+
+        Plain string comparison is sound: every first_seen is written by
+        Store.diff with the same isoformat(timespec="seconds") UTC shape.
+        """
+        return self.conn.execute(
+            "SELECT * FROM jobs WHERE first_seen > ? "
+            "ORDER BY first_seen, company, title", (ts,)).fetchall()
 
     def count(self) -> int:
         return self.conn.execute("SELECT COUNT(*) FROM jobs").fetchone()[0]
