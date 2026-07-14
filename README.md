@@ -175,6 +175,7 @@ python agent.py scan -i    # same, but in an interactive session
 python agent.py pipeline 5 # batch-evaluate the 5 oldest pending inbox entries
 python agent.py match {url} # score a JD against cv.md: A-F rubric + verdict
 python agent.py pdf {url}  # tailored ATS CV PDF for a JD (needs cv.md, see below)
+python agent.py apply -i   # live application assistant (interactive only)
 ```
 
 `/jobsquare scan` **never scrapes portals** — the pipeline already did. It:
@@ -210,6 +211,17 @@ lookups). Reports land in `reports/` (gitignored) with a machine-readable
 summary block; scored pipeline entries get annotated ` | eval {F}/5 {date}`.
 Score ≥3.5 ends with the top-5 CV changes to feed straight into `pdf` mode.
 
+`/jobsquare apply [target]` assists while **you** apply: it reads the open
+application form (via a connected browser MCP — your real Chrome is preferred
+since your ATS logins live there; paste-mode fallback otherwise), pre-scans
+for knock-out questions (visa, min-YOE, salary floor) against your profile,
+drafts every free-text answer from `cv.md` + the role's evaluation report,
+and fills fields only after you confirm each value. Hard boundaries, in the
+mode file and non-negotiable: it never clicks submit, never touches CAPTCHAs
+or logins, and never answers demographic/EEO/visa/salary questions for you —
+those are presented for you to decide. After you submit, it closes the
+pipeline entry `(applied)` and archives the final answers into the report.
+
 `/jobsquare pdf {JD}` builds a one-page, ATS-optimized CV tailored to a JD
 (pasted text, a URL, or a company match against `data/pipeline.md`). It reads
 **`cv.md`** — your master CV at the repo root (gitignored; create it once with
@@ -232,7 +244,7 @@ it never invents experience. Output lands in `output/` (gitignored).
 | `store.py` | SQLite dedup store + schema migrations + scan marker |
 | `notify.py` | Console / Slack / webhook / email / SMS notifiers |
 | `agent.py` | Claude agent CLI: launcher + db-new/db-mark/pdf-render helpers |
-| `modes/` | Agent mode instructions (`_shared.md`, `scan.md`, `pipeline.md`, `match.md`, `pdf.md`) |
+| `modes/` | Agent mode instructions (`_shared.md`, `scan.md`, `pipeline.md`, `match.md`, `pdf.md`, `apply.md`) |
 | `templates/cv-template.html` | ATS CV template (`pdf` mode fills a copy) |
 | `data/pipeline.md` | Offer inbox fed by `/jobsquare scan` |
 | `config/profile.example.yml` | Candidate preference template for agent ranking |

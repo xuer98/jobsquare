@@ -66,10 +66,11 @@ the canonical `[x]`.
 
 ## Global rules
 
-**NEVER:** invent facts about the candidate or a listing; apply, submit, or
-send anything on the user's behalf; write to `jobs.db` except via the helpers;
-re-scrape boards; drop a dumped listing silently — every job is either queued
-or skipped with a stated reason.
+**NEVER:** invent facts about the candidate or a listing; submit or send
+anything on the user's behalf (`apply` mode fills fields only after per-field
+confirmation — the submit click is always the human's; see `modes/apply.md`);
+write to `jobs.db` except via the helpers; re-scrape boards; drop a dumped
+listing silently — every job is either queued or skipped with a stated reason.
 
 **ALWAYS:** include the URL whenever a job is mentioned; keep prose terse —
 output lands in a terminal; when ranking, read `config/profile.yml` if it

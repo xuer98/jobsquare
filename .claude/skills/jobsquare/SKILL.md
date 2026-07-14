@@ -4,7 +4,7 @@ description: AI job search command center -- evaluate offers, generate CVs, scan
 arguments: mode
 user_invocable: true
 user-invocable: true
-argument-hint: "[scan | pdf | match | pipeline]"
+argument-hint: "[scan | pdf | match | pipeline | apply]"
 license: MIT
 ---
 
@@ -34,11 +34,12 @@ Determine the mode from `$mode`:
 | `match` | `match` -- Score a JD against cv.md: A-F rubric + verdict + report (rest of `$mode` = JD, like `pdf`) |
 | `oferta` | `match` (career-ops alias) |
 | `pipeline` | `pipeline` -- Batch-evaluate pending data/pipeline.md entries (rest of `$mode` = N, company, `all`, `pdf`) |
+| `apply` | `apply` -- Live application assistant: reads the open form, drafts grounded answers, fills on confirmation, never submits. Interactive sessions only |
 
 Any other input — upstream career-ops sub-commands (`cover`, `email`,
-`tracker`, `batch`, `apply`, …) as well as pasted JD text or URLs
-(auto-pipeline) — is **not ported yet**: say exactly that in one line,
-then show the discovery menu. Do not improvise an unported mode.
+`tracker`, `batch`, …) as well as pasted JD text or URLs (auto-pipeline) —
+is **not ported yet**: say exactly that in one line, then show the
+discovery menu. Do not improvise an unported mode.
 
 ---
 
@@ -70,8 +71,10 @@ Available commands:
                             → Batch-evaluate pending inbox entries → eval annotations + reports/
   /jobsquare match {JD}     → Score a JD against cv.md: A-F rubric, gaps, verdict → reports/ (alias: oferta)
   /jobsquare pdf {JD}       → ATS-optimized CV PDF tailored to a JD (text, URL, or pipeline.md match; needs cv.md)
+  /jobsquare apply [target] → Live application assistant: drafts + fills answers with you, NEVER submits (interactive only)
 
 Headless:  python agent.py scan · python agent.py pipeline 5 · python agent.py match {url} · python agent.py pdf {url}
+Interactive-only:  python agent.py apply -i
 
 Not ported yet (upstream career-ops modes): auto-pipeline, cover, email,
 tracker, batch, apply, contacto, deep, interview-*
@@ -93,9 +96,10 @@ If `modes/_custom.md` exists, read it after `modes/_profile.md` and before the s
 
 Read `modes/_shared.md` + `modes/_profile.md` (if exists) + `modes/_custom.md` (if exists) + `modes/{mode}.md`
 
-Applies to: `scan`, `pdf`, `match` (and every future ported mode unless noted
-otherwise). `pdf` and `match` run in the main loop, not a subagent — they
-need the conversation for JD disambiguation and cv.md follow-ups.
+Applies to: `scan`, `pdf`, `match`, `apply` (and every future ported mode
+unless noted otherwise). `pdf`, `match`, and `apply` run in the main loop,
+not a subagent — they need the conversation for confirmations and follow-ups
+(`apply` hard-requires it: every fill is user-confirmed).
 
 ### Modes delegated to subagent
 
