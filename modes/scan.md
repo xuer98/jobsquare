@@ -5,11 +5,22 @@ a job board.** Scan = dump what's new in `jobs.db` since the marker, judge it
 against the candidate's preferences, queue the promising ones, advance the
 marker.
 
+## Arguments (from `$mode` remainder)
+
+- A posted-at window: `3d`, `7d`, `posted 3`, or "last N days" →
+  `--posted-days N` on the dump. Only listings **posted** within the window
+  survive; listings with no parseable date are still kept (many sources never
+  emit dates) and reported separately.
+- `dated-only` → additionally pass `--dated-only` (drop undated listings too).
+- No time argument → no posted-at filtering (marker semantics only).
+
 ## Workflow
 
-1. **Dump** — run `python agent.py db-new` and parse the JSON.
-   - `count == 0` → report `No new listings since {since}.` and **stop**
-     (leave the marker untouched).
+1. **Dump** — run `python agent.py db-new [--posted-days N] [--dated-only]`
+   and parse the JSON.
+   - `count == 0` → report `No new listings since {since}.` (mention
+     `dropped_old`/`undated_dropped` if the window filtered everything) and
+     **stop** — leave the marker untouched.
    - `first_run: true` → note in the summary that this covers the last 7 days,
      not "since last scan".
 2. **Preferences** — read `config/profile.yml` if present (titles, seniority,
@@ -39,6 +50,8 @@ marker.
 Scan — {YYYY-MM-DD HH:MM} UTC
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Window: {since} → {watermark}{"  (first run: last 7 days)" if first_run}
+{if posted_within_days: "Posted window: last {N} days — {dropped_old} older
+ dropped, {undated_kept} undated kept{, {undated_dropped} undated dropped}"}
 New in DB: {total_new}   Queued: {strong+maybe}   Skipped: {skipped}
 
 STRONG ({n})

@@ -62,6 +62,5 @@ description. Everything on it must be sourced from `cv.md` — tailoring means
 - Standard section names exactly as in the template.
 - Selectable text only; no keyword stuffing, no hidden text.
 - Keywords distributed: top-5 in summary, first bullet of each role, skills.
-- Avoid clichés: "passionate about", "proven track record", "leveraged",
-  "spearheaded", "synergies", "robust", "cutting-edge". Prefer specific
-  metrics ("cut p95 2.1s → 380ms") and named tools.
+- Prose follows the **Writing guardrail** in `modes/_shared.md` (voice
+  sources, banned clichés, specifics over abstractions).

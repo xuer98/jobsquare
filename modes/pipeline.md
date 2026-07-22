@@ -12,7 +12,7 @@ mid-run questions; defaults over asks.
 | `{N}` | N oldest pending |
 | `{company}` | all pending for that company |
 | `all` | every pending entry (state the count before starting) |
-| `pdf` (combinable, e.g. `pipeline 5 pdf`) | additionally generate a CV PDF for every entry scoring F ≥ 3.5 |
+| `pdf` (combinable, e.g. `pipeline 5 pdf`) | additionally generate a CV PDF for every entry scoring F ≥ 4.0 (the "apply" verdict band) |
 
 **Pending** = checkbox with no `x`. Treat any bracket containing `x` —
 `[x]`, `[x ]`, `[ x]`, `[X]` — as closed. **Hygiene pass first:** normalize
@@ -33,10 +33,14 @@ names their company explicitly.
    tier, CV↔JD mapping). **Batch web budget: max 1 WebSearch per entry** —
    spend it on comp only when the JD states none and F would land near a
    verdict boundary.
-4. **Write the report** to `reports/{YYYY-MM-DD}-{company-kebab}-{role-kebab}.md`
-   (match-mode template, machine-summary block included).
-5. `pdf` flag and F ≥ 3.5 → fill `templates/cv-template.html` per
-   `modes/pdf.md`, render via `python agent.py pdf-render`.
+4. **Write the report**: claim an id with `python agent.py report-num`
+   (atomic — safe from parallel workers), then write
+   `reports/{NNN}-{company-kebab}-{role-kebab}.md` (match-mode template,
+   machine-summary block included).
+5. `pdf` flag and F ≥ 4.0 → fill `templates/cv-template.html` per
+   `modes/pdf.md`, render via `python agent.py pdf-render`. (Below 4.0 the
+   human can still run `/jobsquare pdf` manually — the gate only limits
+   automatic generation.)
 
 ## Parallelization — single-writer rule
 
@@ -49,14 +53,15 @@ names their company explicitly.
   `output/`) files, then return one JSON object as their final message:
 
   ```json
-  {"url": "…", "company": "…", "role": "…", "status": "evaluated|expired|skipped|error",
+  {"id": "NNN or null", "url": "…", "company": "…", "role": "…",
+   "status": "evaluated|expired|skipped|error",
    "f": 0.0, "legitimacy": "high|caution|suspicious",
    "report": "reports/….md", "pdf": "output/….pdf or null", "reason": "for non-evaluated"}
   ```
 
 - The **main loop alone** applies results to `data/pipeline.md` after all
   workers return:
-  - `evaluated` → append ` | eval {F}/5 {YYYY-MM-DD}` (stays unticked)
+  - `evaluated` → append ` | eval {F}/5 {YYYY-MM-DD} #{NNN}` (stays unticked)
   - `expired`  → tick `[x]` + ` | done {YYYY-MM-DD} (expired)`
   - `skipped`  → tick `[x]` + ` | done {YYYY-MM-DD} (pre-screen: {reason})`
   - `error`    → leave the line untouched; list in the summary
@@ -69,8 +74,9 @@ names their company explicitly.
 Pipeline — {n} processed ({remaining} still pending)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 | # | Company | Role | F | Legit | PDF | Next action |
-|…  (sorted by F desc; next action: "apply now" ≥4.5, "apply" ≥4.0,
-    "apply if {reason}" ≥3.5, "skip" <3.5, or "expired"/"skipped") |
+|…  (# = report id; sorted by F desc; next action: "apply now" ≥4.5,
+    "apply" ≥4.0, "apply if {reason}" ≥3.5, "skip" <3.5, or
+    "expired"/"skipped") |
 
 Reports: reports/ · Discards logged: data/discard.log
 → Top scorer: /jobsquare pdf {company}   (already generated if `pdf` flag was set)

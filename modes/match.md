@@ -63,17 +63,22 @@ signals → drop a tier.
 3. Seniority calibration: JD's real level (from scope, not title) vs the
    candidate's; one line on pitching up/down without lying.
 4. Score A–E → compute F → Block G tier.
-5. **If F ≥ 3.5:** top-5 CV changes for this role → "run `/jobsquare pdf
-   {company}` to apply them".
-6. Write the report to `reports/{YYYY-MM-DD}-{company-kebab}-{role-kebab}.md`.
-7. If the JD came from `data/pipeline.md`: append ` | eval {F}/5 {YYYY-MM-DD}`
-   to that entry (keep it unticked — ticking means applied/closed).
+5. **If F ≥ 3.5:** list the top-5 CV changes for this role. **F ≥ 4.0** →
+   close with "run `/jobsquare pdf {company}` to apply them"; 3.5–3.9 →
+   frame them as "if you decide to apply" (PDF stays a manual call).
+6. Claim an id — `python agent.py report-num` (do this right before writing,
+   not earlier) — then write the report to
+   `reports/{NNN}-{company-kebab}-{role-kebab}.md`.
+7. If the JD came from `data/pipeline.md`: append
+   ` | eval {F}/5 {YYYY-MM-DD} #{NNN}` to that entry (keep it unticked —
+   ticking means applied/closed).
 8. Print the report body (minus the machine block) to the terminal.
 
 ## Report template
 
 ````markdown
 # {Company} — {Role}
+**Report:** #{NNN}
 **URL:** {url}
 **Evaluated:** {YYYY-MM-DD} · **Global: {F}/5 — {verdict}** · **Legitimacy: {tier}**
 
@@ -98,7 +103,7 @@ signals → drop a tier.
 
 ## Machine summary
 ```json
-{"company": "…", "role": "…", "url": "…", "date": "…",
+{"report_id": 0, "company": "…", "role": "…", "url": "…", "date": "…",
  "scores": {"a": 0, "b": 0, "c": 0, "d": 0, "e": 0, "f": 0.0},
  "legitimacy": "high|caution|suspicious",
  "advertised_comp": "verbatim or null"}

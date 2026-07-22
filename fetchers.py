@@ -55,6 +55,31 @@ async def _get_text(client: httpx.AsyncClient, url: str, **kw) -> str:
     return (await _request(client, url, **kw)).text
 
 
+def _balanced_json(text: str, start: int) -> str | None:
+    """Slice a balanced, string-aware {...} literal starting at text[start]."""
+    depth, i, in_str, esc = 0, start, False, False
+    while i < len(text):
+        ch = text[i]
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+        else:
+            if ch == '"':
+                in_str = True
+            elif ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    return text[start:i + 1]
+        i += 1
+    return None
+
+
 # --------------------------------------------------------------------------
 # normalizers — one per ATS. They take (company, payload) -> list[Job]
 # --------------------------------------------------------------------------
@@ -126,6 +151,48 @@ def _ashby_salary(j: dict) -> str:
     comp = j.get("compensation") or {}
     return (comp.get("compensationTierSummary")
             or comp.get("scrapeableCompensationSalarySummary") or "")
+
+
+def parse_ashby_page(company: str, postings: list) -> list[Job]:
+    """Postings embedded in jobs.ashbyhq.com/{company} (window.__appData) —
+    the fallback for orgs that disabled the posting-api (e.g. whatnot)."""
+    out = []
+    for j in postings:
+        if j.get("isListed") is False:
+            continue
+        pid = str(j.get("id"))
+        out.append(Job(
+            source="ashby", company=company,
+            external_id=pid,
+            title=j.get("title", ""),
+            url=f"https://jobs.ashbyhq.com/{company}/{pid}",
+            location=j.get("locationName", ""),
+            department=j.get("departmentName") or j.get("teamName", ""),
+            employment_type=j.get("employmentType", ""),
+            posted_at=j.get("publishedDate", ""),
+            salary_range=j.get("compensationTierSummary") or "",
+            raw=j,
+        ))
+    return out
+
+
+async def fetch_ashby(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Ashby: posting-api first; a 404 means the org disabled it, so fall
+    back to the hosted board page, which embeds postings in __appData."""
+    company = source["company"]
+    r = await client.get("https://api.ashbyhq.com/posting-api/job-board/"
+                         f"{company}?includeCompensation=true")
+    if r.status_code == 200:
+        return parse_ashby(company, r.json())
+    if r.status_code != 404:
+        r.raise_for_status()
+    html = await _get_text(client, f"https://jobs.ashbyhq.com/{company}")
+    m = re.search(r"window\.__appData\s*=", html)
+    blob = _balanced_json(html, html.find("{", m.end())) if m else None
+    if not blob:
+        raise RuntimeError(f"ashby: no posting-api and no __appData for {company}")
+    postings = ((json.loads(blob).get("jobBoard") or {}).get("jobPostings")) or []
+    return parse_ashby_page(company, postings)
 
 
 def parse_smartrecruiters(company: str, data: dict) -> list[Job]:
@@ -383,6 +450,291 @@ async def fetch_optiver(client: httpx.AsyncClient, source: dict) -> list[Job]:
 
 
 # --------------------------------------------------------------------------
+# Apple — bespoke. jobs.apple.com server-renders search results into
+# window.__staticRouterHydrationData = JSON.parse("...") (React Router loader
+# data), paginated via ?page=N (20/page). Sorted newest-first; postDateInGMT
+# gives a real (nanosecond) timestamp. Board is ~6400 roles — cap pages.
+# --------------------------------------------------------------------------
+def _apple_hydration(html: str) -> dict | None:
+    """Decode the JSON.parse("...") hydration blob into a dict, or None."""
+    i = html.find("window.__staticRouterHydrationData")
+    if i == -1:
+        return None
+    i = html.find('JSON.parse("', i)
+    if i == -1:
+        return None
+    start = i + len("JSON.parse(")          # at the opening quote
+    j = start + 1
+    esc = False
+    while j < len(html):                     # scan to the closing unescaped quote
+        ch = html[j]
+        if esc:
+            esc = False
+        elif ch == "\\":
+            esc = True
+        elif ch == '"':
+            break
+        j += 1
+    try:
+        return json.loads(json.loads(html[start:j + 1]))  # JS-string, then JSON
+    except (ValueError, json.JSONDecodeError):
+        return None
+
+
+def _apple_posted_at(value: str) -> str:
+    """Apple's postDateInGMT is nanosecond-precision (e.g. ...:03.812668311Z),
+    which datetime.fromisoformat rejects. Trim to microseconds + explicit UTC."""
+    m = re.match(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\.\d+)?Z?", value or "")
+    return m.group(1) + (m.group(2) or "")[:7] + "+00:00" if m else ""
+
+
+def parse_apple(company: str, results: list) -> list[Job]:
+    out: list[Job] = []
+    for j in results:
+        pid = str(j.get("positionId") or "")
+        # City alone ("Cupertino") won't match country-level location filters —
+        # append state/country when present: "Cupertino, United States of America".
+        locs = "; ".join(dict.fromkeys(filter(None, (
+            ", ".join(p for p in (loc.get("name") or loc.get("city"),
+                                  loc.get("stateProvince"),
+                                  loc.get("countryName")) if p)
+            for loc in (j.get("locations") or [])))))
+        out.append(Job(
+            source="apple", company=company,
+            # `id` is unique per role×location (e.g. "200658020-0836"); a single
+            # req posted to N locations yields N results, one per location.
+            external_id=str(j.get("id") or pid),
+            title=j.get("postingTitle", ""),
+            url=(f"https://jobs.apple.com/en-us/details/{pid}/"
+                 f"{j.get('transformedPostingTitle', '')}") if pid else "",
+            location=locs,
+            department=(j.get("team") or {}).get("teamName", ""),
+            posted_at=_apple_posted_at(j.get("postDateInGMT", "")),
+            raw={"id": j.get("id"), "positionId": pid},
+        ))
+    return out
+
+
+async def fetch_apple(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Apple Jobs. No JSON API — parse the server-rendered hydration blob,
+    paginated newest-first via ?page=N. Config: company (label, default "apple");
+    query (optional keyword search); location (optional slug, e.g.
+    "united-states-USA"); max_pages (default 10; 20 roles per page)."""
+    company = source.get("company", "apple")
+    base = "https://jobs.apple.com/en-us/search"
+    params = {"sort": "newest"}
+    if source.get("query"):
+        params["search"] = source["query"]
+    if source.get("location"):
+        params["location"] = source["location"]
+    max_pages = int(source.get("max_pages", 10))
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for page in range(1, max_pages + 1):
+        html = await _get_text(client, base, params={**params, "page": page})
+        data = _apple_hydration(html) or {}
+        results = (((data.get("loaderData") or {}).get("search") or {})
+                   .get("searchResults") or [])
+        fresh = [j for j in parse_apple(company, results) if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+    return jobs
+
+
+# --------------------------------------------------------------------------
+# Eightfold (generic) — the platform behind Netflix's board, for any other
+# tenant (e.g. Millennium: mlp.eightfold.ai / mlp.com). Real post dates via
+# t_create/t_update (unix seconds). Netflix keeps its dedicated fetcher.
+# --------------------------------------------------------------------------
+def parse_eightfold(company: str, host: str, positions: list) -> list[Job]:
+    out: list[Job] = []
+    for p in positions:
+        pid = str(p.get("id") or "")
+        loc = p.get("location") or "; ".join(
+            l.replace(",", ", ") for l in (p.get("locations") or []))
+        out.append(Job(
+            source="eightfold", company=company, external_id=pid,
+            title=p.get("name", ""),
+            url=p.get("canonicalPositionUrl") or f"https://{host}/careers/job/{pid}",
+            location=loc,
+            department=p.get("department", ""),
+            posted_at=str(p.get("t_update") or p.get("t_create") or ""),
+        ))
+    return out
+
+
+async def fetch_eightfold(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Generic Eightfold tenant. Config: host (mlp.eightfold.ai), domain
+    (mlp.com), company (label), query/location (optional), max_pages."""
+    host, domain = source["host"], source["domain"]
+    company = source.get("company") or host.split(".")[0]
+    params = {"domain": domain, "num": 10}
+    if source.get("query"):
+        params["query"] = source["query"]
+    if source.get("location"):
+        params["location"] = source["location"]
+    max_pages = int(source.get("max_pages", 40))
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for page in range(max_pages):
+        data = await _get_json(client, f"https://{host}/api/apply/v2/jobs",
+                               params={**params, "start": page * 10})
+        positions = data.get("positions") if isinstance(data, dict) else None
+        fresh = [j for j in parse_eightfold(company, host, positions or [])
+                 if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+    return jobs
+
+
+# --------------------------------------------------------------------------
+# ByteDance / TikTok — shared "supplier" search API behind their Next.js
+# portals (joinbytedance.com / lifeattiktok.com). POST JSON; the body schema
+# is STRICT — any unknown key -> 400 "invalid request" — and ByteDance
+# additionally requires the `website-path: en` header. No post dates.
+# Recipe recovered via browser network capture (fetch interceptor).
+# --------------------------------------------------------------------------
+_BD_SITES = {
+    "bytedance": {
+        "api": "https://jobs.bytedance.com/api/v1/public/supplier/search/job/posts",
+        "origin": "https://joinbytedance.com",
+        "headers": {"website-path": "en", "accept-language": "en-US"},
+        "body": {},
+        "job_url": "https://joinbytedance.com/search/{id}",
+    },
+    "tiktok": {
+        "api": "https://api.lifeattiktok.com/api/v1/public/supplier/search/job/posts",
+        "origin": "https://lifeattiktok.com",
+        "headers": {"portal-channel": "tiktok", "portal-platform": "pc",
+                    "website-path": "tiktok"},
+        "body": {"portal_type": 4, "tag_id_list": [], "job_function_id_list": [],
+                 "storefront_id_list": []},
+        "job_url": "https://lifeattiktok.com/search/{id}",
+    },
+}
+
+
+def _bd_location(city_info: dict | None) -> str:
+    """Walk the city_info parent chain: city -> state -> country."""
+    parts: list[str] = []
+    node = city_info
+    while isinstance(node, dict):
+        name = node.get("en_name") or node.get("name")
+        if name:
+            parts.append(name)
+        node = node.get("parent")
+    return ", ".join(parts)
+
+
+def parse_bytedance(company: str, items: list, job_url: str) -> list[Job]:
+    return [Job(
+        source=company, company=company,
+        external_id=str(j.get("id") or ""),
+        title=j.get("title", ""),
+        url=job_url.format(id=j.get("id")),
+        location=_bd_location(j.get("city_info")),
+        department=(j.get("job_category") or {}).get("en_name", ""),
+        employment_type=(j.get("recruit_type") or {}).get("en_name", ""),
+    ) for j in items]
+
+
+async def fetch_bytedance(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """ByteDance & TikTok portals (ats: bytedance | tiktok). Config: query
+    (optional), max_pages (default 25; 20 roles/page). Listings are dateless."""
+    ats = source.get("ats", "bytedance")
+    site = _BD_SITES[ats]
+    company = source.get("company", ats)
+    limit = 20
+    max_pages = int(source.get("max_pages", 25))
+    headers = {**site["headers"], "Origin": site["origin"],
+               "Referer": site["origin"] + "/"}
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for page in range(max_pages):
+        body = {"recruitment_id_list": [], "job_category_id_list": [],
+                "subject_id_list": [], "location_code_list": [],
+                "keyword": source.get("query", ""), "limit": limit,
+                "offset": page * limit, **site["body"]}
+        r = await _request(client, site["api"], method="POST",
+                           json=body, headers=headers)
+        payload = r.json()
+        data = payload.get("data") or {}
+        items = data.get("job_post_list") or []
+        fresh = [j for j in parse_bytedance(company, items, site["job_url"])
+                 if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+        if len(jobs) >= int(data.get("count") or 0):
+            break
+    return jobs
+
+
+# --------------------------------------------------------------------------
+# Phenom (generic) — the POST /widgets "refineSearch" API behind
+# careers.cisco.com and many other enterprise career sites. Real post dates.
+# Config: company (label), host (e.g. careers.cisco.com), locale (default
+# en_global), query, max_pages. NOTE: some Phenom tenants front a Workday
+# instance — applyUrl often deep-links there.
+# --------------------------------------------------------------------------
+def parse_phenom(company: str, items: list) -> list[Job]:
+    return [Job(
+        source="phenom", company=company,
+        external_id=str(j.get("jobId") or j.get("jobSeqNo")),
+        title=j.get("title", ""),
+        url=j.get("applyUrl") or j.get("jobUrl", ""),
+        location=j.get("cityStateCountry") or ", ".join(
+            filter(None, (j.get("city"), j.get("state"), j.get("country")))),
+        department=j.get("category", ""),
+        posted_at=j.get("postedDate") or j.get("dateCreated", ""),
+        raw={"jobId": j.get("jobId")},
+    ) for j in items]
+
+
+async def fetch_phenom(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    host = source["host"]
+    company = source.get("company") or host.split(".")[-2]
+    locale = source.get("locale", "en_global")
+    size = 10
+    max_pages = int(source.get("max_pages", 40))
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for page in range(max_pages):
+        body = {"lang": locale, "deviceType": "desktop", "country": "global",
+                "pageName": "search-results", "ddoKey": "refineSearch",
+                "sortBy": "Most recent", "subsearch": "", "from": page * size,
+                "jobs": True, "counts": True,
+                "all_fields": ["category", "country", "state", "city"],
+                "size": size, "clearAll": False, "jdsource": "facets",
+                "isSliderEnable": False, "pageId": "page10",
+                "siteType": "external", "keywords": source.get("query", ""),
+                "global": True, "selected_fields": {}, "locationData": {}}
+        r = await _request(client, f"https://{host}/widgets", method="POST",
+                           json=body, headers={"Origin": f"https://{host}",
+                                               "Referer": f"https://{host}/"})
+        rs = r.json().get("refineSearch") or {}
+        total = int(rs.get("totalHits") or 0)
+        items = (rs.get("data") or {}).get("jobs") or []
+        fresh = [j for j in parse_phenom(company, items) if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+        if len(jobs) >= total:
+            break
+    return jobs
+
+
+# --------------------------------------------------------------------------
 # endpoint builders + registry
 # --------------------------------------------------------------------------
 def _greenhouse_url(c: str) -> tuple[str, str]:
@@ -391,8 +743,7 @@ def _greenhouse_url(c: str) -> tuple[str, str]:
 def _lever_url(c: str) -> tuple[str, str]:
     return "GET", f"https://api.lever.co/v0/postings/{c}?mode=json"
 
-def _ashby_url(c: str) -> tuple[str, str]:
-    return "GET", f"https://api.ashbyhq.com/posting-api/job-board/{c}?includeCompensation=true"
+# (ashby is fetched by fetch_ashby above — posting-api with hosted-page fallback)
 
 def _smartrecruiters_url(c: str) -> tuple[str, str]:
     return "GET", f"https://api.smartrecruiters.com/v1/companies/{c}/postings?limit=100"
@@ -589,7 +940,10 @@ def parse_microsoft(company: str, positions: list) -> list[Job]:
             source="microsoft", company=company,
             external_id=jid,
             title=j.get("name", ""),
-            url=f"https://jobs.careers.microsoft.com/global/en/job/{jid}" if jid else "",
+            # jobs.careers.microsoft.com 301s to the bare site root and drops the
+            # id — every such link resolves to an unrelated job. Only this host
+            # serves a real job page.
+            url=f"https://apply.careers.microsoft.com/careers/job/{jid}" if jid else "",
             location="; ".join(locs),
             department=j.get("department", ""),
             posted_at=(datetime.fromtimestamp(ts, timezone.utc).isoformat()
@@ -740,16 +1094,21 @@ async def fetch_amazon(client: httpx.AsyncClient, source: dict) -> list[Job]:
 
 FETCHERS: dict[str, SourceFetcher] = {
     "google":          fetch_google,
+    "apple":           fetch_apple,
     "meta":            fetch_meta,
     "microsoft":       fetch_microsoft,
     "netflix":         fetch_netflix,
     "amazon":          fetch_amazon,
+    "bytedance":       fetch_bytedance,
+    "tiktok":          fetch_bytedance,
+    "eightfold":       fetch_eightfold,
     "deshaw":          fetch_deshaw,
     "twosigma":        fetch_twosigma,
     "optiver":         fetch_optiver,
     "greenhouse":      _simple(_greenhouse_url, parse_greenhouse),
     "lever":           _simple(_lever_url, parse_lever),
-    "ashby":           _simple(_ashby_url, parse_ashby),
+    "ashby":           fetch_ashby,
+    "phenom":          fetch_phenom,
     "smartrecruiters": _simple(_smartrecruiters_url, parse_smartrecruiters),
     "recruitee":       _simple(_recruitee_url, parse_recruitee),
     "workable":        _simple(_workable_url, parse_workable),

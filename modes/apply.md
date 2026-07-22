@@ -18,14 +18,18 @@ immediately: "apply needs a live session: `python agent.py apply -i`".
   follow links found in the page to other forms.
 - Free-text answers: drafted from `cv.md` + the role's report, shown, and
   **approved before filling**. Simple identity fields (name, email, phone,
-  LinkedIn, portfolio from `config/profile.yml`) may be batch-confirmed once.
+  LinkedIn, portfolio from `config/profile.yml`) may be batch-confirmed once. 
+  Do not lead answers with | or any symbols.
 
 ## Preflight (before drafting anything)
 
-1. **Context**: resolve company/role from `$mode` or the open tab; load
-   `cv.md` (required — bootstrap-stop if missing), `config/profile.yml`,
-   the matching `reports/*.md` (reuse its angle + top-5 changes), and the
-   `data/pipeline.md` entry.
+1. **Context**: resolve company/role from `$mode` or the open tab —
+   `#NNN` (or a bare number) resolves directly to `reports/{NNN}-*.md`.
+   Load `cv.md` (required — bootstrap-stop if missing),
+   `config/profile.yml`, the matching report (reuse its angle + top-5
+   changes; cite it as `Report #NNN` in the answers block), and the
+   `data/pipeline.md` entry (its ` | eval … #{NNN}` suffix names the
+   report).
 2. **Duplicate check**: URL or company+role already ticked `(applied)` in
    `data/pipeline.md` → say so and stop unless the candidate overrides.
 3. **Blacklist**: if `data/blacklist.md` exists and the company matches,
@@ -54,7 +58,7 @@ may auto-reject. How do you want to answer?` — wait.
   (or a screenshot); return a copy-paste block:
 
   ```
-  ## Responses — {Company} / {Role}   (report: {path or "none"})
+  ## Responses — {Company} / {Role}   (Report #{NNN} or "no report")
   ### 1. {exact question}
   > {answer, or "Your call: {options + tradeoff}"}
   ```
@@ -63,7 +67,8 @@ may auto-reject. How do you want to answer?` — wait.
   `/jobsquare pdf` if none exists). Upload only on confirmation.
 - **Answer discipline**: truthful logistics; don't volunteer HR-only details
   (current salary, other processes) inside motivation answers; respect field
-  length limits; anti-cliché list from `modes/pdf.md` applies.
+  length limits; the Writing guardrail in `modes/_shared.md` applies to
+  every drafted answer.
 
 ### ATS quirks (from upstream, field-tested)
 

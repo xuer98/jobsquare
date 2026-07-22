@@ -17,9 +17,12 @@ pipeline produced.
 | `config/profile.yml` | candidate targets: titles, seniority, locations, comp floor, deal-breakers, `language.output` | no |
 | `cv.md` | the candidate's master CV — the only source of biographical facts | **never** |
 | `data/pipeline.md` | offer inbox — Pending / Done | yes (append, tick) |
+| `writing-samples/` | the candidate's real writing, for voice calibration (skip its README.md) | no |
+| `voice-dna.md` | anti-AI-slop hard rules; applied last, wins conflicts (optional) | no |
 | `templates/` | HTML templates (CSS is fixed; agents fill `data-slot`s in a copy) | no |
 | `output/` | generated CVs (html + pdf), gitignored | yes |
-| `reports/` | JD evaluation reports from `match`/`pipeline`, gitignored | yes |
+| `reports/` | JD evaluations, one per claimed id: `{NNN}-{company}-{role}.md` | yes |
+| `interview-prep/` | interview intel docs + `story-bank.md` (candidate's STARs) | yes |
 | `data/discard.log` | TSV audit of expired/pre-screen-skipped entries | yes (append) |
 | `modes/_custom.md` | user house rules (optional) | no |
 
@@ -36,6 +39,9 @@ often empty — treat empty as *unknown*, never as a negative signal.
 - `python agent.py db-new` → JSON `{since, first_run, count, total_new,
   truncated, watermark, jobs[]}` — listings first seen **after the last-scan
   marker** (first run: last 7 days; `--since-days N` overrides).
+  `--posted-days N` keeps only listings posted in the last N days (undated
+  ones stay, counted in `undated_kept`, unless `--dated-only`); drops are
+  reported as `dropped_old`/`undated_dropped`, never silent.
 - `python agent.py db-mark "<watermark>"` → advances the marker. Mark **only
   after** results were presented/queued, and always with the exact `watermark`
   from the dump you processed — never `--now`, which would silently skip rows
@@ -44,6 +50,10 @@ often empty — treat empty as *unknown*, never as a negative signal.
   ATS-normalizes text (smart quotes/dashes/bullets → ASCII, tags and CSS
   untouched) and prints to PDF via headless Chrome. Agents write the HTML;
   only this helper renders it.
+- `python agent.py report-num` → atomically claims the next report id
+  (prints `042`-style). Claim **right before writing** the report file —
+  never reuse, guess, or hand-compute an id. Gaps from aborted runs are
+  fine; collisions are not.
 
 ## `data/pipeline.md` entry contract
 
@@ -54,7 +64,8 @@ One line per pending offer, newest appended last:
 ```
 
 Append ` | {salary_range}` when known. `match`/`pipeline` append ` | eval
-{F}/5 {YYYY-MM-DD}` after scoring (entry stays unticked). When an entry is
+{F}/5 {YYYY-MM-DD} #{NNN}` after scoring (`#NNN` = the report id; entry
+stays unticked). When an entry is
 handled — applied, rejected, or expired — tick `[x]` and append
 ` | done {YYYY-MM-DD}` (with a one-word reason when not applied). A URL
 appears at most once in the whole file.
@@ -63,6 +74,32 @@ appears at most once in the whole file.
 containing an `x` (`[x ]`, `[ x]`, `[X]`) as ticked, and a tick without
 ` | done` as closed-by-user (never resurrect it). When writing, always emit
 the canonical `[x]`.
+
+## Writing guardrail
+
+Applies to **every sentence written as or about the candidate**: CV summaries
+and bullets (`pdf`), free-text application answers (`apply`), report TL;DRs
+and "if applying" angles (`match`/`pipeline`), and any future outreach text.
+
+**Voice source, in priority order:**
+1. `## Writing Style` section in `modes/_profile.md` — use it directly,
+   no re-derivation.
+2. Else `writing-samples/` (skip its README.md) — extract before writing:
+   tone (formal↔conversational), typical sentence length, opening patterns,
+   punctuation habits, preferred vocabulary ("built" vs "engineered"),
+   prose-vs-bullets structure, first-person patterns, and words the
+   candidate never uses.
+3. Else default: direct, short sentences, active voice, native tech English.
+
+`voice-dna.md`, when present, is applied **after** the above and wins every
+conflict.
+
+**Banned regardless of source** (the anti-cliché list): "passionate about",
+"proven track record", "leveraged", "spearheaded", "synergies", "robust",
+"cutting-edge", "demonstrated ability to". Corporate filler generally.
+Prefer specific, named, quantified statements — "cut p95 2.1s → 380ms",
+tools and projects by name — over abstractions. Vary sentence openings and
+length; a page of identical cadence reads machine-written.
 
 ## Global rules
 

@@ -9,9 +9,13 @@ Launcher:
                                      (tokens after the mode words pass through to claude)
 
 Deterministic data helpers — used by mode files, no LLM involved:
-  python agent.py db-new  [--since-days N] [--limit N] [-c sources.yaml]
+  python agent.py db-new  [--since-days N] [--limit N] [--posted-days N]
+                          [--dated-only] [-c sources.yaml]
       JSON dump of listings first seen after the last-scan marker.
       First run (no marker yet): the last N days (default 7).
+      --posted-days N keeps only jobs whose posted_at falls within the last
+      N days; jobs with no parseable date are KEPT (they'd otherwise vanish
+      — many sources never emit dates) unless --dated-only is set.
       Never advances the marker — that is db-mark's job.
   python agent.py db-mark <watermark> | --now  [-c sources.yaml]
       Advance the marker. Pass the `watermark` field from the db-new dump you
@@ -20,6 +24,9 @@ Deterministic data helpers — used by mode files, no LLM involved:
       ATS-normalize the HTML (smart quotes, dashes, bullets -> ASCII) and
       print it to PDF via headless Chrome/Chromium (CHROME_PATH overrides
       discovery). Used by modes/pdf.md.
+  python agent.py report-num  [-c sources.yaml]
+      Atomically claim the next report id (prints zero-padded, e.g. 042).
+      Counter lives in jobs.db meta, so ids survive a reports/ cleanup.
 """
 from __future__ import annotations
 
@@ -33,6 +40,7 @@ from datetime import datetime, timedelta, timezone
 from itertools import groupby
 from pathlib import Path
 
+from models import parse_posted_at
 from pipeline import load_config
 from store import Store
 
@@ -68,6 +76,11 @@ def cmd_db_new(argv: list[str]) -> int:
     p.add_argument("--since-days", type=int, default=FIRST_RUN_DAYS,
                    help="first-run window when no marker exists yet")
     p.add_argument("--limit", type=int, default=DUMP_LIMIT)
+    p.add_argument("--posted-days", type=int, default=None,
+                   help="keep only jobs posted within the last N days "
+                        "(undated jobs are kept unless --dated-only)")
+    p.add_argument("--dated-only", action="store_true",
+                   help="drop jobs with no parseable posted_at")
     a = p.parse_args(argv)
 
     with _store(a.config) as store:
@@ -77,6 +90,28 @@ def cmd_db_new(argv: list[str]) -> int:
             datetime.now(timezone.utc) - timedelta(days=a.since_days)
         ).isoformat(timespec="seconds")
         rows = store.added_since(since)
+
+    # Posted-at window. Filter BEFORE group-truncation so the limit applies
+    # to what's actually dumped; rows in groups beyond the watermark that we
+    # drop here simply re-filter (idempotently) on the next scan.
+    dropped_old = undated_kept = undated_dropped = 0
+    if a.posted_days is not None or a.dated_only:
+        cut = (datetime.now(timezone.utc) - timedelta(days=a.posted_days)
+               if a.posted_days is not None else None)
+        kept = []
+        for r in rows:
+            dt = parse_posted_at(r["posted_at"] or "")
+            if dt is None:
+                if a.dated_only:
+                    undated_dropped += 1
+                else:
+                    undated_kept += 1
+                    kept.append(r)
+            elif cut is None or dt >= cut:
+                kept.append(r)
+            else:
+                dropped_old += 1
+        rows = kept
 
     # Truncate only at first_seen group boundaries: one pipeline run stamps
     # every new row with the identical timestamp, and the next scan resumes
@@ -93,6 +128,11 @@ def cmd_db_new(argv: list[str]) -> int:
     print(json.dumps({
         "since": since,
         "first_run": first_run,
+        "posted_within_days": a.posted_days,
+        "dated_only": a.dated_only,
+        "dropped_old": dropped_old,
+        "undated_kept": undated_kept,
+        "undated_dropped": undated_dropped,
         "count": len(jobs),
         "total_new": len(rows),
         "truncated": truncated,
@@ -126,6 +166,16 @@ def cmd_db_mark(argv: list[str]) -> int:
     with _store(a.config) as store:
         store.set_meta(MARK_KEY, wm)
     print(f"scan marker -> {wm}")
+    return 0
+
+
+def cmd_report_num(argv: list[str]) -> int:
+    import argparse
+    p = argparse.ArgumentParser(prog="agent.py report-num")
+    p.add_argument("-c", "--config", default="sources.yaml")
+    a = p.parse_args(argv)
+    with _store(a.config) as store:
+        print(f"{store.next_seq('report_seq'):03d}")
     return 0
 
 
@@ -271,6 +321,8 @@ def main() -> int:
         return cmd_db_mark(argv[1:])
     if argv and argv[0] == "pdf-render":
         return cmd_pdf_render(argv[1:])
+    if argv and argv[0] == "report-num":
+        return cmd_report_num(argv[1:])
 
     interactive = not argv                      # bare `agent.py` -> REPL
     words = [t for t in argv if t not in ("-i", "--interactive")]

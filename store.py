@@ -108,6 +108,22 @@ class Store:
             (key, value))
         self.conn.commit()
 
+    def next_seq(self, key: str) -> int:
+        """Atomically increment and return the integer counter stored at `key`.
+
+        BEGIN IMMEDIATE takes the write lock before the read, so concurrent
+        claimers (parallel pipeline workers) serialize instead of racing.
+        """
+        cur = self.conn.cursor()
+        cur.execute("BEGIN IMMEDIATE")
+        row = cur.execute("SELECT v FROM meta WHERE k = ?", (key,)).fetchone()
+        n = (int(row["v"]) if row else 0) + 1
+        cur.execute("INSERT INTO meta (k, v) VALUES (?, ?) "
+                    "ON CONFLICT(k) DO UPDATE SET v = excluded.v",
+                    (key, str(n)))
+        self.conn.commit()
+        return n
+
     def added_since(self, ts: str) -> list[sqlite3.Row]:
         """Rows first seen strictly after `ts` (ISO UTC), oldest first.
 
