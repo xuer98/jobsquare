@@ -1,0 +1,18 @@
+# Candidate preferences used by agent modes (scan ranking, future modes).
+# Copy to config/profile.yml and edit. profile.yml is gitignored — it's personal.
+# Absent keys just soften the ranking; sources.yaml filters remain the fallback.
+
+language:
+  output: en                # ISO code for all human-facing agent output
+
+targets:
+  titles: [Software Engineer, Backend Engineer, Full Stack Engineer]
+  seniority: [mid, senior]  # judged from title wording, not a hard filter
+  locations: [Los Angeles, San Francisco, New York, Remote (US)]
+
+comp:
+  floor_usd: 180000         # STRONG tier requires >= floor when salary is known
+
+deal_breakers:              # any hit -> SKIP tier
+  - intern
+  - contract

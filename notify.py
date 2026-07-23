@@ -64,16 +64,42 @@ def notify_email(new: list[Job], changed: list[Job]) -> None:
     body = "\n".join(_line(j) for j in (new + changed))
     msg = MIMEText(f"{len(new)} new / {len(changed)} updated\n\n{body}")
     msg["Subject"] = f"[jobscraper] {len(new)} new listing(s)"
-    msg["From"] = os.getenv("EMAIL_FROM", to)
+    msg["From"] = os.getenv("EMAIL_FROM") or to
     msg["To"] = to
-    with smtplib.SMTP(host, int(os.getenv("SMTP_PORT", "587"))) as s:
+    with smtplib.SMTP(host, int(os.getenv("SMTP_PORT") or "587")) as s:
         s.starttls()
         if os.getenv("SMTP_USER"):
             s.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])
         s.send_message(msg)
 
 
-NOTIFIERS = [notify_console, notify_slack, notify_webhook, notify_email]
+def _sms_body(new: list[Job], changed: list[Job], limit: int = 8) -> str:
+    # ASCII-only and compact: non-GSM chars (•, …) force costly UCS-2 segments.
+    head = f"[jobsquare] {len(new)} new, {len(changed)} updated"
+    lines = [f"- {j.title} ({j.company})" for j in new[:limit]]
+    if len(new) > limit:
+        lines.append(f"+{len(new) - limit} more")
+    return "\n".join([head, *lines])
+
+
+def notify_sms(new: list[Job], changed: list[Job]) -> None:
+    """Twilio SMS. Activates only when all four TWILIO_* env vars are set."""
+    sid = os.getenv("TWILIO_ACCOUNT_SID")
+    token = os.getenv("TWILIO_AUTH_TOKEN")
+    sender = os.getenv("TWILIO_FROM")
+    to = os.getenv("TWILIO_TO")
+    if not (sid and token and sender and to) or not (new or changed):
+        return
+    resp = httpx.post(
+        f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json",
+        auth=(sid, token),
+        data={"From": sender, "To": to, "Body": _sms_body(new, changed)},
+        timeout=15,
+    )
+    resp.raise_for_status()  # surface misconfig (bad creds / unverified number)
+
+
+NOTIFIERS = [notify_console, notify_slack, notify_webhook, notify_email, notify_sms]
 
 
 def dispatch(new: list[Job], changed: list[Job]) -> None:

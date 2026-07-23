@@ -28,13 +28,23 @@ concurrency: 8
 
 sources:
   # ---- Big Tech (bespoke careers sites) ----
-  - { ats: google, query: "software engineer", location: "United States" }
-  - { ats: apple,  query: "software engineer" }   # newest-first; filters narrow further
+  - { ats: google,    query: "software engineer", location: "United States" }
+  - { ats: apple,     query: "software engineer", location: united-states-USA }   # hydration-blob scrape; real post dates
+  - { ats: meta,      query: "software engineer" }   # whole board in 1 GraphQL call
+  - { ats: microsoft, query: "software engineer" }   # Phenom JSON API; real post dates
+  - { ats: netflix,   query: "software engineer" }   # Eightfold API on explore.jobs.netflix.net
+  - { ats: amazon,    query: "software engineer" }   # public amazon.jobs JSON API
+  - { ats: bytedance, query: "software engineer" }   # joinbytedance.com supplier API; no post dates
+  - { ats: tiktok,    query: "software engineer" }   # lifeattiktok.com supplier API; no post dates
 
   # ---- Quant / HFT (top total-comp; via levels.fyi leaderboard) ----
   - { ats: greenhouse, company: janestreet }    # Jane Street
   - { ats: greenhouse, company: jumptrading }   # Jump Trading
   - { ats: greenhouse, company: imc }           # IMC Trading
+  - { ats: greenhouse, company: wehrtyou }      # Hudson River Trading (real board, not the talent community)
+  - { ats: eightfold,  company: millennium, host: mlp.eightfold.ai, domain: mlp.com, query: "software engineer" }  # Millennium
+  # Citadel / Citadel Securities: careers site is Cloudflare-walled (403 to any
+  # server-side fetch, re-confirmed 2026-07-15) — no public API; can't be polled.
   - { ats: deshaw,     company: deshaw }         # D. E. Shaw (bespoke fetcher)
   - { ats: twosigma,   company: twosigma }       # Two Sigma (bespoke Avature fetcher)
   - { ats: optiver,    company: optiver }         # Optiver (bespoke JSON API fetcher)
@@ -53,6 +63,8 @@ sources:
   - { ats: ashby,      company: cursor }
   - { ats: ashby,      company: reflectionai }
   - { ats: greenhouse, company: labelbox }
+  - { ats: ashby,      company: harvey }        # Harvey AI
+  - { ats: greenhouse, company: otterai }       # Otter.ai (gh:otter is a different company)
   
   # ---- Fintech ----
   - { ats: greenhouse, company: stripe }
@@ -121,8 +133,12 @@ sources:
   - { ats: greenhouse, company: dropbox }
   - { ats: greenhouse, company: faire }
   - { ats: greenhouse, company: seatgeek }
-  - { ats: greenhouse, company: opendoor }
   - { ats: greenhouse, company: nextdoor }
+  - { ats: greenhouse, company: coupang }
+  - { ats: greenhouse, company: stubhubinc }    # StubHub (EU Greenhouse board)
+  - { ats: greenhouse, company: doordashusa }   # DoorDash
+  - { ats: ashby,      company: whatnot }       # posting-api disabled -> hosted-page fallback
+  - { ats: ashby,      company: patreon }
   
   # ---- Security ----
   - { ats: greenhouse, company: okta }
@@ -150,12 +166,14 @@ sources:
   - { ats: lever,      company: palantir }
   
   # ---- Deep tech / hardware / AV ----
+  - { ats: ashby,      company: skydio }
+  - { ats: greenhouse, company: spacex }
   - { ats: greenhouse, company: waymo }
   - { ats: greenhouse, company: nuro }
   - { ats: greenhouse, company: lucidmotors }
   - { ats: greenhouse, company: applovin }
   - { ats: greenhouse, company: formlabs }
-    
+
   - ats: workday
     company: nvidia                              # label for output + dedup key
     host: nvidia.wd5.myworkdayjobs.com
@@ -171,16 +189,39 @@ sources:
     site: External_Career
 
   - ats: workday
-    company: zoom                              # label for output + dedup key
+    company: zoom
     host: zoom.wd5.myworkdayjobs.com
-    tenant: zoom                               # set explicitly if != host's first label
-    site: Career_Website
-    
+    tenant: zoom
+    site: Zoom
+
+  - ats: workday
+    company: servicetitan
+    host: servicetitan.wd1.myworkdayjobs.com
+    tenant: servicetitan
+    site: ServiceTitan
+
+  - ats: workday
+    company: snap
+    host: snapchat.wd1.myworkdayjobs.com
+    tenant: snapchat
+    site: snap
+
+  # Cisco fronts its Workday with Phenom (careers.cisco.com) — Phenom gives
+  # real post dates, so fetch there rather than the dateless Workday API.
+  - { ats: phenom, company: cisco, host: careers.cisco.com, locale: en_global, query: "software engineer" }
+
+  # ---- Wanted but not fetchable (documented so nobody re-chases them) ----
+  # Bloomberg: careers.bloomberg.com sits behind a bot wall ("Are you a
+  #   robot?" / PerimeterX) — every server-side request 403s. 2026-07-15.
+  # Walmart: careers.walmart.com search is a conversational LLM backend
+  #   (pagination literally POSTs "Show me page number 2" to a chat GraphQL
+  #   op with session thread_ids) — no stable public search API. 2026-07-15.
+
 filters:
   # Job is kept only if its title/dept/location matches at least one include
   # keyword, contains no exclude keyword, and (if set) is in one of locations.
   max_age_days: 7              # ignore postings older than a week; postings with
-                               # an unparseable/empty posted_at are kept
+  # an unparseable/empty posted_at are kept
   include_keywords:
     - software engineer
     - backend
@@ -194,6 +235,9 @@ filters:
     - india
     - canada
     - android
+    - ios
+    - embedded
+    - quantum
   locations:
     - Los Angeles
     - United States

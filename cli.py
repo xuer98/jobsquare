@@ -1,4 +1,4 @@
-"""CLI entrypoint:  python -m jobscraper --config sources.yaml"""
+"""CLI entrypoint:  python cli.py --config sources.yaml"""
 from __future__ import annotations
 
 import argparse
