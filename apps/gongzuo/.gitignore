@@ -1,0 +1,8 @@
+node_modules
+dist
+*.local
+.DS_Store
+.vite
+gongzuo.zip
+# /interview-prep command output — contains personal prep data
+interview-prep/

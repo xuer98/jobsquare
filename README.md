@@ -1,196 +1,44 @@
 # jobsquare
 
-A personal job-listing watcher. It polls company career boards across many ATS
-platforms, keeps only the listings you care about, remembers what it has already
-seen, and notifies you about anything **new** or **changed**.
+The whole job search in one repo: find the roles, decide which are worth it,
+tailor the CV, fill the application, prep the interview.
 
-- **Many sources, one shape.** Each board is normalized into a common `Job`
-  record regardless of which ATS it came from.
-- **Bespoke fetchers** for companies with no standard ATS (Google, Meta, Microsoft,
-  Netflix, Amazon, D. E. Shaw, Two Sigma, Optiver) sit behind the same interface as the slug-based ones.
-- **Stateful dedup.** A local SQLite DB tracks every listing so repeat runs only
-  surface diffs, not the whole board.
-- **Pluggable notifiers.** Console always; Slack / generic webhook / email
-  activate when their environment variables are set.
+| Part | What it is | Stack |
+|------|-----------|-------|
+| [`apps/jobsquare/`](apps/jobsquare/) | the watcher + Claude agent CLI — polls boards, dedups, ranks, drafts | Python |
+| [`apps/gongzuo/`](apps/gongzuo/) | Chrome extension that autofills job applications from a saved profile and tracks them | React + TS + Vite (MV3) |
+| [`apps/prep/`](apps/prep/) | interview problems, one folder per problem, each with prompt + runnable solution | TS / Python |
 
-## How it works
+Each part stands alone (own README, own deps); they share a repo because
+they're the same workflow. `apps/gongzuo`'s tracker and the root agent's `apply`
+mode cover the same step from two directions — extension for live forms, agent
+for reasoning about them.
 
-```
-sources.yaml ─▶ fetch_all ─▶ filter_jobs ─▶ Store.diff ─▶ dispatch
- (config)       (per-ATS      (keywords,     (SQLite      (console/Slack/
-                 fetchers)     location,       dedup →      webhook/email)
-                               recency)        new/changed)
-```
-
-1. **Fetch** — every configured source is fetched concurrently (`fetchers.py`).
-   Failures are logged, not fatal: one broken board won't sink a run.
-2. **Filter** — keep listings matching your include/exclude/location/recency
-   rules (`filters.py`).
-3. **Dedup** — compare against the SQLite store by a stable key; classify each as
-   new, changed (title/location/url/department shifted), or unchanged
-   (`store.py`).
-4. **Notify** — dispatch new + changed listings to every active notifier
-   (`notify.py`).
+> **Note:** `apps/gongzuo`'s Chrome signing key (`dist.pem`) and packaged `.crx` are
+> deliberately **not** in this repo — `.gitignore` blocks `*.pem`/`*.crx`. They
+> stay in the original working copy. Anyone holding that key can publish
+> updates as your extension.
 
 ## Quick start
 
-Requires **Python 3.12+**.
-
 ```bash
-pip install -r requirements.txt
+# watcher: poll every board once (dry run)
+python apps/jobsquare/cli.py --dry-run
 
-# preview matches without writing dedup state or notifying
-python cli.py --config sources.yaml --dry-run
+# agent: scan the new listings, rank, queue
+python apps/jobsquare/agent.py scan
 
-# real run: persist dedup state + fire notifications
-python cli.py --config sources.yaml
+# extension: build + load apps/gongzuo/dist in chrome://extensions
+cd apps/gongzuo && pnpm install && pnpm build
+
+# interview problems
+cd apps/prep && pnpm install && ./run
 ```
 
-> The dedup DB (`jobs.db`, configurable) is the source of truth for what counts
-> as "fresh". The first real run will treat the entire matched board as new.
+Docs per app: [apps/jobsquare/README.md](apps/jobsquare/README.md) ·
+[apps/gongzuo/README.md](apps/gongzuo/README.md) ·
+[apps/prep/README.md](apps/prep/README.md)
 
-## Configuration (`sources.yaml`)
-
-```yaml
-db: jobs.db          # SQLite dedup store (default: jobs.db)
-concurrency: 8       # max simultaneous fetches (default: 8)
-
-sources:
-  - { ats: greenhouse, company: stripe }
-  - { ats: ashby,      company: ramp }
-  # ...
-
-filters:
-  max_age_days: 7                      # drop listings older than a week (see note)
-  include_keywords: [software engineer, backend]
-  exclude_keywords: [intern, manager]
-  locations: [United States, New York, Remote]
-```
-
-### Supported platforms
-
-Most boards are identified by a single `company` **slug** taken from the public
-careers URL:
-
-| `ats` | Slug source | Notes |
-|-------|-------------|-------|
-| `greenhouse` | `job-boards.greenhouse.io/<company>` | |
-| `lever` | `jobs.lever.co/<company>` | salary parsed when present |
-| `ashby` | `jobs.ashbyhq.com/<company>` | salary via `compensation` |
-| `smartrecruiters` | `jobs.smartrecruiters.com/<company>` | |
-| `recruitee` | `<company>.recruitee.com` | |
-| `workable` | `apply.workable.com/<company>` | |
-
-**Workday** needs `host` / `tenant` / `site` instead of a slug, derived from the
-career URL (e.g. `https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite`):
-
-```yaml
-  - ats: workday
-    company: nvidia                      # label for output + dedup key
-    host: nvidia.wd5.myworkdayjobs.com
-    tenant: nvidia                       # set explicitly if != host's first label
-    site: NVIDIAExternalCareerSite
-```
-
-**Bespoke sources** have no shared ATS and bring their own fetcher:
-
-| `ats` | Config | Notes |
-|-------|--------|-------|
-| `google` | `query` (recommended), `location`, `max_pages` | Global board is huge — narrow server-side with `query` |
-| `meta` | `query` (optional), `remote_only` | GraphQL; whole board in one request. `doc_id` may rotate on Meta redeploys |
-| `microsoft` | `query` (optional), `location`, `max_pages` | Phenom JSON API, paginated; provides real post dates |
-| `netflix` | `query` (optional), `location`, `max_pages` | Eightfold JSON API (`explore.jobs.netflix.net`); real post dates |
-| `amazon` | `query` (optional), `max_pages` | Public `amazon.jobs` JSON API, paginated; real post dates |
-| `deshaw` | `company` (label) | Single-page careers site |
-| `twosigma` | `company`, `max_pages` | Avature portal, paginated |
-| `optiver` | `company`, `max_pages` | JSON API, paginated |
-
-```yaml
-  - { ats: google,  query: "software engineer", location: "United States" }
-  - { ats: deshaw,   company: deshaw }
-  - { ats: twosigma, company: twosigma }
-  - { ats: optiver,  company: optiver }
-```
-
-### Filters
-
-All keys are optional; omit a key to skip that check. A listing is kept only if
-it passes **every** configured check.
-
-| Key | Effect |
-|-----|--------|
-| `include_keywords` | Keep only if title/department/location matches at least one |
-| `exclude_keywords` | Drop if any matches title/department/location |
-| `locations` | Keep only if the location contains one of these (substring, case-insensitive) |
-| `max_age_days` | Drop listings whose posted date is older than N days |
-
-> **Recency caveat:** `max_age_days` only drops a listing when its posted date is
-> **confirmed** older than the cutoff. Sources that don't expose a machine-readable
-> date (Workday, Google, Meta, D. E. Shaw, Two Sigma, Optiver) carry no timestamp, so
-> their listings are **kept** rather than silently dropped. Source dates come in
-> many formats (Lever sends unix milliseconds, others ISO-8601); `parse_posted_at`
-> in `models.py` normalizes them.
-
-> **Location format varies by source.** Google emits `"New York, NY, USA"`, so a
-> `locations: [United States]` filter won't match — use `US`/`USA`. Optiver emits
-> city names like `Amsterdam`. Check what a source returns before tightening this list.
-
-## Notifications
-
-The console notifier always runs. Others activate when their env vars are set:
-
-| Notifier | Required env |
-|----------|--------------|
-| Slack | `SLACK_WEBHOOK_URL` |
-| Webhook | `WEBHOOK_URL` (receives `{new, changed}` JSON) |
-| Email | `SMTP_HOST`, `EMAIL_TO` (+ optional `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`) |
-| SMS (Twilio) | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM`, `TWILIO_TO` |
-
-The SMS text is a compact, ASCII-only summary (counts + the new roles, capped
-with a `+N more` overflow) to keep it to as few Twilio segments as possible.
-
-Salary is shown inline when a source provides it (currently Ashby and some Lever
-boards).
-
-## Scheduling
-
-`.github/workflows/scrape.yaml` is a GitHub Actions workflow that runs **every 12
-hours** (00:00 & 12:00 UTC) and commits the updated `jobs.db` back to the repo so
-dedup state persists across runs. Add your notifier secrets in the repo's Actions
-secrets — `SLACK_WEBHOOK_URL` for Slack, and `TWILIO_ACCOUNT_SID`,
-`TWILIO_AUTH_TOKEN`, `TWILIO_FROM`, `TWILIO_TO` for SMS texts.
-
-## Project layout
-
-| File | Responsibility |
-|------|----------------|
-| `cli.py` | Argparse entrypoint |
-| `pipeline.py` | Orchestration: load config → fetch → filter → dedup → notify |
-| `fetchers.py` | Async per-ATS fetchers + the `FETCHERS` registry |
-| `filters.py` | Keyword / location / recency filtering |
-| `models.py` | The `Job` dataclass, `parse_posted_at`, identity/dedup hashing |
-| `store.py` | SQLite dedup store + schema migrations |
-| `notify.py` | Console / Slack / webhook / email / SMS notifiers |
-| `sources.yaml` | Your sources + filters |
-| `.github/workflows/scrape.yaml` | GitHub Actions schedule |
-
-## Extending: add a new ATS
-
-For a standard JSON board, write a `parse_*` returning `list[Job]`, add an
-endpoint builder, and register it in `FETCHERS`:
-
-```python
-def _foo_url(c: str) -> tuple[str, str]:
-    return "GET", f"https://api.foo.com/boards/{c}/jobs"
-
-def parse_foo(company: str, data: dict) -> list[Job]:
-    return [Job(source="foo", company=company, external_id=str(j["id"]),
-                title=j["title"], url=j["url"], location=j.get("loc", ""))
-            for j in data["jobs"]]
-
-FETCHERS["foo"] = _simple(_foo_url, parse_foo)
-```
-
-For boards with no JSON API (pagination, HTML scraping, token dances), write a
-full `async def fetch_foo(client, source) -> list[Job]` instead — see
-`fetch_google`, `fetch_deshaw`, `fetch_twosigma`, `fetch_optiver` for the pattern.
+The `/jobsquare` Claude skill lives at `.claude/skills/jobsquare` (repo root —
+that's where Claude Code discovers it) and drives the agent modes in
+`apps/jobsquare/modes/`. The scheduled scrape is `.github/workflows/scrape.yaml`.

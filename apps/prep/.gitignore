@@ -1,0 +1,14 @@
+.DS_Store
+
+node_modules/
+dist/
+.vite/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+.idea/
+.vscode/

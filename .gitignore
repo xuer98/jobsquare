@@ -1,2 +1,33 @@
+.DS_Store
 .idea
+.vscode
+
+# --- python (watcher at repo root) ---
 __pycache__
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# --- node (prep/, gongzuo/) ---
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
+*.local
+gongzuo.zip
+
+# --- chrome extension signing material: NEVER commit ---
+# dist.pem is the private key that publishes gongzuo; dist.crx is the signed
+# package. Both live only in the original repo, outside version control.
+*.pem
+*.crx
+
+# --- personal data (not this repo's business) ---
+# unanchored on purpose: they live under apps/jobsquare/ post-monorepo
+**/config/profile.yml
+cv.md
+output/
+reports/
+interview-prep/
+writing-samples/
+voice-dna.md

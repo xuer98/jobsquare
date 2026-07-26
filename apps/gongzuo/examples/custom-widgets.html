@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Widgets — test Gongzuo's widget engine here</title>
+    <style>
+      body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; color: #1c2130; }
+      h1 { font-size: 22px; }
+      p.lead { color: #5b6478; }
+      section { border: 1px solid #dde1e9; border-radius: 12px; margin: 18px 0; padding: 16px 18px; }
+      h2 { font-size: 15px; margin-top: 0; }
+      label, .q { display: block; margin: 12px 0 4px; font-size: 13px; font-weight: 600; color: #404b63; }
+      input[type=text] { width: 100%; padding: 9px 11px; border: 1px solid #cfd5e1; border-radius: 8px; font: inherit; box-sizing: border-box; }
+      .combo { position: relative; }
+      .combo__control { display: flex; align-items: center; justify-content: space-between; border: 1px solid #cfd5e1; border-radius: 8px; padding: 9px 11px; cursor: pointer; background: #fff; min-height: 20px; }
+      .combo__menu { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #cfd5e1; border-radius: 8px; margin-top: 4px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); z-index: 10; display: none; max-height: 200px; overflow: auto; }
+      .combo.open .combo__menu { display: block; }
+      .combo__option { padding: 9px 11px; cursor: pointer; }
+      .combo__option:hover { background: #eef0ff; }
+      .filebox { border: 2px dashed #cfd5e1; border-radius: 10px; padding: 20px; text-align: center; color: #5b6478; cursor: pointer; }
+      .rte { border: 1px solid #cfd5e1; border-radius: 8px; min-height: 90px; padding: 10px 12px; }
+      .rte:empty::before { content: attr(data-placeholder); color: #9aa3b5; }
+      .step2 { display: none; }
+      button.next { margin-top: 14px; background: #6366f1; color: #fff; border: none; padding: 10px 16px; border-radius: 9px; font-weight: 600; cursor: pointer; }
+      .picked { color: #1c2130; }
+      .placeholder { color: #9aa3b5; }
+    </style>
+  </head>
+  <body>
+    <h1>Custom widget test bench</h1>
+    <p class="lead">
+      Non-native controls in the styles used by Workday / Greenhouse / React-Select. Load the
+      extension, then use the floating Gongzuo button (or the toolbar popup).
+    </p>
+
+    <section>
+      <h2>ARIA combobox (button + listbox, Workday-style)</h2>
+      <span class="q" id="auth-label">Are you legally authorized to work in the United States?</span>
+      <div class="combo" data-automation-id="workAuthorizationDropdown">
+        <div class="combo__control" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="auth-label" tabindex="0">
+          <span class="placeholder">Select one</span>
+        </div>
+        <div class="combo__menu" role="listbox">
+          <div class="combo__option" role="option">Yes</div>
+          <div class="combo__option" role="option">No</div>
+        </div>
+      </div>
+
+      <span class="q" id="country-label">Country</span>
+      <div class="combo">
+        <div class="combo__control" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="country-label" tabindex="0">
+          <span class="placeholder">Select country</span>
+        </div>
+        <div class="combo__menu" role="listbox">
+          <div class="combo__option" role="option">Australia</div>
+          <div class="combo__option" role="option">Canada</div>
+          <div class="combo__option" role="option">United Kingdom</div>
+          <div class="combo__option" role="option">United States</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Typeahead (React-Select-style: inner input, filtered menu)</h2>
+      <label for="state-input" id="state-label">State</label>
+      <div class="combo" id="state-combo">
+        <div class="combo__control">
+          <input type="text" id="state-input" role="combobox" aria-expanded="false" aria-labelledby="state-label" autocomplete="off" placeholder="Type to search…" style="border:none;outline:none;width:100%" />
+        </div>
+        <div class="combo__menu" role="listbox" id="state-menu"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phone with country picker (intl-tel-input-style + opacity-0 select)</h2>
+      <label>Phone</label>
+      <div style="display:flex; gap:8px; align-items:stretch">
+        <div class="iti" style="position:relative">
+          <div class="iti__selected-flag" tabindex="0" style="border:1px solid #cfd5e1;border-radius:8px;padding:9px 11px;cursor:pointer;min-width:90px">
+            <span id="flag-face">Country ▾</span>
+          </div>
+          <ul class="iti__country-list" style="display:none;position:absolute;top:100%;left:0;margin:4px 0 0;padding:0;list-style:none;background:#fff;border:1px solid #cfd5e1;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:10;min-width:220px">
+            <li class="iti__country" style="padding:9px 11px;cursor:pointer">🇬🇧 United Kingdom +44</li>
+            <li class="iti__country" style="padding:9px 11px;cursor:pointer">🇺🇸 United States +1</li>
+            <li class="iti__country" style="padding:9px 11px;cursor:pointer">🇲🇽 Mexico +52</li>
+          </ul>
+        </div>
+        <input type="tel" name="phone" placeholder="Phone number" style="flex:1" />
+      </div>
+
+      <label for="styled-country" style="margin-top:14px">Country (opacity-0 native select under a facade)</label>
+      <div style="position:relative;border:1px solid #cfd5e1;border-radius:8px;padding:9px 11px">
+        <span id="styled-country-face" style="color:#9aa3b5">Select country…</span>
+        <select id="styled-country" name="country" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer">
+          <option value="">Select…</option>
+          <option>Canada</option>
+          <option>United States</option>
+          <option>United Kingdom</option>
+        </select>
+      </div>
+    </section>
+
+    <section>
+      <h2>Hidden file input (Greenhouse-style)</h2>
+      <span class="q">Resume/CV</span>
+      <div class="filebox" onclick="document.getElementById('resume-file').click()">
+        Attach resume — <span id="file-name">no file chosen</span>
+      </div>
+      <input type="file" id="resume-file" name="resume" accept=".pdf,.doc,.docx,.txt" style="display:none" />
+    </section>
+
+    <section>
+      <h2>Rich-text cover letter (contenteditable)</h2>
+      <span class="q" id="cl-label">Why do you want to work here?</span>
+      <div class="rte" contenteditable="true" role="textbox" aria-labelledby="cl-label" data-placeholder="Write your answer…"></div>
+    </section>
+
+    <section>
+      <h2>Multi-step (for “continuously fill” testing)</h2>
+      <div class="step1">
+        <label for="fn">First name</label>
+        <input type="text" id="fn" name="first_name" />
+        <button class="next" type="button" onclick="document.querySelector('.step2').style.display='block'; this.style.display='none'">Next step →</button>
+      </div>
+      <div class="step2">
+        <label for="em">Email Address</label>
+        <input type="text" id="em" name="email" />
+        <label for="li">LinkedIn</label>
+        <input type="text" id="li" name="linkedin" />
+      </div>
+    </section>
+
+    <script>
+      // Simple combobox behavior (click to open, click option to select).
+      document.querySelectorAll('.combo').forEach((combo) => {
+        const control = combo.querySelector('.combo__control')
+        const menu = combo.querySelector('.combo__menu')
+        const box = control.matches('[role=combobox]') ? control : control.querySelector('[role=combobox]')
+        control.addEventListener('click', () => {
+          combo.classList.toggle('open')
+          if (box) box.setAttribute('aria-expanded', combo.classList.contains('open') ? 'true' : 'false')
+        })
+        menu.addEventListener('click', (e) => {
+          const opt = e.target.closest('[role=option]')
+          if (!opt) return
+          const holder = control.querySelector('.placeholder, .picked')
+          if (holder) {
+            holder.textContent = opt.textContent
+            holder.className = 'picked'
+          } else if (control.querySelector('input')) {
+            control.querySelector('input').value = opt.textContent
+          }
+          combo.classList.remove('open')
+          if (box) box.setAttribute('aria-expanded', 'false')
+        })
+      })
+
+      // Typeahead filtering for the state combo.
+      const STATES = ['Alabama','Alaska','Arizona','California','Colorado','Connecticut','New York','Texas','Washington']
+      const stateInput = document.getElementById('state-input')
+      const stateMenu = document.getElementById('state-menu')
+      function renderStates(filter) {
+        const q = (filter || '').toLowerCase()
+        stateMenu.innerHTML = ''
+        STATES.filter((s) => s.toLowerCase().includes(q)).forEach((s) => {
+          const div = document.createElement('div')
+          div.className = 'combo__option'
+          div.setAttribute('role', 'option')
+          div.textContent = s
+          stateMenu.appendChild(div)
+        })
+        document.getElementById('state-combo').classList.add('open')
+      }
+      stateInput.addEventListener('input', () => renderStates(stateInput.value))
+      stateInput.addEventListener('focus', () => renderStates(stateInput.value))
+
+      // Phone country flag dropdown (intl-tel-input-style).
+      const flag = document.querySelector('.iti__selected-flag')
+      const countryList = document.querySelector('.iti__country-list')
+      flag.addEventListener('click', () => {
+        countryList.style.display = countryList.style.display === 'none' ? 'block' : 'none'
+      })
+      countryList.addEventListener('click', (e) => {
+        const li = e.target.closest('.iti__country')
+        if (!li) return
+        document.getElementById('flag-face').textContent = li.textContent.trim()
+        countryList.style.display = 'none'
+      })
+
+      // Opacity-0 select facade mirrors its value.
+      const styledCountry = document.getElementById('styled-country')
+      styledCountry.addEventListener('change', () => {
+        const face = document.getElementById('styled-country-face')
+        face.textContent = styledCountry.value || 'Select country…'
+        face.style.color = styledCountry.value ? '#1c2130' : '#9aa3b5'
+      })
+
+      // Show chosen file name.
+      document.getElementById('resume-file').addEventListener('change', (e) => {
+        const f = e.target.files && e.target.files[0]
+        document.getElementById('file-name').textContent = f ? f.name + ' (' + Math.round(f.size/1024) + ' KB)' : 'no file chosen'
+      })
+    </script>
+  </body>
+</html>

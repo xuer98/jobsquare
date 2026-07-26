@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+
+    // strict, but deliberately no noUncheckedIndexedAccess — real interview setups
+    // don't run it, and `arr[i]` returning `T | undefined` is friction in a timed drill.
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src", "_templates"]
+}
