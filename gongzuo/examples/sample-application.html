@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample Job Application — test Gongzuo here</title>
+    <style>
+      body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; color: #1c2130; }
+      h1 { font-size: 22px; }
+      p.lead { color: #5b6478; }
+      fieldset { border: 1px solid #dde1e9; border-radius: 12px; margin: 18px 0; padding: 16px 18px; }
+      legend { font-weight: 700; padding: 0 6px; }
+      label { display: block; margin: 12px 0 4px; font-size: 13px; font-weight: 600; color: #404b63; }
+      input, select, textarea { width: 100%; padding: 9px 11px; border: 1px solid #cfd5e1; border-radius: 8px; font: inherit; box-sizing: border-box; }
+      .radio label { display: inline-flex; align-items: center; gap: 6px; font-weight: 400; margin-right: 16px; }
+      .radio input { width: auto; }
+      button { margin-top: 18px; background: #6366f1; color: white; border: none; padding: 11px 18px; border-radius: 9px; font-weight: 600; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <h1>Apply: Senior Software Engineer</h1>
+    <p class="lead">
+      A realistic mix of field naming styles to exercise Gongzuo. Open this file in Chrome with the
+      extension loaded, then click the Gongzuo icon → “Fill this page”.
+    </p>
+
+    <form>
+      <fieldset>
+        <legend>Personal</legend>
+        <label for="fn">First name</label>
+        <input id="fn" name="first_name" autocomplete="given-name" />
+        <label for="ln">Last name</label>
+        <input id="ln" name="last_name" autocomplete="family-name" />
+        <label for="em">Email Address</label>
+        <input id="em" name="email" type="email" />
+        <label for="ph">Phone Number</label>
+        <input id="ph" name="phoneNumber" type="tel" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Location</legend>
+        <label for="a1">Street Address</label>
+        <input id="a1" name="address1" />
+        <label for="a2">Apartment / Suite</label>
+        <input id="a2" name="address2" />
+        <label for="ci">City</label>
+        <input id="ci" name="city" />
+        <label for="st">State / Province</label>
+        <input id="st" name="state" />
+        <label for="zp">Zip Code</label>
+        <input id="zp" name="postal_code" />
+        <label for="co">Country</label>
+        <select id="co" name="country">
+          <option value="">Select…</option>
+          <option>Canada</option>
+          <option>United States</option>
+          <option>United Kingdom</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Links &amp; experience</legend>
+        <label for="li">LinkedIn Profile</label>
+        <input id="li" name="linkedin_url" />
+        <label for="gh">GitHub</label>
+        <input id="gh" name="github" />
+        <label for="we">Personal Website / Portfolio</label>
+        <input id="we" name="website" />
+        <label for="tt">Current Job Title</label>
+        <input id="tt" name="current_title" />
+        <label for="cc">Current Company</label>
+        <input id="cc" name="current_company" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Eligibility</legend>
+        <label>Are you legally authorized to work in the United States?</label>
+        <div class="radio">
+          <label><input type="radio" name="work_auth" value="yes" /> Yes</label>
+          <label><input type="radio" name="work_auth" value="no" /> No</label>
+        </div>
+        <label>Will you now or in the future require visa sponsorship?</label>
+        <div class="radio">
+          <label><input type="radio" name="sponsorship" value="yes" /> Yes</label>
+          <label><input type="radio" name="sponsorship" value="no" /> No</label>
+        </div>
+        <label for="rel">Are you willing to relocate?</label>
+        <select id="rel" name="relocate">
+          <option value="">Select…</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </fieldset>
+
+      <fieldset id="edu-section">
+        <legend>Education</legend>
+        <div id="edu-rows">
+          <div class="edu-row">
+            <label>School</label>
+            <select name="education_school_0">
+              <option value="">Select…</option>
+              <option>Stanford University</option>
+              <option>UC Berkeley</option>
+              <option>MIT</option>
+              <option>University of Washington</option>
+            </select>
+            <label>Degree</label>
+            <select name="education_degree_0">
+              <option value="">Select…</option>
+              <option>High School</option>
+              <option>Associate's Degree</option>
+              <option>Bachelor's Degree</option>
+              <option>Master's Degree</option>
+              <option>Doctorate</option>
+            </select>
+            <label>Field of Study / Major</label>
+            <input name="education_major_0" />
+          </div>
+        </div>
+        <a href="#" id="edu-add" style="color:#e0492f;font-weight:600">Add another</a>
+      </fieldset>
+
+      <fieldset id="work-section">
+        <legend>Work Experience</legend>
+        <div id="work-rows">
+          <div class="work-row">
+            <label>Company</label>
+            <input name="work_company_0" />
+            <label>Title</label>
+            <input name="work_title_0" />
+            <label>Location</label>
+            <input name="work_location_0" />
+          </div>
+        </div>
+        <a href="#" id="work-add" style="color:#e0492f;font-weight:600">Add another</a>
+      </fieldset>
+
+      <fieldset>
+        <legend>Div-labeled (no &lt;label&gt; elements — tests sibling-text harvesting)</legend>
+        <div style="font-size:13px;font-weight:600;color:#404b63;margin:12px 0 4px">Expected Salary</div>
+        <input name="q_4821" />
+        <div style="font-size:13px;font-weight:600;color:#404b63;margin:12px 0 4px">Notice Period</div>
+        <input name="q_4822" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Tell us more</legend>
+        <label for="hh">How did you hear about us?</label>
+        <input id="hh" name="referral_source" />
+        <label for="cl">Why do you want to work here?</label>
+        <textarea id="cl" name="cover_letter" rows="4"></textarea>
+        <label for="su">Tell us about yourself</label>
+        <textarea id="su" name="about" rows="4"></textarea>
+      </fieldset>
+
+      <button type="button">Submit application</button>
+    </form>
+
+    <script>
+      // Greenhouse-style "Add another": clone the first row with bumped indices.
+      function wireAdder(addId, rowsId, rowClass) {
+        document.getElementById(addId).addEventListener('click', (e) => {
+          e.preventDefault()
+          const rows = document.getElementById(rowsId)
+          const n = rows.children.length
+          const clone = rows.querySelector('.' + rowClass).cloneNode(true)
+          clone.querySelectorAll('input, select').forEach((el) => {
+            el.name = el.name.replace(/_\d+$/, '_' + n)
+            if (el.tagName === 'SELECT') el.selectedIndex = 0
+            else el.value = ''
+          })
+          rows.appendChild(clone)
+        })
+      }
+      wireAdder('edu-add', 'edu-rows', 'edu-row')
+      wireAdder('work-add', 'work-rows', 'work-row')
+    </script>
+  </body>
+</html>
