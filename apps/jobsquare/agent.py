@@ -48,6 +48,9 @@ from models import parse_posted_at
 from pipeline import load_config
 from store import Store
 
+_BASE = Path(__file__).resolve().parent          # apps/jobsquare
+DEFAULT_CONFIG = str(_BASE / "sources.yaml")     # cwd-independent default
+
 MARK_KEY = "last_scan"
 FIRST_RUN_DAYS = 7
 DUMP_LIMIT = 200
@@ -76,7 +79,7 @@ def _iso_now() -> str:
 def cmd_db_new(argv: list[str]) -> int:
     import argparse
     p = argparse.ArgumentParser(prog="agent.py db-new")
-    p.add_argument("-c", "--config", default="sources.yaml")
+    p.add_argument("-c", "--config", default=DEFAULT_CONFIG)
     p.add_argument("--since-days", type=int, default=FIRST_RUN_DAYS,
                    help="first-run window when no marker exists yet")
     p.add_argument("--limit", type=int, default=DUMP_LIMIT)
@@ -151,7 +154,7 @@ def cmd_db_mark(argv: list[str]) -> int:
     p = argparse.ArgumentParser(prog="agent.py db-mark")
     p.add_argument("watermark", nargs="?")
     p.add_argument("--now", action="store_true")
-    p.add_argument("-c", "--config", default="sources.yaml")
+    p.add_argument("-c", "--config", default=DEFAULT_CONFIG)
     a = p.parse_args(argv)
 
     if a.now:
@@ -176,7 +179,7 @@ def cmd_db_mark(argv: list[str]) -> int:
 def cmd_report_num(argv: list[str]) -> int:
     import argparse
     p = argparse.ArgumentParser(prog="agent.py report-num")
-    p.add_argument("-c", "--config", default="sources.yaml")
+    p.add_argument("-c", "--config", default=DEFAULT_CONFIG)
     a = p.parse_args(argv)
     with _store(a.config) as store:
         print(f"{store.next_seq('report_seq'):03d}")

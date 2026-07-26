@@ -19,6 +19,11 @@ def load_config(path: str | Path) -> dict:
     cfg.setdefault("filters", {})
     cfg.setdefault("db", "jobs.db")
     cfg.setdefault("concurrency", 8)
+    # A relative db path means "next to the config file", not "under whatever
+    # cwd this ran from" — keeps repo-root invocations working post-monorepo.
+    db = Path(cfg["db"])
+    if not db.is_absolute():
+        cfg["db"] = str(Path(path).resolve().parent / db)
     return cfg
 
 

@@ -2,19 +2,19 @@
 
 Turn a role into a prep document: how their loop actually runs, the questions
 each interviewer is likely to ask, and which of the candidate's real stories
-answer them. Grounded in `cv.md` and the role's evaluation; researched, never
+answer them. Grounded in `apps/jobsquare/cv.md` and the role's evaluation; researched, never
 invented. Alias: `interview/prep`.
 
 ## Required inputs
 
-- **`cv.md`** (repo root) — proof points. Missing → bootstrap-stop (see `pdf`).
-- **A target**, resolved like `apply`: `#NNN` or a bare number → `reports/{NNN}-*`;
-  a company/keyword → the matching `reports/*.md` or `data/pipeline.md` entry;
+- **`apps/jobsquare/cv.md`** (repo root) — proof points. Missing → bootstrap-stop (see `pdf`).
+- **A target**, resolved like `apply`: `#NNN` or a bare number → `apps/jobsquare/reports/{NNN}-*`;
+  a company/keyword → the matching `apps/jobsquare/reports/*.md` or `apps/jobsquare/data/pipeline.md` entry;
   a URL → WebFetch it; nothing → ask which role.
 - **The evaluation report** if one exists — reuse its archetype, legitimacy
   tier, CV↔JD gaps, and comp read instead of re-deriving them.
-- `config/profile.yml`, `modes/_profile.md` (if present) — targets, voice.
-- `interview-prep/story-bank.md` (if present) — the candidate's STAR stories.
+- `apps/jobsquare/config/profile.yml`, `apps/jobsquare/modes/_profile.md` (if present) — targets, voice.
+- `apps/jobsquare/interview-prep/story-bank.md` (if present) — the candidate's STAR stories.
 
 ## Research (bounded)
 
@@ -28,7 +28,7 @@ with a source per claim:
 Cite every fact or tag it `[inferred from JD]`. **Never fabricate a Glassdoor
 stat or a question** — thin data is stated as thin, not filled in.
 
-## Output document — `interview-prep/{company-kebab}-{role-kebab}.md`
+## Output document — `apps/jobsquare/interview-prep/{company-kebab}-{role-kebab}.md`
 
 ```markdown
 # Interview Intel: {Company} — {Role}
@@ -61,9 +61,9 @@ prep actions.
   repeat the same proof point identically across interviewers.
 
 ## Story bank mapping
-| Audience | Question / topic | Best story (cv.md line) | Fit | Gap? |
+| Audience | Question / topic | Best story (apps/jobsquare/cv.md line) | Fit | Gap? |
 Same story maps differently per audience. Flag gaps explicitly:
-"No story for {X} — closest cv.md experience: {Y}."
+"No story for {X} — closest apps/jobsquare/cv.md experience: {Y}."
 
 ## Technical prep checklist  (≤ 10, by frequency × relevance)
 - [ ] {topic} — why: {evidence}
@@ -75,7 +75,7 @@ What to volunteer, what to hold back, their vocabulary, red flags they screen.
 ## Rules
 
 - Candidate-voiced text (the why-company answer, reverse questions, STAR
-  phrasing) follows the **Writing guardrail** in `modes/_shared.md`.
+  phrasing) follows the **Writing guardrail** in `apps/jobsquare/modes/_shared.md`.
 - Reported questions: **paraphrase**; if quoting verbatim, ≤ 15 words with the
   source named. Never reproduce large blocks of a source.
 - Be direct — this is a briefing, not a pep talk. No fabricated confidence.
@@ -83,6 +83,6 @@ What to volunteer, what to hold back, their vocabulary, red flags they screen.
 ## After delivery
 
 1. List the story gaps; offer to draft the missing STARs and append them to
-   `interview-prep/story-bank.md` (create it if absent).
+   `apps/jobsquare/interview-prep/story-bank.md` (create it if absent).
 2. If an interview date is known, note it in the doc's header for follow-up.
 3. If research came back thin, say so and name what's still unknown.

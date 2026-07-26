@@ -23,7 +23,8 @@ gongzuo.zip
 *.crx
 
 # --- personal data (not this repo's business) ---
-config/profile.yml
+# unanchored on purpose: they live under apps/jobsquare/ post-monorepo
+**/config/profile.yml
 cv.md
 output/
 reports/

@@ -1,18 +1,18 @@
-# Mode: match — score a JD against cv.md (port of career-ops `oferta`)
+# Mode: match — score a JD against apps/jobsquare/cv.md (port of career-ops `oferta`)
 
 Answer one question with evidence: **should the candidate apply, and with what
-angle?** Everything is grounded in `cv.md` — no invented experience, no
+angle?** Everything is grounded in `apps/jobsquare/cv.md` — no invented experience, no
 flattery. Alias: `oferta`.
 
 ## Required inputs
 
 Same resolution as `pdf` mode:
-- **`cv.md`** (repo root) — missing → stop with the bootstrap instructions
-  from `modes/pdf.md`.
+- **`apps/jobsquare/cv.md`** (repo root) — missing → stop with the bootstrap instructions
+  from `apps/jobsquare/modes/pdf.md`.
 - **A JD**: pasted text | URL (WebFetch it) | company/keyword matching a
-  `## Pending` entry in `data/pipeline.md` | nothing → ask.
-- `config/profile.yml` — North Star targets + comp floor; fall back to
-  `sources.yaml` filters when absent.
+  `## Pending` entry in `apps/jobsquare/data/pipeline.md` | nothing → ask.
+- `apps/jobsquare/config/profile.yml` — North Star targets + comp floor; fall back to
+  `apps/jobsquare/sources.yaml` filters when absent.
 
 ## Pre-gates
 
@@ -26,8 +26,8 @@ Same resolution as `pdf` mode:
 
 | Dim | Weight | Measures | 5 looks like |
 |-----|--------|----------|--------------|
-| A: CV match | 35% | requirements covered by cv.md evidence | every must-have has direct proof |
-| B: North Star | 20% | fit vs `config/profile.yml` targets (titles, seniority, locations) | bull's-eye on title + level + location |
+| A: CV match | 35% | requirements covered by apps/jobsquare/cv.md evidence | every must-have has direct proof |
+| B: North Star | 20% | fit vs `apps/jobsquare/config/profile.yml` targets (titles, seniority, locations) | bull's-eye on title + level + location |
 | C: Comp | 15% | listing/JD salary (verbatim) vs `comp.floor_usd`; market check only if unstated | at/above floor with stated numbers |
 | D: Culture/stability | 15% | size, growth, remote policy, hiring signals | growing, stable, policy fits |
 | E: Red flags | 15% | 5 = clean; deduct per flag (vague scope, buzzword density, contractor phrasing, ghost-job signals) | nothing detected |
@@ -55,10 +55,10 @@ signals → drop a tier.
 
 ## Workflow
 
-1. Pre-gates → read cv.md + profile → extract JD requirements
+1. Pre-gates → read apps/jobsquare/cv.md + profile → extract JD requirements
    (must-have vs nice-to-have).
 2. **CV↔JD mapping table** — the heart of the mode:
-   `| JD requirement | cv.md evidence (cite the line) | strong / partial / GAP | mitigation |`
+   `| JD requirement | apps/jobsquare/cv.md evidence (cite the line) | strong / partial / GAP | mitigation |`
    Gaps are hard-blocker or mitigable — never silently reframed.
 3. Seniority calibration: JD's real level (from scope, not title) vs the
    candidate's; one line on pitching up/down without lying.
@@ -66,10 +66,10 @@ signals → drop a tier.
 5. **If F ≥ 3.5:** list the top-5 CV changes for this role. **F ≥ 4.0** →
    close with "run `/jobsquare pdf {company}` to apply them"; 3.5–3.9 →
    frame them as "if you decide to apply" (PDF stays a manual call).
-6. Claim an id — `python agent.py report-num` (do this right before writing,
+6. Claim an id — `python apps/jobsquare/agent.py report-num` (do this right before writing,
    not earlier) — then write the report to
-   `reports/{NNN}-{company-kebab}-{role-kebab}.md`.
-7. If the JD came from `data/pipeline.md`: append
+   `apps/jobsquare/reports/{NNN}-{company-kebab}-{role-kebab}.md`.
+7. If the JD came from `apps/jobsquare/data/pipeline.md`: append
    ` | eval {F}/5 {YYYY-MM-DD} #{NNN}` to that entry (keep it unticked —
    ticking means applied/closed).
 8. Print the report body (minus the machine block) to the terminal.

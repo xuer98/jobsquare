@@ -8,9 +8,9 @@ agent.py interview-practice -i`".
 ## Preflight
 
 Resolve the target like `interview-prep` (`#NNN`, company, or "practice" for
-a generic round). Confirm what exists: `cv.md` (required — bootstrap-stop if
-missing), the role's `interview-prep/{company}-{role}.md`, `config/profile.yml`,
-`interview-prep/story-bank.md`, `interview-prep/retracted-claims.md`.
+a generic round). Confirm what exists: `apps/jobsquare/cv.md` (required — bootstrap-stop if
+missing), the role's `apps/jobsquare/interview-prep/{company}-{role}.md`, `apps/jobsquare/config/profile.yml`,
+`apps/jobsquare/interview-prep/story-bank.md`, `apps/jobsquare/interview-prep/retracted-claims.md`.
 
 If no prep doc and no story bank exist, offer to run `interview-prep` first
 rather than coach against generic questions — proceed only if the candidate
@@ -21,7 +21,7 @@ interviewer persona (name, role).
 ## Question sourcing (in order; mix down when a tier is thin)
 
 1. The role's prep doc — its audience-segmented likely-questions, already sourced.
-2. `interview-prep/story-bank.md` topics not yet drilled.
+2. `apps/jobsquare/interview-prep/story-bank.md` topics not yet drilled.
 3. Generated defaults for the round type (below).
 
 Round default counts: recruiter-screen 6 · hiring-manager ~9 · technical 6 ·
@@ -47,19 +47,19 @@ What landed:
 What to sharpen:
 - {precise gap, or a term used wrong}
 Stronger version:
-> "{tightened opening/closing — facts only from cv.md / story-bank}"
+> "{tightened opening/closing — facts only from apps/jobsquare/cv.md / story-bank}"
 Status: Strong | Solid | Gap
 ```
 
 ## Feedback principles
 
 - **Honest, not encouraging** — vague praise wastes prep time.
-- **Verify every claim** against `cv.md` before coaching. If you can't confirm
+- **Verify every claim** against `apps/jobsquare/cv.md` before coaching. If you can't confirm
   a metric, ask the candidate whether it's defensible; if not, offer a version
   that drops it. Never invent facts; "stronger versions" use only documented
-  experience, and follow the **Writing guardrail** in `modes/_shared.md`.
+  experience, and follow the **Writing guardrail** in `apps/jobsquare/modes/_shared.md`.
 - **Retracted claims are a hard gate** — never resurface anything in
-  `interview-prep/retracted-claims.md`. When the candidate concedes a claim is
+  `apps/jobsquare/interview-prep/retracted-claims.md`. When the candidate concedes a claim is
   indefensible, offer to append it there (with the reason + correct framing).
 - **Flag repetition** — if a story repeats, say so and suggest an alternative.
 - **Reflection check** — a behavioral answer with no "what I'd do differently"
@@ -77,7 +77,7 @@ list (question → gap), `Vocabulary to fix:` (`"said" → "correct term"`), and
 one honest sentence on readiness.
 
 Write a **transcript** to
-`interview-prep/sessions/{company-kebab}-{role-kebab}-{round}-{YYYY-MM-DD}.md`
+`apps/jobsquare/interview-prep/sessions/{company-kebab}-{role-kebab}-{round}-{YYYY-MM-DD}.md`
 (gitignored) — YAML front-matter (`company, role, round, date,
 interviewer_role, source: practice`), then per question:
 
