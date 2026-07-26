@@ -140,3 +140,92 @@
 2026-07-17T00:00:00Z	https://seatgeek.com/jobs/8071837?gh_jid=8071837	rejected: eval 3.7/5 below 4.0 apply threshold
 2026-07-19T21:59:08+00:00	https://jobs.ashbyhq.com/applied/a959b5ac-b9d9-444e-8ea9-ef560d1554a9	expired: absent from Ashby posting-api job board + empty JD body (SPA shell)
 2026-07-22T00:30:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Francisco-California-US/Senior-Software-Engineer--Backend_2018397/apply	expired: Workday page 'does not exist' + careers.cisco.com 410 Gone; CXS 403 — posting removed
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556872156	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556939499	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556940345	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556940579	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556927941	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556938162	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556929429	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556867127	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556941843	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556941844	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556938700	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556939493	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556941467	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556941411	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556940367	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556870502	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556941610	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556941498	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7461103	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7859522	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7426952	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=6773081	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7863159	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7747032	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7430666	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7947243	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7429795	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7028511	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7177351	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7991303	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7429828	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7609435	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7336953	closed (user-directed)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7822756	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7477172	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7429718	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7540809	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=6507799	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7978589	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7550770	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7121224	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7905695	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7351058	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7901957	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7554830	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7901924	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7531397	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7926526	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7141380	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7466534	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7543520	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7905678	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7438645	closed (user-directed, normalized)
+2026-07-23T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7429873	closed (user-directed, normalized)
+2026-07-24T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/AI-Software-Engineer-II----United-States-_2018753/apply	expired: Workday listing removed (canonical page renders not-found; CXS API 403)
+2026-07-24T00:00:00+00:00	https://job-boards.greenhouse.io/twilio/jobs/8065028	expired: page 200 but JD body is an unfilled Twilio internal template (placeholder text only)
+2026-07-24T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer--Full-Stack_2019274/apply	expired: Workday posting taken down (postingAvailable:false); CXS 403; no JD recoverable
+2026-07-24T00:00:00+00:00	https://job-boards.greenhouse.io/twilio/jobs/7689461	expired: JD body is an unfilled Greenhouse template (placeholder text)
+2026-07-24T00:00:00+00:00	https://job-boards.greenhouse.io/twilio/jobs/7946610	expired: JD body is an unfilled internal template (placeholder text)
+2026-07-24T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/136981450388841158	lowscore: eval 3.3/5 <=3.5
+2026-07-24T00:00:00+00:00	https://job-boards.greenhouse.io/airtable/jobs/8124953002	lowscore: eval 3.4/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200654947/aiml-sr-software-engineer-in-test-evaluation	lowscore: eval 3.0/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200624522/senior-software-engineer-machine-learning-infrastructure-and-quality	lowscore: eval 3.4/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200659830/sr-software-engineer-apple-vision-pro-developer-ecosystem-vision-products-group	lowscore: eval 3.1/5 <=3.5
+2026-07-24T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer--simulation-_2014405-1/apply	lowscore: eval 2.7/5 <=3.5
+2026-07-24T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Software-Engineer--Hybrid-_2011824/apply	lowscore: eval 2.6/5 <=3.5
+2026-07-24T00:00:00+00:00	https://www.metacareers.com/jobs/2022384618363288/	lowscore: eval 3.1/5 <=3.5
+2026-07-24T00:00:00+00:00	https://nuro.ai/careersitem?gh_jid=6516915	lowscore: eval 3.3/5 <=3.5
+2026-07-24T00:00:00+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-System-Software-Engineer----Halos_JR2021297	lowscore: eval 3.1/5 <=3.5
+2026-07-24T00:00:00+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-System-Software-Engineer----Halos-Core-and-Robotics-Platform_JR2021313	lowscore: eval 2.9/5 <=3.5
+2026-07-24T00:00:00+00:00	https://otter.ai/careers?gh_jid=7813295003	lowscore: eval 3.3/5 <=3.5
+2026-07-24T00:00:00+00:00	https://job-boards.eu.greenhouse.io/stubhubinc/jobs/4903903101	lowscore: eval 3.3/5 <=3.5
+2026-07-24T00:00:00+00:00	https://www.amazon.jobs/en/jobs/10482160/senior-software-engineer-aws-applied-ai-solutions	lowscore: eval 3.3/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200609109/core-audio-software-engineer-audio-media-technologies	lowscore: eval 2.7/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200673520/prototyping-software-engineer-vpg-health-fitness	lowscore: eval 3.5/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200673930/senior-software-engineer-apple-s-streaming-platform-and-solutions	lowscore: eval 3.3/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200673757/software-engineer-shortcuts-proactive	lowscore: eval 3.3/5 <=3.5
+2026-07-24T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/AI-Software-Engineer-II----United-States-_2020810/apply	lowscore: eval 3.0/5 <=3.5
+2026-07-24T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Software-Engineer-II--Full-Time----Devices-Technology-Group---United-States_2011259/apply	lowscore: eval 2.5/5 <=3.5
+2026-07-24T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/79866706851177158	lowscore: eval 3.4/5 <=3.5
+2026-07-24T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/81989726365459142	lowscore: eval 3.1/5 <=3.5
+2026-07-24T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556940340	lowscore: eval 3.0/5 <=3.5
+2026-07-24T00:00:00+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-QA-Software-Engineer---Networking_JR2020567	lowscore: eval 3.2/5 <=3.5
+2026-07-24T00:00:00+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Software-Engineer--Performance-Lab-and-Tools_JR2014711	lowscore: eval 2.9/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200673894/compute-runtime-software-engineer	lowscore: eval 3.1/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200673682/soc-power-management-software-engineer	lowscore: eval 2.7/5 <=3.5
+2026-07-24T00:00:00+00:00	https://jobs.apple.com/en-us/details/200652252/senior-software-engineer-on-device-health-agentic-systems	lowscore: eval 3.4/5 <=3.5
+2026-07-24T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/92081233063748294	lowscore: eval 3.1/5 <=3.5
+2026-07-24T00:00:00+00:00	https://careers.toasttab.com/jobs?gh_jid=8059808	lowscore: eval 3.1/5 <=3.5

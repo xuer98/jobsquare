@@ -21,9 +21,13 @@ Deterministic data helpers — used by mode files, no LLM involved:
       Advance the marker. Pass the `watermark` field from the db-new dump you
       just processed (NOT --now) so rows landing mid-analysis aren't skipped.
   python agent.py pdf-render <in.html> [out.pdf] [--format letter|a4]
+                            [--max-pages N] [--clean]
       ATS-normalize the HTML (smart quotes, dashes, bullets -> ASCII) and
       print it to PDF via headless Chrome/Chromium (CHROME_PATH overrides
-      discovery). Used by modes/pdf.md.
+      discovery). --max-pages N exits non-zero (3) if the PDF is longer than
+      N pages, keeping the source so the caller can tighten and re-render.
+      --clean removes the source HTML on success (PDF is the only artifact).
+      Used by modes/pdf.md.
   python agent.py report-num  [-c sources.yaml]
       Atomically claim the next report id (prints zero-padded, e.g. 042).
       Counter lives in jobs.db meta, so ids survive a reports/ cleanup.
@@ -247,9 +251,13 @@ def _normalize_ats(html: str) -> tuple[str, dict[str, int]]:
 def cmd_pdf_render(argv: list[str]) -> int:
     import argparse
     p = argparse.ArgumentParser(prog="agent.py pdf-render")
-    p.add_argument("input", help="HTML file (usually under output/)")
+    p.add_argument("input", help="HTML file (usually a temp under output/)")
     p.add_argument("output", nargs="?", help="default: input with .pdf")
     p.add_argument("--format", choices=("letter", "a4"), default="letter")
+    p.add_argument("--max-pages", type=int, default=None,
+                   help="fail (exit 3) if the PDF exceeds N pages")
+    p.add_argument("--clean", action="store_true",
+                   help="delete the source HTML on success (PDF-only output)")
     a = p.parse_args(argv)
 
     src = Path(a.input)
@@ -286,9 +294,19 @@ def cmd_pdf_render(argv: list[str]) -> int:
 
     shown = ", ".join(f"{k}={v}" for k, v in counts.items()) or "none needed"
     pages = len(re.findall(rb"/Type\s*/Page(?!s)", data))
-    tail = f", {pages} page(s)" if pages else ""
     print(f"ATS normalization: {shown}")
-    print(f"PDF -> {out}  ({len(data) // 1024} KB{tail})")
+    print(f"PDF -> {out}  ({len(data) // 1024} KB, {pages or '?'} page(s))")
+
+    # Enforce a page ceiling (only when we could actually count). Keep the
+    # source HTML so the caller can trim and re-render.
+    if a.max_pages is not None and pages > a.max_pages:
+        print(f"pdf-render: {pages} pages exceeds --max-pages {a.max_pages} — "
+              f"tighten content and re-render (kept {src})", file=sys.stderr)
+        return 3
+
+    if a.clean:
+        src.unlink(missing_ok=True)
+        print(f"removed intermediate HTML ({src.name})")
     return 0
 
 

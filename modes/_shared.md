@@ -22,7 +22,7 @@ pipeline produced.
 | `templates/` | HTML templates (CSS is fixed; agents fill `data-slot`s in a copy) | no |
 | `output/` | generated CVs (html + pdf), gitignored | yes |
 | `reports/` | JD evaluations, one per claimed id: `{NNN}-{company}-{role}.md` | yes |
-| `interview-prep/` | interview intel docs + `story-bank.md` (candidate's STARs) | yes |
+| `interview-prep/` | intel docs, `story-bank.md`, `retracted-claims.md`, `sessions/` (practice transcripts) | yes |
 | `data/discard.log` | TSV audit of expired/pre-screen-skipped entries | yes (append) |
 | `modes/_custom.md` | user house rules (optional) | no |
 

@@ -1,5 +1,28 @@
 # jobsquare
 
+The whole job search in one repo: find the roles, decide which are worth it,
+tailor the CV, fill the application, prep the interview.
+
+| Part | What it is | Stack |
+|------|-----------|-------|
+| **root** (`cli.py`, `fetchers.py`, `agent.py`, `modes/`) | the watcher + Claude agent CLI — polls boards, dedups, ranks, drafts | Python |
+| [`gongzuo/`](gongzuo/) | Chrome extension that autofills job applications from a saved profile and tracks them | React + TS + Vite (MV3) |
+| [`prep/`](prep/) | interview problems, one folder per problem, each with prompt + runnable solution | TS / Python |
+
+Each part stands alone (own README, own deps); they share a repo because
+they're the same workflow. `gongzuo`'s tracker and the root agent's `apply`
+mode cover the same step from two directions — extension for live forms, agent
+for reasoning about them.
+
+> **Note:** `gongzuo`'s Chrome signing key (`dist.pem`) and packaged `.crx` are
+> deliberately **not** in this repo — `.gitignore` blocks `*.pem`/`*.crx`. They
+> stay in the original working copy. Anyone holding that key can publish
+> updates as your extension.
+
+---
+
+## The watcher (repo root)
+
 A personal job-listing watcher. It polls company career boards across many ATS
 platforms, keeps only the listings you care about, remembers what it has already
 seen, and notifies you about anything **new** or **changed**.
@@ -180,6 +203,7 @@ python agent.py pipeline 5 # batch-evaluate the 5 oldest pending inbox entries
 python agent.py match {url} # score a JD against cv.md: A-F rubric + verdict
 python agent.py pdf {url}  # tailored ATS CV PDF for a JD (needs cv.md, see below)
 python agent.py interview-prep {company}  # company-specific interview intel doc
+python agent.py interview-practice -i     # live mock interview (interactive only)
 python agent.py apply -i   # live application assistant (interactive only)
 ```
 
@@ -237,6 +261,15 @@ Reported questions are paraphrased and every stat is sourced or tagged
 in `interview-prep/story-bank.md`. The whole `interview-prep/` dir is
 gitignored.
 
+`/jobsquare interview-practice {target}` (alias `interview/practice`) runs a
+live mock interview off that prep doc: one question at a time, asked cold, with
+honest feedback after each answer (what landed, what to sharpen, a stronger
+version built only from `cv.md`). It stays in character, flags repeated stories
+and buried headlines, verifies every claim against `cv.md` before coaching, and
+hard-gates anything you've retracted into `interview-prep/retracted-claims.md`.
+Each session logs a verbatim transcript to `interview-prep/sessions/`. It's
+interactive only — a turn-by-turn loop makes no sense headless.
+
 `/jobsquare apply [target]` assists while **you** apply: it reads the open
 application form (via a connected browser MCP — your real Chrome is preferred
 since your ATS logins live there; paste-mode fallback otherwise), pre-scans
@@ -248,15 +281,18 @@ or logins, and never answers demographic/EEO/visa/salary questions for you —
 those are presented for you to decide. After you submit, it closes the
 pipeline entry `(applied)` and archives the final answers into the report.
 
-`/jobsquare pdf {JD}` builds a one-page, ATS-optimized CV tailored to a JD
-(pasted text, a URL, or a company match against `data/pipeline.md`). It reads
-**`cv.md`** — your master CV at the repo root (gitignored; create it once with
-`# Name`, `## Summary`, `## Experience`, `## Projects`, `## Education`,
-`## Skills`) — fills `templates/cv-template.html`, and renders via
-`python agent.py pdf-render`, which ATS-normalizes text (smart quotes, dashes,
-bullets → ASCII) and prints to PDF with headless Chrome (auto-detected;
-`CHROME_PATH` overrides). Tailoring reorders and reframes what cv.md supports —
-it never invents experience. Output lands in `output/` (gitignored).
+`/jobsquare pdf {JD}` builds a **strictly one-page**, ATS-optimized CV tailored
+to a JD (pasted text, a URL, or a company match against `data/pipeline.md`). It
+reads **`cv.md`** — your master CV at the repo root (gitignored; create it once
+with `# Name`, `## Summary`, `## Experience`, `## Projects`, `## Education`,
+`## Skills`) — fills a temp copy of `templates/cv-template.html`, and renders via
+`python agent.py pdf-render … --max-pages 1 --clean`, which ATS-normalizes text
+(smart quotes, dashes, bullets → ASCII) and prints to PDF with headless Chrome
+(auto-detected; `CHROME_PATH` overrides). If the result runs over one page the
+render fails (exit 3), the mode trims the least-relevant content and re-renders;
+`--clean` then deletes the intermediate HTML, so **only the PDF** lands in
+`output/` (gitignored). Tailoring reorders and reframes what cv.md supports — it
+never invents experience.
 
 All candidate-voiced prose (CV text, application answers, report angles)
 follows one **writing guardrail** (`modes/_shared.md`): your voice is
@@ -278,7 +314,7 @@ three voice files are personal and gitignored.
 | `store.py` | SQLite dedup store + schema migrations + scan marker |
 | `notify.py` | Console / Slack / webhook / email / SMS notifiers |
 | `agent.py` | Claude agent CLI: launcher + db-new/db-mark/pdf-render helpers |
-| `modes/` | Agent mode instructions (`_shared.md`, `scan.md`, `pipeline.md`, `match.md`, `pdf.md`, `apply.md`, `interview-prep.md`) |
+| `modes/` | Agent mode instructions (`_shared.md`, `scan.md`, `pipeline.md`, `match.md`, `pdf.md`, `apply.md`, `interview-prep.md`, `interview-practice.md`) |
 | `templates/cv-template.html` | ATS CV template (`pdf` mode fills a copy) |
 | `data/pipeline.md` | Offer inbox fed by `/jobsquare scan` |
 | `config/profile.example.yml` | Candidate preference template for agent ranking |

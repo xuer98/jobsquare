@@ -33,23 +33,32 @@ description. Everything on it must be sourced from `cv.md` — tailoring means
    (cv.md "LLM workflows with retrieval" + JD "RAG pipelines" → "RAG
    pipeline design"). A JD skill absent from cv.md **never** appears.
 7. **Projects**: keep the 3–4 most relevant; drop the section if none.
-8. **Six-second gate**: top third of page one must make target role, fit,
-   and proof obvious. One page strongly preferred, two max.
-9. **Build HTML**: copy `templates/cv-template.html`, replace every
-   `data-slot` element's content, delete empty optional sections, leave CSS
-   untouched. Write to `output/cv-{name-kebab}-{company-kebab}.html`.
-10. **Render**:
-    `python agent.py pdf-render output/cv-{…}.html output/cv-{…}-{YYYY-MM-DD}.pdf --format={letter|a4}`
-    The helper ATS-normalizes text (smart quotes, dashes, bullets → ASCII)
-    and prints via headless Chrome. Non-zero exit → report the error, don't
-    improvise another renderer.
+8. **One page, hard limit.** The CV must fit a single page — never spill to
+   a second. The top third must make target role, fit, and proof obvious.
+   If it overflows (step 10 tells you), tighten in this order: drop the
+   least-JD-relevant bullets, then the oldest role's bullets, then the
+   Projects section, then trim the summary to 3 lines and competencies to 6.
+   Cut content — never shrink the template's fonts/margins.
+9. **Build HTML (transient)**: copy `templates/cv-template.html`, replace
+   every `data-slot` element's content, delete empty optional sections, leave
+   CSS untouched. Write it to a **temp** path — `output/.cv-{name-kebab}-{company-kebab}.html`
+   (leading dot). This file is scaffolding, not a deliverable; step 10 deletes it.
+10. **Render to PDF** (the only artifact):
+    `python agent.py pdf-render output/.cv-{…}.html output/cv-{name-kebab}-{company-kebab}-{YYYY-MM-DD}.pdf --format {letter|a4} --max-pages 1 --clean`
+    The helper ATS-normalizes text (smart quotes, dashes, bullets → ASCII),
+    prints via headless Chrome, and on success `--clean` removes the temp HTML
+    so **only the PDF remains**. **Exit 3** = more than one page: go back to
+    step 8, cut content, and re-render (the temp HTML is kept for editing).
+    Any other non-zero exit → report the error, don't improvise a renderer.
+    Never leave an `.html` in `output/`.
 11. **Report** (terminal):
 
     ```
     CV PDF — {company} / {role}
-    File: output/cv-…-{date}.pdf ({size}, {pages} page(s))
+    File: output/cv-…-{date}.pdf ({size}, 1 page)
     Emphasized: {3-5 bullets of what was surfaced/reordered and why}
     Keyword coverage: {matched}/{extracted} — missing: {honest gaps}
+    {if content was cut to fit one page: what was dropped}
     ```
 
     List gaps honestly — a keyword cv.md can't support is a gap, not a

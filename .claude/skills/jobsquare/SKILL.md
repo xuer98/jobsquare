@@ -4,7 +4,7 @@ description: AI job search command center -- evaluate offers, generate CVs, scan
 arguments: mode
 user_invocable: true
 user-invocable: true
-argument-hint: "[scan | pdf | match | pipeline | apply | interview-prep]"
+argument-hint: "[scan | pdf | match | pipeline | apply | interview-prep | interview-practice]"
 license: MIT
 ---
 
@@ -37,13 +37,14 @@ Determine the mode from `$mode`:
 | `apply` | `apply` -- Live application assistant: reads the open form, drafts grounded answers, fills on confirmation, never submits. Interactive sessions only |
 | `interview-prep` | `interview-prep` -- Company-specific interview intel doc (rest of `$mode` = `#NNN`, company, or JD, like `apply`) |
 | `interview/prep` | `interview-prep` (career-ops alias) |
+| `interview-practice` | `interview-practice` -- Live mock interview, one question at a time with feedback (interactive only; target = `#NNN`, company, or `practice`) |
+| `interview/practice` | `interview-practice` (career-ops alias) |
 
 Any other input — upstream career-ops sub-commands (`cover`, `email`,
 `tracker`, `batch`, `contacto`, `deep`, `interview` onboarding,
-`interview/plan`, `interview/practice`, `interview/debrief`, …) as well as
-pasted JD text or URLs (auto-pipeline) — is **not ported yet**: say exactly
-that in one line, then show the discovery menu. Do not improvise an unported
-mode.
+`interview/plan`, `interview/debrief`, …) as well as pasted JD text or URLs
+(auto-pipeline) — is **not ported yet**: say exactly that in one line, then
+show the discovery menu. Do not improvise an unported mode.
 
 ---
 
@@ -78,13 +79,15 @@ Available commands:
   /jobsquare apply [target] → Live application assistant: drafts + fills answers with you, NEVER submits (interactive only)
   /jobsquare interview-prep {target}
                             → Company-specific interview intel → interview-prep/ (target: #NNN, company, or JD)
+  /jobsquare interview-practice {target}
+                            → Live mock interview: one question at a time + honest feedback (interactive only)
 
 Headless:  python agent.py scan · python agent.py pipeline 5 · python agent.py match {url} · python agent.py interview-prep {company}
-Interactive-only:  python agent.py apply -i
+Interactive-only:  python agent.py apply -i · python agent.py interview-practice -i
 
 Not ported yet (upstream career-ops modes): auto-pipeline, cover, email,
 tracker, batch, contacto, deep, interview (onboarding), interview/plan,
-interview/practice, interview/debrief.
+interview/debrief.
 
 Loop: scan → pipeline → pdf + interview-prep for the top scorers → apply yourself.
 
@@ -103,12 +106,13 @@ If `modes/_custom.md` exists, read it after `modes/_profile.md` and before the s
 
 Read `modes/_shared.md` + `modes/_profile.md` (if exists) + `modes/_custom.md` (if exists) + `modes/{mode}.md`
 
-Applies to: `scan`, `pdf`, `match`, `apply`, `interview-prep` (and every
-future ported mode unless noted otherwise). `pdf`, `match`, `apply`, and
-`interview-prep` run in the main loop, not a subagent — they need the
-conversation for confirmations and follow-ups (`apply` hard-requires it:
-every fill is user-confirmed; `interview-prep` offers to draft missing
-stories after).
+Applies to: `scan`, `pdf`, `match`, `apply`, `interview-prep`,
+`interview-practice` (and every future ported mode unless noted otherwise).
+`pdf`, `match`, `apply`, `interview-prep`, and `interview-practice` run in
+the main loop, not a subagent — they need the conversation for confirmations
+and follow-ups. `apply` and `interview-practice` hard-require it: `apply`
+confirms every fill, and `interview-practice` is a live turn-by-turn loop
+(it refuses headless runs).
 
 ### Modes delegated to subagent
 
