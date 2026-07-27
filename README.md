@@ -31,9 +31,15 @@ python apps/job-ops/agent.py scan
 # extension: build + load apps/browser/dist in chrome://extensions
 cd apps/browser && pnpm install && pnpm build
 
-# interview problems
-cd apps/prep && pnpm install && ./run
+# interview problems (./prep forwards to apps/prep, so no cd)
+./prep new codesignal parking-lot   # scaffold a problem from a template
+./prep pytest ledger -m level1      # pytest a Python problem (no name runs all)
+./prep run wishlist                 # dev server for a frontend problem
+./prep                              # list the commands
 ```
+
+The frontend problems need `cd apps/prep && pnpm install` once before `./prep run`
+works; `./prep new` and `./prep pytest` don't depend on it.
 
 Docs per app: [apps/jobsquare/README.md](apps/job-ops/README.md) ·
 [apps/gongzuo/README.md](apps/browser/README.md) ·
