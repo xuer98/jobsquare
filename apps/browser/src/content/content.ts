@@ -181,7 +181,7 @@ function collectFields(root: ParentNode): Fillable[] {
       el.localName !== 'select' &&
       isElementVisible(el) &&
       !isSearchControl(el) &&
-      !el.closest('[data-gongzuo-overlay]'),
+      !el.closest('[data-browser-overlay]'),
   )
   // Dedup nested widget controls (e.g. [role=combobox] inside [aria-haspopup=listbox]);
   // the ancestor walk crosses shadow boundaries.
@@ -202,7 +202,7 @@ function collectFields(root: ParentNode): Fillable[] {
   )
 
   for (const control of controls) {
-    if (control.closest('[data-gongzuo-overlay]')) continue
+    if (control.closest('[data-browser-overlay]')) continue
     const tag = control.localName
 
     if (tag === 'textarea') {
@@ -554,7 +554,7 @@ const SECTION_RES: Record<IndexedSection, RegExp> = {
  */
 function findSectionAdder(kind: IndexedSection): HTMLElement | null {
   for (const el of deepQueryAll<HTMLElement>(document, 'button, a, [role="button"]')) {
-    if (el.closest('[data-gongzuo-overlay]')) continue
+    if (el.closest('[data-browser-overlay]')) continue
     const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim()
     if (!text || text.length > 60 || !ADD_TEXT_RE.test(text)) continue
     if (!isElementVisible(el)) continue
@@ -842,7 +842,7 @@ async function debugDump(): Promise<void> {
     const tag = el.localName + ((el as HTMLInputElement).type ? `[${(el as HTMLInputElement).type}]` : '')
     const ctx = getContext(el)
     let status: string
-    if (el.closest('[data-gongzuo-overlay]')) status = 'rejected: gongzuo overlay'
+    if (el.closest('[data-browser-overlay]')) status = 'rejected: browser overlay'
     else if (collected.has(el)) {
       const match = matchContext(ctx, profile, profile.customAnswers, {
         disabledCategories: disabled,

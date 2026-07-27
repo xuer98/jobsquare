@@ -1,9 +1,9 @@
 import { normalize } from './fieldMatcher'
 import { emptyProfile, type Profile } from './profile'
 
-const PROFILE_KEY = 'gongzuo:profile'
-const SETTINGS_KEY = 'gongzuo:settings'
-const APPLICATIONS_KEY = 'gongzuo:applications'
+const PROFILE_KEY = 'browser:profile'
+const SETTINGS_KEY = 'browser:settings'
+const APPLICATIONS_KEY = 'browser:applications'
 
 export interface Settings {
   /** Overwrite fields that already have a value. */

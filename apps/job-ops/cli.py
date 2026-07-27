@@ -1,4 +1,4 @@
-"""CLI entrypoint:  python apps/jobsquare/cli.py  (config defaults to the
+"""CLI entrypoint:  python apps/job-ops/cli.py  (config defaults to the
 sources.yaml next to this file, so it runs from any cwd)."""
 from __future__ import annotations
 

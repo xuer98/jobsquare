@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""jobsquare agent CLI — Claude Code integration (career-ops style, Claude-only).
+"""job-ops agent CLI — Claude Code integration (career-ops style, Claude-only).
 
 Launcher:
   python agent.py                    open an interactive Claude session here
-  python agent.py scan               headless `/jobsquare scan` (new jobs since last scan)
-  python agent.py scan -i            interactive session pre-loaded with /jobsquare scan
-  python agent.py <mode> [words...]  headless `/jobsquare <mode> ...` for any router mode
+  python agent.py scan               headless `/job-ops scan` (new jobs since last scan)
+  python agent.py scan -i            interactive session pre-loaded with /job-ops scan
+  python agent.py <mode> [words...]  headless `/job-ops <mode> ...` for any router mode
                                      (tokens after the mode words pass through to claude)
 
 Deterministic data helpers — used by mode files, no LLM involved:
@@ -48,7 +48,7 @@ from models import parse_posted_at
 from pipeline import load_config
 from store import Store
 
-_BASE = Path(__file__).resolve().parent          # apps/jobsquare
+_BASE = Path(__file__).resolve().parent          # apps/job-ops
 DEFAULT_CONFIG = str(_BASE / "sources.yaml")     # cwd-independent default
 
 MARK_KEY = "last_scan"
@@ -325,7 +325,7 @@ def _claude() -> str:
 
 def run_claude(mode_words: list[str], interactive: bool, extra: list[str]) -> int:
     exe = _claude()
-    prompt = ("/jobsquare " + " ".join(mode_words)).strip()
+    prompt = ("/job-ops " + " ".join(mode_words)).strip()
     if interactive:
         os.execvp(exe, [exe, prompt] if mode_words else [exe])  # hand over TTY
     return subprocess.call([exe, "-p", prompt, *CLAUDE_HEADLESS_FLAGS, *extra])

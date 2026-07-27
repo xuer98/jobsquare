@@ -17,7 +17,7 @@ export interface OverlayHandle {
   destroy: () => void
 }
 
-const DISMISS_KEY = 'gongzuo-overlay-dismissed'
+const DISMISS_KEY = 'browser-overlay-dismissed'
 
 const CSS = `
   :host { all: initial; }
@@ -89,7 +89,7 @@ export function mountOverlay(cb: OverlayCallbacks): OverlayHandle | null {
   }
 
   const host = document.createElement('div')
-  host.setAttribute('data-gongzuo-overlay', '')
+  host.setAttribute('data-browser-overlay', '')
   const shadow = host.attachShadow({ mode: 'closed' })
   const style = document.createElement('style')
   style.textContent = CSS

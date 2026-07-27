@@ -216,7 +216,7 @@ export function Options() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'gongzuo-profile.json'
+    a.download = 'browser-profile.json'
     a.click()
     URL.revokeObjectURL(url)
   }

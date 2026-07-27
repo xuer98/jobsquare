@@ -39,13 +39,13 @@ apps/jobsquare/sources.yaml ─▶ fetch_all ─▶ filter_jobs ─▶ Store.dif
 Requires **Python 3.12+**.
 
 ```bash
-pip install -r apps/jobsquare/requirements.txt
+pip install -r apps/job-ops/requirements.txt
 
 # preview matches without writing dedup state or notifying
-python apps/jobsquare/cli.py --config apps/jobsquare/sources.yaml --dry-run
+python apps/job-ops/cli.py --config apps/job-ops/sources.yaml --dry-run
 
 # real run: persist dedup state + fire notifications
-python apps/jobsquare/cli.py --config apps/jobsquare/sources.yaml
+python apps/job-ops/cli.py --config apps/job-ops/sources.yaml
 ```
 
 > The dedup DB (`apps/jobsquare/jobs.db`, configurable) is the source of truth for what counts
@@ -54,7 +54,7 @@ python apps/jobsquare/cli.py --config apps/jobsquare/sources.yaml
 ## Configuration (`apps/jobsquare/sources.yaml`)
 
 ```yaml
-db: apps/jobsquare/jobs.db          # SQLite dedup store (default: apps/jobsquare/jobs.db)
+db: apps/job-ops/jobs.db          # SQLite dedup store (default: apps/job-ops/jobs.db)
 concurrency: 8       # max simultaneous fetches (default: 8)
 
 sources:
@@ -175,15 +175,15 @@ stays the scraping engine; the agent layer adds judgment — ranking fresh
 listings against your preferences and queueing the promising ones.
 
 ```bash
-python apps/jobsquare/agent.py            # interactive Claude session in the repo (/jobsquare available)
-python apps/jobsquare/agent.py scan       # headless scan: claude -p "/jobsquare scan"
-python apps/jobsquare/agent.py scan -i    # same, but in an interactive session
-python apps/jobsquare/agent.py pipeline 5 # batch-evaluate the 5 oldest pending inbox entries
-python apps/jobsquare/agent.py match {url} # score a JD against apps/jobsquare/cv.md: A-F rubric + verdict
-python apps/jobsquare/agent.py pdf {url}  # tailored ATS CV PDF for a JD (needs apps/jobsquare/cv.md, see below)
-python apps/jobsquare/agent.py interview-prep {company}  # company-specific interview intel doc
-python apps/jobsquare/agent.py interview-practice -i     # live mock interview (interactive only)
-python apps/jobsquare/agent.py apply -i   # live application assistant (interactive only)
+python apps/job-ops/agent.py            # interactive Claude session in the repo (/job-ops available)
+python apps/job-ops/agent.py scan       # headless scan: claude -p "/job-ops scan"
+python apps/job-ops/agent.py scan -i    # same, but in an interactive session
+python apps/job-ops/agent.py pipeline 5 # batch-evaluate the 5 oldest pending inbox entries
+python apps/job-ops/agent.py match {url} # score a JD against apps/job-ops/cv.md: A-F rubric + verdict
+python apps/job-ops/agent.py pdf {url}  # tailored ATS CV PDF for a JD (needs apps/job-ops/cv.md, see below)
+python apps/job-ops/agent.py interview-prep {company}  # company-specific interview intel doc
+python apps/job-ops/agent.py interview-practice -i     # live mock interview (interactive only)
+python apps/job-ops/agent.py apply -i   # live application assistant (interactive only)
 ```
 
 `/jobsquare scan` **never scrapes portals** — the pipeline already did. It:

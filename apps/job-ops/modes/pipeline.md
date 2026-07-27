@@ -56,7 +56,7 @@ names their company explicitly.
   {"id": "NNN or null", "url": "…", "company": "…", "role": "…",
    "status": "evaluated|expired|skipped|error",
    "f": 0.0, "legitimacy": "high|caution|suspicious",
-   "report": "apps/jobsquare/reports/….md", "pdf": "apps/jobsquare/output/….pdf or null", "reason": "for non-evaluated"}
+   "report": "apps/job-ops/reports/….md", "pdf": "apps/job-ops/output/….pdf or null", "reason": "for non-evaluated"}
   ```
 
 - The **main loop alone** applies results to `apps/jobsquare/data/pipeline.md` after all

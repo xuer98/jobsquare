@@ -3,7 +3,7 @@ description: Interactive profile interview to enrich the Gongzuo autofill profil
 ---
 
 <!-- Synced from career-ops modes/interview.md (2026-07-20). Adapted outputs:
-     instead of cv.md/config/profile.yml, this updates gongzuo-profile.json. -->
+     instead of cv.md/config/profile.yml, this updates browser-profile.json. -->
 
 # Gongzuo input mapping
 

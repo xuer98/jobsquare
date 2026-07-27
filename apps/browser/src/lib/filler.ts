@@ -2,8 +2,8 @@ import { formatForInput } from './dates'
 import { chooseOptionMulti, getContext, type MatchedField } from './fieldMatcher'
 import type { StoredFile } from './profile'
 
-const HIGHLIGHT_STYLE_ID = 'gongzuo-highlight-style'
-const HIGHLIGHT_CLASS = 'gongzuo-filled'
+const HIGHLIGHT_STYLE_ID = 'browser-highlight-style'
+const HIGHLIGHT_CLASS = 'browser-filled'
 
 /**
  * Set an input/textarea value the way React expects. React tracks the value via

@@ -5,8 +5,8 @@ tailor the CV, fill the application, prep the interview.
 
 | Part | What it is | Stack |
 |------|-----------|-------|
-| [`apps/jobsquare/`](apps/jobsquare/) | the watcher + Claude agent CLI — polls boards, dedups, ranks, drafts | Python |
-| [`apps/gongzuo/`](apps/gongzuo/) | Chrome extension that autofills job applications from a saved profile and tracks them | React + TS + Vite (MV3) |
+| [`apps/jobsquare/`](apps/job-ops/) | the watcher + Claude agent CLI — polls boards, dedups, ranks, drafts | Python |
+| [`apps/gongzuo/`](apps/browser/) | Chrome extension that autofills job applications from a saved profile and tracks them | React + TS + Vite (MV3) |
 | [`apps/prep/`](apps/prep/) | interview problems, one folder per problem, each with prompt + runnable solution | TS / Python |
 
 Each part stands alone (own README, own deps); they share a repo because
@@ -23,20 +23,20 @@ for reasoning about them.
 
 ```bash
 # watcher: poll every board once (dry run)
-python apps/jobsquare/cli.py --dry-run
+python apps/job-ops/cli.py --dry-run
 
 # agent: scan the new listings, rank, queue
-python apps/jobsquare/agent.py scan
+python apps/job-ops/agent.py scan
 
-# extension: build + load apps/gongzuo/dist in chrome://extensions
-cd apps/gongzuo && pnpm install && pnpm build
+# extension: build + load apps/browser/dist in chrome://extensions
+cd apps/browser && pnpm install && pnpm build
 
 # interview problems
 cd apps/prep && pnpm install && ./run
 ```
 
-Docs per app: [apps/jobsquare/README.md](apps/jobsquare/README.md) ·
-[apps/gongzuo/README.md](apps/gongzuo/README.md) ·
+Docs per app: [apps/jobsquare/README.md](apps/job-ops/README.md) ·
+[apps/gongzuo/README.md](apps/browser/README.md) ·
 [apps/prep/README.md](apps/prep/README.md)
 
 The `/jobsquare` Claude skill lives at `.claude/skills/jobsquare` (repo root —
