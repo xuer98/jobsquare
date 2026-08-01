@@ -441,7 +441,7 @@ export function Options() {
 
         <Section
           title="Voluntary self-identification"
-          description="Optional EEO/diversity questions. Filled only when a form asks and you provide a value."
+          description="Optional EEO/diversity questions. Filled only when a form asks and you provide a value. Equivalent wordings are matched automatically — “Male” also selects “Man”, and any decline-to-answer phrasing matches them all."
         >
           <TextField label="Gender" value={profile.gender} onChange={(v) => set('gender', v)} />
           <TextField label="Pronouns" value={profile.pronouns} onChange={(v) => set('pronouns', v)} />

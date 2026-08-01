@@ -31,6 +31,10 @@ forms (Greenhouse, Lever, Workday, Ashby, and most company career pages).
   order until one matches the form's options (typeaheads retype each
   candidate); text inputs use the first; date inputs use the first parseable
   one (`ASAP | 2026-08`). Long prose containing `|` is never split.
+  On top of that, enumerable answers carry built-in synonyms: a stored
+  `Male` also matches a dropdown that says `Man`, `On-site` matches
+  `In office`, `No` matches the full federal veteran/disability phrasings,
+  and any decline-to-answer wording matches every ATS's variant of it.
 - **Application tracker**: every filled application is logged locally with a
   status you can update (Filled → Applied → Interviewing → Offer/Rejected).
 - **Interview prep** (synced from [career-ops](docs/modes/recruiter-side.md)'s

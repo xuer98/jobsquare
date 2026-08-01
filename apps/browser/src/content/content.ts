@@ -171,6 +171,7 @@ function isSearchControl(el: HTMLElement): boolean {
 function collectFields(root: ParentNode): Fillable[] {
   const fields: Fillable[] = []
   const radioGroups = new Map<string, HTMLInputElement[]>()
+  const checkboxGroups = new Map<string, HTMLInputElement[]>()
   const unnamedRadioContainers = new Map<Element, number>()
 
   // Custom widget controls first, so native inputs nested inside them defer to
@@ -259,7 +260,20 @@ function collectFields(root: ParentNode): Fillable[] {
 
       if (type === 'checkbox') {
         if (!controlVisible(el)) continue
-        fields.push({ type: 'checkbox', el })
+        // Checkboxes sharing a name are one QUESTION rendered as a choice
+        // list (Lever renders pronouns, sponsorship, yes/no eligibility this
+        // way). Collect them per name; groups of 2+ become option groups so
+        // the question — not each option's own label — drives matching.
+        // Lone checkboxes (consent boxes) keep their own context.
+        if (el.name) {
+          const formId = el.form?.getAttribute('name') ?? el.form?.getAttribute('id') ?? 'noform'
+          const key = `${formId}::${el.name}`
+          const group = checkboxGroups.get(key)
+          if (group) group.push(el)
+          else checkboxGroups.set(key, [el])
+        } else {
+          fields.push({ type: 'checkbox', el })
+        }
         continue
       }
 
@@ -284,6 +298,14 @@ function collectFields(root: ParentNode): Fillable[] {
 
   for (const els of radioGroups.values()) {
     if (els.length) fields.push({ type: 'radio', els })
+  }
+
+  for (const els of checkboxGroups.values()) {
+    // 2+ boxes under one name = single-question choice group; fill it like a
+    // radio group (pick the option matching the profile value). A lone named
+    // box stays an ordinary checkbox.
+    if (els.length >= 2) fields.push({ type: 'radio', els })
+    else fields.push({ type: 'checkbox', el: els[0] })
   }
 
   return fields

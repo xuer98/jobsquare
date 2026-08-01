@@ -49,6 +49,7 @@ const profile: Profile = {
   requireSponsorship: 'no',
   willingToRelocate: 'yes',
   gender: 'Male',
+  pronouns: 'He/Him',
   raceEthnicity: 'Asian',
   veteranStatus: 'I am not a veteran',
   disabilityStatus: 'No',
@@ -161,6 +162,23 @@ expectKey('Are you willing to relocate?', 'willingToRelocate')
 expectKey('Gender', 'gender')
 expectKey('Race / Ethnicity', 'raceEthnicity')
 expectKey('Veteran Status', 'veteranStatus')
+expectKey('Pronouns', 'pronouns') // plural label must match the singular keyword
+
+// Live-form regressions (Affirm/Lever/Ashby scans, 2026-07)
+expectKey('Where are you currently located?', 'city') // Ashby location typeahead
+expectKey('Current location', 'city') // Lever
+expectKey('How did you first learn about Affirm as an employer?', 'howHeard') // NOT currentCompany
+expectKey('Name Pronunciation', null) // NOT fullName
+// Lever renders these as grouped radios/checkboxes; once the group question is
+// in the signal, greedy date/company keywords must not hijack it.
+expectKey(
+  'Do you now or in the future require visa sponsorship for employment at Spotify? Yes No',
+  'requireSponsorship', // NOT expEndDate ('to' + 'employment')
+)
+expectKey(
+  'Do you require company-sponsored work visa sponsorship? Yes No',
+  'requireSponsorship', // NOT currentCompany ('company')
+)
 
 // Long form
 expectKey('Why do you want to work here?', 'coverLetter')
@@ -340,6 +358,104 @@ expectCandidates('long prose stays intact', prose, [prose])
   } else {
     fail++
     console.log(`✗ matchContext candidates: got ${JSON.stringify(m?.candidates)} value=${m?.value}`)
+  }
+}
+
+// --- built-in synonym expansion ---------------------------------------------
+const asOpts = (options: string[]) => options.map((o) => ({ value: o, label: o }))
+
+function expectPick(name: string, label: string, p: Profile, options: string[], expectedIdx: number) {
+  const m = matchContext(ctx(label), p, [])
+  const idx = m ? chooseOptionMulti(asOpts(options), m.candidates, m.kind) : -99
+  if (idx === expectedIdx) pass++
+  else {
+    fail++
+    console.log(
+      `✗ pick "${name}": expected ${expectedIdx}, got ${idx} (candidates=${JSON.stringify(m?.candidates)})`,
+    )
+  }
+}
+
+// Stored "Male" fills a dropdown that says "Man"; stored value stays first so
+// text inputs are untouched.
+{
+  const m = matchContext(ctx('Gender'), profile, [])
+  const cands = m?.candidates ?? []
+  if (m && cands[0] === 'Male' && cands.map(normalize).includes('man')) pass++
+  else {
+    fail++
+    console.log(`✗ gender expansion: got ${JSON.stringify(cands)}`)
+  }
+}
+expectPick('gender Man', 'Gender', profile, ['Select…', 'Man', 'Woman', 'Non-binary'], 1)
+// Word-boundary + tiering guard: "Male" must NOT land on "Female" — the exact
+// synonym "Man" wins even though "Female" comes first in the list.
+expectPick('gender not Female', 'Gender', profile, ['Female', 'Man'], 1)
+expectOption('gender-no-substring', ['Female', 'Woman'], 'Male', 'text', -1)
+
+// Decline wording crosses ATS vocabularies (Workday ↔ Lever ↔ Greenhouse)
+expectPick(
+  'decline crosses ATSes',
+  'Gender',
+  { ...profile, gender: 'Prefer not to say' },
+  ['Select…', 'Male', 'Female', "I don't wish to answer"],
+  3,
+)
+
+// Veteran: stored free-text maps onto Workday's exact federal phrasing
+expectPick(
+  'veteran phrasing',
+  'Veteran Status',
+  profile, // stored: 'I am not a veteran'
+  [
+    'Select One',
+    'I identify as one or more of the classifications of a protected veteran',
+    'I am not a protected veteran',
+    "I don't wish to answer",
+  ],
+  2,
+)
+
+// Disability: bare "No" hits the full CC-305 phrasing exactly
+expectPick(
+  'disability CC-305',
+  'Disability Status',
+  profile, // stored: 'No'
+  [
+    'Please select',
+    'Yes, I have a disability, or have had one in the past',
+    'No, I do not have a disability and have not had one in the past',
+    'I do not want to answer',
+  ],
+  2,
+)
+
+// Race: "African American" ↔ "Black"
+expectPick(
+  'race synonym',
+  'Race / Ethnicity',
+  { ...profile, raceEthnicity: 'African American' },
+  ['Select…', 'Asian', 'Black', 'White'],
+  2,
+)
+
+// Workplace: "On-site" ↔ "In office" (no substring relation)
+expectPick(
+  'onsite in-office',
+  'Workplace Type',
+  { ...profile, remotePreference: 'On-site' },
+  ['Remote', 'Hybrid', 'In office'],
+  2,
+)
+
+// Custom answers are NOT synonym-expanded — the user's text is authoritative
+{
+  const custom = [{ id: 'c1', keywords: 'gender', answer: 'Male' }]
+  const m = matchContext(ctx('Gender'), profile, custom)
+  if (m?.key === 'custom:c1' && m.candidates.length === 1 && m.candidates[0] === 'Male') pass++
+  else {
+    fail++
+    console.log(`✗ custom not expanded: got ${m?.key} ${JSON.stringify(m?.candidates)}`)
   }
 }
 

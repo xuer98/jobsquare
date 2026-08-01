@@ -12,8 +12,9 @@ export interface MatchedField {
   label: string
   /** The raw stored value (may contain "a | b" alternatives). */
   value: string
-  /** Values to try, in order: dropdowns/radios try each until one matches an
-   * option; text inputs use the first. */
+  /** Values to try, in order: the stored value (split on "|"), then any
+   * built-in synonyms ("Male" also carries "Man"). Dropdowns/radios/widgets
+   * try each until one matches an option; text inputs use the first. */
   candidates: string[]
   kind: FieldKind
 }
@@ -34,6 +35,107 @@ export function parseCandidates(raw: string): string[] {
     .filter(Boolean)
   if (parts.length >= 2 && parts.every((p) => p.length <= MAX_CANDIDATE_LEN)) return parts
   return [trimmed]
+}
+
+/**
+ * Interchangeable phrasings for enumerable answers. When a stored value equals
+ * any member of a group (compared via normalize), the rest of the group is
+ * appended as extra candidates — "Male" also tries "Man", "Prefer not to say"
+ * tries every ATS's decline wording. Members are display-cased because the
+ * widget filler types them into live typeahead comboboxes.
+ *
+ * Groups are strict equivalence classes: every member must denote the SAME
+ * answer. That's why there are no degree groups — a stored "Master's" that
+ * expanded to both "MS" and "MA" could select the wrong one; use "a | b"
+ * alternatives for degrees instead.
+ */
+const DECLINE_TO_ANSWER = [
+  'Prefer not to say',
+  'Prefer not to answer',
+  'Prefer not to disclose',
+  "I don't wish to answer",
+  'I do not wish to answer',
+  'I do not want to answer',
+  'Decline to self-identify',
+  'Decline to state',
+  'Decline to answer',
+]
+
+const GENDER_GROUPS = [
+  ['Male', 'Man'],
+  ['Female', 'Woman'],
+  ['Non-binary', 'Nonbinary'],
+  DECLINE_TO_ANSWER,
+]
+
+const RACE_GROUPS = [
+  ['Black', 'African American', 'Black or African American'],
+  ['White', 'Caucasian'],
+  ['Hispanic', 'Latino', 'Hispanic or Latino', 'Latinx'],
+  ['Native American', 'American Indian', 'American Indian or Alaska Native'],
+  ['Pacific Islander', 'Native Hawaiian', 'Native Hawaiian or Other Pacific Islander'],
+  ['Two or More Races', 'Multiracial', 'Mixed'],
+  DECLINE_TO_ANSWER,
+]
+
+const VETERAN_GROUPS = [
+  [
+    'No',
+    'Not a veteran',
+    'I am not a veteran',
+    'Not a protected veteran',
+    'I am not a protected veteran',
+  ],
+  [
+    'Yes',
+    'Veteran',
+    'I am a veteran',
+    'Protected veteran',
+    'I am a protected veteran',
+    'I identify as one or more of the classifications of a protected veteran',
+  ],
+  DECLINE_TO_ANSWER,
+]
+
+const DISABILITY_GROUPS = [
+  [
+    'No',
+    "No, I don't have a disability",
+    'No, I do not have a disability',
+    'No, I do not have a disability and have not had one in the past',
+  ],
+  ['Yes', 'Yes, I have a disability', 'Yes, I have a disability, or have had one in the past'],
+  DECLINE_TO_ANSWER,
+]
+
+const WORKPLACE_GROUPS = [
+  ['Remote', 'Fully remote', 'Work from home', 'Telecommute'],
+  ['On-site', 'Onsite', 'In office', 'In person', 'Office-based'],
+  ['Hybrid', 'Partially remote'],
+]
+
+/**
+ * Append known-equivalent phrasings to the user's candidates, deduped by
+ * normalized form. The stored value stays first, so text inputs (which take
+ * candidates[0]) are unaffected.
+ */
+export function expandCandidates(candidates: string[], groups?: string[][]): string[] {
+  if (!groups?.length) return candidates
+  const out: string[] = []
+  const seen = new Set<string>()
+  const push = (v: string) => {
+    const key = normalize(v)
+    if (seen.has(key)) return
+    seen.add(key)
+    out.push(v)
+  }
+  for (const cand of candidates) {
+    push(cand)
+    for (const group of groups) {
+      if (group.some((m) => normalize(m) === normalize(cand))) group.forEach(push)
+    }
+  }
+  return out
 }
 
 /** All the textual signals we can read off a form field. */
@@ -109,8 +211,10 @@ function sectionText(el: HTMLElement): string {
 
 const CONTROL_ISH = 'input, textarea, select, button, [role="combobox"], [contenteditable]'
 
-/** Nearest short preceding-sibling text of the control or its wrappers. */
-function precedingSiblingText(el: HTMLElement): string {
+/** Nearest short preceding-sibling text of the control or its wrappers.
+ * Exported for grouped controls: the group question precedes the CONTAINER,
+ * not any single option. */
+export function precedingSiblingText(el: HTMLElement): string {
   let node: HTMLElement | null = el
   for (let depth = 0; depth < 3 && node; depth++) {
     let sib = node.previousElementSibling
@@ -209,7 +313,9 @@ export function getContext(el: HTMLElement, groupQuestion?: string): FieldContex
     const preceding = precedingSiblingText(el)
     if (preceding) {
       parts.push(preceding)
-      display.push(preceding)
+      // Front of the display list: the question text beats a placeholder
+      // ("Where are you located?" not "Start typing...").
+      display.unshift(preceding)
     }
   }
 
@@ -264,6 +370,8 @@ interface FieldSpec {
   /** Never match when one of these phrases appears in the section signal. */
   excludeSection?: string[]
   category?: SpecCategory
+  /** Equivalence groups of interchangeable option phrasings (see *_GROUPS). */
+  synonyms?: string[][]
   /** Belongs to a repeating section; value() receives the entry ordinal. */
   indexed?: IndexedSection
   value: (p: Profile, index: number) => string | undefined
@@ -365,6 +473,8 @@ const SPECS: FieldSpec[] = [
       'contact name',
       'pet',
       'child',
+      'pronunciation',
+      'pronounce',
     ],
     value: (p) => clean(fullName(p)),
   },
@@ -378,7 +488,9 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     keywords: ['company', 'employer', 'company name', 'employer name', 'organization'],
     requireSection: EXP_SECTIONS,
-    exclude: ['why', 'cover', 'school', 'current company', 'current employer'],
+    // 'do you'/'sponsor': "Do you require company-sponsored visa sponsorship
+    // for employment?" is a sponsorship question, not a company field.
+    exclude: ['why', 'cover', 'school', 'current company', 'current employer', 'do you', 'sponsor'],
     indexed: 'experience',
     value: (p, i) => clean(p.experience[i]?.company),
   },
@@ -388,7 +500,7 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     keywords: ['title', 'job title', 'position', 'role', 'position title'],
     requireSection: EXP_SECTIONS,
-    exclude: ['salutation', 'current title'],
+    exclude: ['salutation', 'current title', 'do you'],
     indexed: 'experience',
     value: (p, i) => clean(p.experience[i]?.title),
   },
@@ -423,7 +535,18 @@ const SPECS: FieldSpec[] = [
     key: 'city',
     label: 'City',
     kind: 'text',
-    keywords: ['city', 'town', 'locality'],
+    // "current location" phrasings: Lever's "Current location" text field and
+    // Ashby's "Where are you currently located?" typeahead both want a city.
+    keywords: [
+      'city',
+      'town',
+      'locality',
+      'current location',
+      'your location',
+      'where are you located',
+      'where are you currently located',
+      'where do you live',
+    ],
     autocomplete: ['address-level2'],
     value: (p) => clean(p.city),
   },
@@ -517,12 +640,17 @@ const SPECS: FieldSpec[] = [
     indexed: 'education',
     value: (p, i) => clean(p.education[i]?.gpa),
   },
+  // Date specs carry greedy one-word keywords ('to', 'from', 'end') gated by
+  // requireSection — but a QUESTION like "Do you now or in the future require
+  // visa sponsorship for employment?" contains both 'to' and 'employment'.
+  // Dates are never phrased as questions, so interrogatives are excluded.
   {
     key: 'eduStartDate',
     label: 'Education start date',
     kind: 'text',
     keywords: ['start date', 'start month', 'start year', 'from', 'attended from', 'start'],
     requireSection: EDU_SECTIONS,
+    exclude: ['do you', 'are you', 'will you', 'have you', 'sponsor', 'visa'],
     indexed: 'education',
     value: (p, i) => clean(p.education[i]?.startDate),
   },
@@ -532,6 +660,7 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     keywords: ['end date', 'end month', 'end year', 'graduation date', 'graduation year', 'to', 'graduated', 'end'],
     requireSection: EDU_SECTIONS,
+    exclude: ['do you', 'are you', 'will you', 'have you', 'sponsor', 'visa'],
     indexed: 'education',
     value: (p, i) => clean(p.education[i]?.endDate),
   },
@@ -541,6 +670,7 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     keywords: ['start date', 'start month', 'start year', 'from', 'employed from', 'start'],
     requireSection: EXP_SECTIONS,
+    exclude: ['do you', 'are you', 'will you', 'have you', 'sponsor', 'visa'],
     indexed: 'experience',
     value: (p, i) => clean(p.experience[i]?.startDate),
   },
@@ -550,6 +680,7 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     keywords: ['end date', 'end month', 'end year', 'to', 'employed to', 'end'],
     requireSection: EXP_SECTIONS,
+    exclude: ['do you', 'are you', 'will you', 'have you', 'sponsor', 'visa'],
     indexed: 'experience',
     value: (p, i) => clean(p.experience[i]?.endDate),
   },
@@ -568,7 +699,10 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     keywords: ['current company', 'current employer', 'present employer', 'company name', 'employer name', 'employer', 'company'],
     autocomplete: ['organization'],
-    exclude: ['why', 'cover', 'school', 'parent', 'search', 'keywords'],
+    // "how did you hear/learn about <Company> as an employer" is a source
+    // question and "Do you require company-sponsored visa sponsorship?" is a
+    // sponsorship question — neither is a company field.
+    exclude: ['why', 'cover', 'school', 'parent', 'search', 'keywords', 'how did you', 'hear about', 'learn about', 'do you', 'sponsor'],
     value: (p) => clean(p.currentCompany),
   },
   {
@@ -642,6 +776,7 @@ const SPECS: FieldSpec[] = [
       'hybrid',
     ],
     exclude: ['remote control'],
+    synonyms: WORKPLACE_GROUPS,
     value: (p) => clean(p.remotePreference),
   },
   {
@@ -697,6 +832,7 @@ const SPECS: FieldSpec[] = [
     category: 'eeo',
     keywords: ['gender', 'sex'],
     exclude: ['legal sex of', 'orientation'],
+    synonyms: GENDER_GROUPS,
     value: (p) => clean(p.gender),
   },
   {
@@ -704,7 +840,8 @@ const SPECS: FieldSpec[] = [
     label: 'Pronouns',
     kind: 'text',
     category: 'eeo',
-    keywords: ['pronoun'],
+    // Both forms: keyword matching is whole-word, so 'pronoun' ≠ "Pronouns".
+    keywords: ['pronoun', 'pronouns'],
     value: (p) => clean(p.pronouns),
   },
   {
@@ -713,6 +850,7 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     category: 'eeo',
     keywords: ['race', 'ethnicity', 'ethnic'],
+    synonyms: RACE_GROUPS,
     value: (p) => clean(p.raceEthnicity),
   },
   {
@@ -721,6 +859,7 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     category: 'eeo',
     keywords: ['veteran', 'military service', 'protected veteran'],
+    synonyms: VETERAN_GROUPS,
     value: (p) => clean(p.veteranStatus),
   },
   {
@@ -729,6 +868,7 @@ const SPECS: FieldSpec[] = [
     kind: 'text',
     category: 'disability',
     keywords: ['disability', 'disabilities'],
+    synonyms: DISABILITY_GROUPS,
     value: (p) => clean(p.disabilityStatus),
   },
   {
@@ -743,6 +883,9 @@ const SPECS: FieldSpec[] = [
       'where did you hear',
       'how did you find',
       'who referred you',
+      'how did you learn',
+      'first learn about',
+      'learn about us',
     ],
     value: (p) => clean(p.howHeard),
   },
@@ -866,7 +1009,7 @@ export function matchContext(
       key: spec.key,
       label: idx > 0 ? `${spec.label} #${idx + 1}` : spec.label,
       value,
-      candidates: parseCandidates(value),
+      candidates: expandCandidates(parseCandidates(value), spec.synonyms),
       kind: spec.kind,
     }
   }
@@ -913,17 +1056,97 @@ export function matchFileContext(ctx: FieldContext): FileSlot | null {
   return null
 }
 
-/** Try each candidate value in order; first one that resolves to an option wins. */
+interface NormOption {
+  value: string
+  label: string
+}
+
+function normOptions(options: { value: string; label: string }[]): NormOption[] {
+  return options.map((o) => ({ value: normalize(o.value), label: normalize(o.label) }))
+}
+
+function chooseYesNo(norm: NormOption[], want: string): number {
+  const yesWords = ['yes', 'true', 'y', 'i am', 'i do', 'authorized', 'eligible', 'agree']
+  const noWords = ['no', 'false', 'n', 'i am not', 'i do not', 'not authorized', 'decline']
+  const positive = want === 'yes'
+  const wantWords = positive ? yesWords : noWords
+  const avoidWords = positive ? noWords : yesWords
+  let best = -1
+  for (let i = 0; i < norm.length; i++) {
+    const hay = `${norm[i].label} ${norm[i].value}`.trim()
+    if (!hay) continue
+    // An avoid word only vetoes when no LONGER want word also matches:
+    // want=no must accept "i do not require sponsorship" even though the
+    // yes-word "i do" is its prefix.
+    const avoid = avoidWords.some(
+      (w) =>
+        (hay === w || hay.startsWith(w + ' ')) &&
+        !wantWords.some((ww) => ww.length > w.length && (hay === ww || hay.startsWith(ww + ' '))),
+    )
+    if (avoid) continue
+    if (wantWords.some((w) => hay === w || hay.startsWith(w + ' ') || hay.includes(' ' + w))) {
+      return i
+    }
+    if (best === -1 && hay.includes(positive ? 'yes' : 'no')) best = i
+  }
+  return best
+}
+
+/**
+ * Match quality: 3 exact, 2 prefix (either direction), 1 whole-word phrase
+ * containment, 0 none. Containment is on word boundaries — plain substring
+ * let "Male" select "Female". Earliest option wins within a tier.
+ */
+function bestTextMatch(norm: NormOption[], want: string): { idx: number; tier: number } {
+  let idx = -1
+  let tier = 0
+  if (!want) return { idx, tier }
+  for (let i = 0; i < norm.length; i++) {
+    const hay = norm[i].label || norm[i].value
+    if (!hay) continue
+    let t = 0
+    if (hay === want) t = 3
+    else if (hay.startsWith(want) || want.startsWith(hay)) t = 2
+    else if (hasPhrase(hay, want) || hasPhrase(want, hay)) t = 1
+    if (t > tier) {
+      tier = t
+      idx = i
+      if (t === 3) break
+    }
+  }
+  return { idx, tier }
+}
+
+/**
+ * Resolve candidate values against the form's options. Text matching is tiered
+ * ACROSS candidates: an exact match on a later candidate ("Man") beats a
+ * weaker match on an earlier one — vital once synonym expansion appends
+ * alternatives. Earlier candidates win ties.
+ */
 export function chooseOptionMulti(
   options: { value: string; label: string }[],
   candidates: string[],
   kind: FieldKind,
 ): number {
-  for (const candidate of candidates) {
-    const idx = chooseOption(options, candidate, kind)
-    if (idx >= 0) return idx
+  const norm = normOptions(options)
+  if (kind === 'yesno') {
+    for (const candidate of candidates) {
+      const idx = chooseYesNo(norm, normalize(candidate))
+      if (idx >= 0) return idx
+    }
+    return -1
   }
-  return -1
+  let bestIdx = -1
+  let bestTier = 0
+  for (const candidate of candidates) {
+    const m = bestTextMatch(norm, normalize(candidate))
+    if (m.tier > bestTier) {
+      bestIdx = m.idx
+      bestTier = m.tier
+    }
+    if (bestTier === 3) break
+  }
+  return bestIdx
 }
 
 /** Map a profile value to the best-fitting option among radio/select choices. */
@@ -932,50 +1155,7 @@ export function chooseOption(
   target: string,
   kind: FieldKind,
 ): number {
+  const norm = normOptions(options)
   const want = normalize(target)
-  const norm = options.map((o) => ({
-    value: normalize(o.value),
-    label: normalize(o.label),
-  }))
-
-  const yesWords = ['yes', 'true', 'y', 'i am', 'i do', 'authorized', 'eligible', 'agree']
-  const noWords = ['no', 'false', 'n', 'i am not', 'i do not', 'not authorized', 'decline']
-
-  if (kind === 'yesno') {
-    const positive = want === 'yes'
-    const wantWords = positive ? yesWords : noWords
-    const avoidWords = positive ? noWords : yesWords
-    let best = -1
-    for (let i = 0; i < norm.length; i++) {
-      const hay = `${norm[i].label} ${norm[i].value}`.trim()
-      if (!hay) continue
-      // An avoid word only vetoes when no LONGER want word also matches:
-      // want=no must accept "i do not require sponsorship" even though the
-      // yes-word "i do" is its prefix.
-      const avoid = avoidWords.some(
-        (w) =>
-          (hay === w || hay.startsWith(w + ' ')) &&
-          !wantWords.some((ww) => ww.length > w.length && (hay === ww || hay.startsWith(ww + ' '))),
-      )
-      if (avoid) continue
-      if (wantWords.some((w) => hay === w || hay.startsWith(w + ' ') || hay.includes(' ' + w))) {
-        return i
-      }
-      if (best === -1 && hay.includes(positive ? 'yes' : 'no')) best = i
-    }
-    return best
-  }
-
-  // Exact, then prefix, then substring (both directions).
-  let exact = -1
-  let prefix = -1
-  let includes = -1
-  for (let i = 0; i < norm.length; i++) {
-    const hay = norm[i].label || norm[i].value
-    if (!hay) continue
-    if (hay === want) exact = i
-    else if (prefix === -1 && (hay.startsWith(want) || want.startsWith(hay))) prefix = i
-    else if (includes === -1 && (hay.includes(want) || want.includes(hay))) includes = i
-  }
-  return exact !== -1 ? exact : prefix !== -1 ? prefix : includes
+  return kind === 'yesno' ? chooseYesNo(norm, want) : bestTextMatch(norm, want).idx
 }

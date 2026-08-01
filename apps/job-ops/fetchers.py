@@ -13,7 +13,8 @@ import asyncio
 import json
 import random
 import re
-from datetime import datetime, timezone
+import urllib.parse
+from datetime import datetime, timedelta, timezone
 from html import unescape
 from typing import Awaitable, Callable, Iterable
 
@@ -157,6 +158,7 @@ def parse_ashby_page(company: str, postings: list) -> list[Job]:
     """Postings embedded in jobs.ashbyhq.com/{company} (window.__appData) —
     the fallback for orgs that disabled the posting-api (e.g. whatnot)."""
     out = []
+    slug = urllib.parse.quote(company, safe="")
     for j in postings:
         if j.get("isListed") is False:
             continue
@@ -165,7 +167,7 @@ def parse_ashby_page(company: str, postings: list) -> list[Job]:
             source="ashby", company=company,
             external_id=pid,
             title=j.get("title", ""),
-            url=f"https://jobs.ashbyhq.com/{company}/{pid}",
+            url=f"https://jobs.ashbyhq.com/{slug}/{pid}",
             location=j.get("locationName", ""),
             department=j.get("departmentName") or j.get("teamName", ""),
             employment_type=j.get("employmentType", ""),
@@ -180,13 +182,14 @@ async def fetch_ashby(client: httpx.AsyncClient, source: dict) -> list[Job]:
     """Ashby: posting-api first; a 404 means the org disabled it, so fall
     back to the hosted board page, which embeds postings in __appData."""
     company = source["company"]
+    slug = urllib.parse.quote(company, safe="")   # boards like "Superhuman Platform Inc"
     r = await client.get("https://api.ashbyhq.com/posting-api/job-board/"
-                         f"{company}?includeCompensation=true")
+                         f"{slug}?includeCompensation=true")
     if r.status_code == 200:
         return parse_ashby(company, r.json())
     if r.status_code != 404:
         r.raise_for_status()
-    html = await _get_text(client, f"https://jobs.ashbyhq.com/{company}")
+    html = await _get_text(client, f"https://jobs.ashbyhq.com/{slug}")
     m = re.search(r"window\.__appData\s*=", html)
     blob = _balanced_json(html, html.find("{", m.end())) if m else None
     if not blob:
@@ -349,6 +352,102 @@ async def fetch_deshaw(client: httpx.AsyncClient, source: dict) -> list[Job]:
     company = source.get("company", "deshaw")
     page = await _get_text(client, "https://www.deshaw.com/careers")
     return parse_deshaw(company, page)
+
+
+# --------------------------------------------------------------------------
+# Atlassian — left Lever (api.lever.co/v0/postings/atlassian now 404s) for
+# iCIMS, spread across several regional portals (globalcareers-, careers-
+# americas, careers-apac-). atlassian.com/company/careers/all-jobs is an SPA
+# shell, but it is backed by one unauthenticated JSON feed that returns the
+# WHOLE board in a single GET:
+#
+#     https://www.atlassian.com/endpoint/careers/listings
+#
+# It ignores every query param tried (page/limit/offset/category), so there is
+# no pagination to drive — one request is the complete list. Sibling endpoints
+# (/careers/teams, /locations, /search) all 401.
+#
+# Per item: id, title, category, locations[], applyUrl, and portalJobPost
+# {portalUrl, updatedDate}. Two caveats:
+#   * `updatedDate` is a *modified* stamp, not first-published, and it carries
+#     no timezone ("2026-07-30 01:00 PM"). Treated as UTC. Recency filtering on
+#     Atlassian rows is therefore softer than on sources with a real posted_at.
+#   * `compensation` is boilerplate prose with no figures (verified: 0 of 83
+#     items carrying the field contain a "$"), so salary_range stays empty.
+# --------------------------------------------------------------------------
+_ATLASSIAN_LISTINGS = "https://www.atlassian.com/endpoint/careers/listings"
+
+
+def _atlassian_location(raw: str) -> str:
+    """Flatten one verbose iCIMS location string into something readable.
+
+    'San Francisco - United States -   San Francisco, California 94104 United States'
+        -> 'San Francisco, California, United States'
+    'Remote - Japan - Remote' -> 'Remote - Japan'      'Remote - Remote' -> 'Remote'
+    """
+    parts = [" ".join(p.split()) for p in str(raw).split(" - ")]
+    parts = [p for p in parts if p]
+    if not parts:
+        return ""
+    detail = parts[2] if len(parts) >= 3 else ""
+    if detail and detail.lower() != "remote":
+        # drop postal codes, then collapse the comma/space soup iCIMS emits
+        detail = re.sub(r"\b[A-Z]?\d[\dA-Z-]{2,}\b", " ", detail)
+        bits = [b.strip() for b in re.split(r"[,\s]{2,}|,", detail) if b.strip()]
+        return ", ".join(dict.fromkeys(bits))
+    if parts[0].lower() == "remote":
+        region = parts[1] if len(parts) >= 2 else ""
+        return f"Remote - {region}" if region and region.lower() != "remote" else "Remote"
+    return parts[0]
+
+
+def _atlassian_posted_at(value: str) -> str:
+    """'2026-07-30 01:00 PM' -> ISO-8601 UTC. Empty string if unparseable."""
+    v = " ".join(str(value or "").split())
+    for fmt in ("%Y-%m-%d %I:%M %p", "%Y-%m-%d %H:%M", "%Y-%m-%d"):
+        try:
+            dt = datetime.strptime(v, fmt).replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+        return dt.isoformat(timespec="seconds")
+    return ""
+
+
+def parse_atlassian(company: str, items: list) -> list[Job]:
+    out: list[Job] = []
+    seen: set[str] = set()
+    for j in items:
+        if not isinstance(j, dict):
+            continue
+        ext = str(j.get("id") or "")
+        if not ext or ext in seen:
+            continue
+        seen.add(ext)
+        post = j.get("portalJobPost") or {}
+        locs = [_atlassian_location(l) for l in (j.get("locations") or [])]
+        out.append(Job(
+            source="atlassian", company=company,
+            external_id=ext,
+            title=(j.get("title") or "").strip(),
+            url=post.get("portalUrl") or j.get("applyUrl", ""),
+            location="; ".join(dict.fromkeys(l for l in locs if l)),
+            department=j.get("category", ""),
+            posted_at=_atlassian_posted_at(post.get("updatedDate", "")),
+            raw=j,
+        ))
+    return out
+
+
+async def fetch_atlassian(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Atlassian careers feed. Config: company (label, default "atlassian")."""
+    company = source.get("company", "atlassian")
+    data = await _get_json(client, _ATLASSIAN_LISTINGS,
+                           headers={"Accept": "application/json"})
+    if not isinstance(data, list):
+        raise RuntimeError(
+            f"atlassian: expected a JSON list from {_ATLASSIAN_LISTINGS}, "
+            f"got {type(data).__name__}")
+    return parse_atlassian(company, data)
 
 
 # --------------------------------------------------------------------------
@@ -770,6 +869,26 @@ def _simple(url_builder: Callable[[str], tuple[str, str]],
     return _fetch
 
 
+def _workday_posted_at(text: str) -> str:
+    """Workday's list payload only exposes display text ("Posted Today",
+    "Posted 9 Days Ago"). Convert the unambiguous forms to an ISO date so the
+    max-age filter and scan --posted-days can see them; "Posted 30+ Days Ago"
+    and anything unrecognized stay raw (treated as undated downstream)."""
+    t = text.strip().lower()
+    if not t.startswith("posted"):
+        return text
+    rest = t[len("posted"):].strip()
+    today = datetime.now(timezone.utc).date()
+    if rest == "today":
+        return today.isoformat()
+    if rest == "yesterday":
+        return (today - timedelta(days=1)).isoformat()
+    m = re.fullmatch(r"(\d+)\s+days?\s+ago", rest)
+    if m:
+        return (today - timedelta(days=int(m.group(1)))).isoformat()
+    return text
+
+
 async def fetch_workday(client: httpx.AsyncClient, source: dict) -> list[Job]:
     """Workday (CXS). Paginated POST to a per-tenant endpoint.
 
@@ -797,7 +916,7 @@ async def fetch_workday(client: httpx.AsyncClient, source: dict) -> list[Job]:
     offset = 0
     while True:
         body = {"appliedFacets": {}, "limit": page_size,
-                "offset": offset, "searchText": ""}
+                "offset": offset, "searchText": source.get("query", "")}
         data = await _get_json(client, cxs, method="POST", json=body,
                                headers={"Accept": "application/json"})
         postings = data.get("jobPostings", []) if isinstance(data, dict) else []
@@ -811,7 +930,7 @@ async def fetch_workday(client: httpx.AsyncClient, source: dict) -> list[Job]:
                 title=p.get("title", ""),
                 url=f"https://{host}/{locale}/{site}{ext_path}",
                 location=p.get("locationsText", ""),
-                posted_at=p.get("postedOn", ""),  # e.g. "Posted 3 Days Ago"
+                posted_at=_workday_posted_at(p.get("postedOn", "")),
                 raw=p,
             ))
         total = data.get("total", len(jobs)) if isinstance(data, dict) else len(jobs)
@@ -1092,6 +1211,153 @@ async def fetch_amazon(client: httpx.AsyncClient, source: dict) -> list[Job]:
     return jobs
 
 
+# --------------------------------------------------------------------------
+# LinkedIn jobs-guest — the public no-auth endpoint behind linkedin.com's
+# "see more jobs" scroll. Returns server-rendered HTML cards, 25/page via
+# `start`, scoped to ONE employer with f_C={numeric LinkedIn company id}
+# (LinkedIn itself = 1337, Tesla = 15564). Real posted dates in
+# time[datetime]. Aggressively rate-limited (429/999 under load): browser UA,
+# small max_pages, 1s between pages, and a mid-run 429 keeps partial results
+# instead of failing the poll.
+# --------------------------------------------------------------------------
+_LI_GUEST = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
+_BROWSER_UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+               "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+
+
+def parse_linkedin(company: str, page: str) -> list[Job]:
+    out: list[Job] = []
+    seen: set[str] = set()
+    anchors = list(re.finditer(
+        r'href="(https://www\.linkedin\.com/jobs/view/[^"?]+?-(\d{6,}))[^"]*"', page))
+    for i, m in enumerate(anchors):
+        jid = m.group(2)
+        if jid in seen:
+            continue
+        seen.add(jid)
+        # bound field lookups to this card (up to the next card's anchor)
+        end = anchors[i + 1].start() if i + 1 < len(anchors) else len(page)
+        window = page[m.end():end]
+        title_m = re.search(r'base-search-card__title[^>]*>\s*([^<]+?)\s*<', window)
+        loc_m = re.search(r'job-search-card__location[^>]*>\s*([^<]+?)\s*<', window)
+        date_m = re.search(r'datetime="(\d{4}-\d{2}-\d{2})"', window)
+        out.append(Job(
+            source="linkedin", company=company,
+            external_id=jid,
+            title=unescape(title_m.group(1)) if title_m else "",
+            url=m.group(1),
+            location=unescape(loc_m.group(1)) if loc_m else "",
+            posted_at=date_m.group(1) if date_m else "",
+        ))
+    return out
+
+
+async def fetch_linkedin(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """LinkedIn jobs-guest scoped to a company id. Config: company (label),
+    company_id (REQUIRED, the numeric id in linkedin.com/company URLs/f_C),
+    query (keywords), max_pages (default 6). Pages hold 10 cards (observed
+    2026-07-31; the endpoint has served 25 in the past — stride must match
+    what a page actually returns, so it uses the running count)."""
+    company = source.get("company", "linkedin")
+    cid = source.get("company_id")
+    if not cid:
+        raise RuntimeError("linkedin: company_id (numeric LinkedIn company id) is required")
+    max_pages = int(source.get("max_pages", 6))
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for pg in range(max_pages):
+        params = {"f_C": str(cid), "start": str(len(jobs))}
+        if source.get("query"):
+            params["keywords"] = source["query"]
+        r = await client.get(_LI_GUEST, params=params,
+                             headers={"User-Agent": _BROWSER_UA,
+                                      "Accept-Language": "en-US,en;q=0.9"})
+        if pg > 0 and r.status_code in (400, 429, 999):
+            break                      # rate-limited mid-run: keep what we have
+        r.raise_for_status()
+        fresh = [j for j in parse_linkedin(company, r.text) if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+        await asyncio.sleep(1.0)       # guest endpoint 429s fast; be gentle
+    return jobs
+
+
+# --------------------------------------------------------------------------
+# Radancy (TMP) attraction sites — jobs.intuit.com and friends. GET
+# /search-jobs/results returns JSON whose `results` field is server-rendered
+# HTML: <a href="/job/{city}/{slug}/{site}/{posting_id}" data-job-id=...>
+# with an <h2> title and a .job-location span per card. First page embeds
+# data-total-pages. No post dates anywhere (undated jobs are kept by the
+# max_age filter and flagged by scan's --dated-only).
+# --------------------------------------------------------------------------
+def parse_radancy(company: str, host: str, chunk: str) -> list[Job]:
+    out: list[Job] = []
+    seen: set[str] = set()
+    anchors = list(re.finditer(r'<a[^>]*href="(/job/[^"]+?/(\d+))"', chunk))
+    for i, m in enumerate(anchors):
+        jid = m.group(2)
+        if jid in seen:                # cards can repeat across page modules
+            continue
+        seen.add(jid)
+        end = anchors[i + 1].start() if i + 1 < len(anchors) else len(chunk)
+        window = chunk[m.end():end]
+        title_m = re.search(r'<h2[^>]*>\s*([^<]+?)\s*</h2>', window)
+        loc_m = re.search(r'job-location[^>]*>\s*([^<]+?)\s*<', window)
+        out.append(Job(
+            source="radancy", company=company,
+            external_id=jid,
+            title=unescape(title_m.group(1)) if title_m else "",
+            url=f"https://{host}{m.group(1)}",
+            location=unescape(loc_m.group(1)) if loc_m else "",
+        ))
+    return out
+
+
+async def fetch_radancy(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """Radancy search. Config: company (label), host (e.g. jobs.intuit.com),
+    query (keywords), max_pages (default 5 => 75 roles). Page 2+ requires the
+    full module-name param set AND IsPagination=True or the site returns an
+    empty shell."""
+    company = source["company"]
+    host = source["host"]
+    max_pages = int(source.get("max_pages", 5))
+
+    jobs: list[Job] = []
+    total_pages = 1
+    for pg in range(1, max_pages + 1):
+        if pg > total_pages:
+            break
+        params = {
+            "ActiveFacetID": "0", "CurrentPage": str(pg), "RecordsPerPage": "15",
+            "Distance": "50", "RadiusUnitType": "0",
+            "Keywords": source.get("query", ""), "Location": "",
+            "ShowRadius": "False",
+            "IsPagination": "True" if pg > 1 else "False",
+            "FacetType": "0",
+            "SearchResultsModuleName": "Search Results",
+            "SearchFiltersModuleName": "Search Filters",
+            "SortCriteria": "0", "SortDirection": "1",
+            "SearchType": "5", "PostalCode": "", "ResultsType": "0",
+        }
+        data = await _get_json(client, f"https://{host}/search-jobs/results",
+                               params=params,
+                               headers={"User-Agent": _BROWSER_UA,
+                                        "X-Requested-With": "XMLHttpRequest"})
+        chunk = (data or {}).get("results") or ""
+        if pg == 1:
+            tp = re.search(r'data-total-pages="(\d+)"', chunk)
+            total_pages = int(tp.group(1)) if tp else 1
+        fresh = [j for j in parse_radancy(company, host, chunk)
+                 if j.external_id not in {x.external_id for x in jobs}]
+        if not fresh:
+            break
+        jobs.extend(fresh)
+    return jobs
+
+
 FETCHERS: dict[str, SourceFetcher] = {
     "google":          fetch_google,
     "apple":           fetch_apple,
@@ -1105,8 +1371,11 @@ FETCHERS: dict[str, SourceFetcher] = {
     "deshaw":          fetch_deshaw,
     "twosigma":        fetch_twosigma,
     "optiver":         fetch_optiver,
+    "atlassian":       fetch_atlassian,
     "greenhouse":      _simple(_greenhouse_url, parse_greenhouse),
     "lever":           _simple(_lever_url, parse_lever),
+    "linkedin":        fetch_linkedin,
+    "radancy":         fetch_radancy,
     "ashby":           fetch_ashby,
     "phenom":          fetch_phenom,
     "smartrecruiters": _simple(_smartrecruiters_url, parse_smartrecruiters),

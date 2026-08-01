@@ -36,6 +36,12 @@ sources:
   - { ats: amazon,    query: "software engineer" }   # public amazon.jobs JSON API
   - { ats: bytedance, query: "software engineer" }   # joinbytedance.com supplier API; no post dates
   - { ats: tiktok,    query: "software engineer" }   # lifeattiktok.com supplier API; no post dates
+  - { ats: linkedin,  company: linkedin, company_id: 1337, query: "software engineer" }   # corporate roles via public jobs-guest endpoint; real dates; rate-limit-sensitive
+  # Tesla's own careers site (tesla.com/cua-api) is Akamai-walled — 403 to
+  # every server-side client incl. the pipeline's httpx (confirmed 2026-07-31).
+  # Their LinkedIn postings are the fetchable subset:
+  - { ats: linkedin,  company: tesla, company_id: 15564, query: "software engineer" }
+  - { ats: radancy,   company: intuit, host: jobs.intuit.com, query: "software engineer" }   # Radancy attraction site; no post dates
 
   # ---- Quant / HFT (top total-comp; via levels.fyi leaderboard) ----
   - { ats: greenhouse, company: janestreet }    # Jane Street
@@ -110,7 +116,7 @@ sources:
   - { ats: ashby,      company: linear }
   - { ats: greenhouse, company: airtable }
   - { ats: greenhouse, company: asana }
-  - { ats: lever,      company: atlassian }
+  - { ats: atlassian }   # left Lever for iCIMS; bespoke fetcher, whole board in 1 GET
   - { ats: greenhouse, company: intercom }
   - { ats: greenhouse, company: amplitude }
   - { ats: greenhouse, company: mixpanel }
@@ -118,6 +124,7 @@ sources:
   - { ats: greenhouse, company: hubspot }
   - { ats: greenhouse, company: klaviyo }
   - { ats: ashby,      company: clickup }
+  - { ats: ashby,      company: "Superhuman Platform Inc" }   # Grammarly — merged with Superhuman; one board serves both brands (grammarly GH board is dead)
   
   # ---- Consumer / marketplace ----
   - { ats: greenhouse, company: airbnb }
@@ -206,6 +213,16 @@ sources:
     tenant: snapchat
     site: snap
 
+  # Palo Alto Networks: jobs.paloaltonetworks.com is a Radancy shell; the
+  # actual postings live in Workday. query narrows server-side (board is
+  # ~1.3k postings without it).
+  - ats: workday
+    company: paloaltonetworks
+    host: paloaltonetworks.wd5.myworkdayjobs.com
+    tenant: paloaltonetworks
+    site: panwexternalcareers
+    query: software engineer
+
   # Cisco fronts its Workday with Phenom (careers.cisco.com) — Phenom gives
   # real post dates, so fetch there rather than the dateless Workday API.
   - { ats: phenom, company: cisco, host: careers.cisco.com, locale: en_global, query: "software engineer" }
@@ -215,7 +232,12 @@ sources:
   #   robot?" / PerimeterX) — every server-side request 403s. 2026-07-15.
   # Walmart: careers.walmart.com search is a conversational LLM backend
   #   (pagination literally POSTs "Show me page number 2" to a chat GraphQL
-  #   op with session thread_ids) — no stable public search API. 2026-07-15.
+  #   op with session thread_ids) — no stable public search API. 2026-07-15;
+  #   re-confirmed 2026-07-31: robots.txt Disallows /api + /results, sitemap
+  #   (1.8 MB) carries zero /job/ URLs, and they're not on Workday.
+  # Tesla: tesla.com careers (cua-api) is Akamai-walled — 403 to curl AND
+  #   httpx h1/h2 server-side. 2026-07-31. Partial coverage via the linkedin
+  #   source (company_id 15564) above.
 
 filters:
   # Job is kept only if its title/dept/location matches at least one include

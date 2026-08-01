@@ -1,5 +1,5 @@
 import { formatForInput } from './dates'
-import { chooseOptionMulti, getContext, type MatchedField } from './fieldMatcher'
+import { chooseOptionMulti, getContext, precedingSiblingText, type MatchedField } from './fieldMatcher'
 import type { StoredFile } from './profile'
 
 const HIGHLIGHT_STYLE_ID = 'browser-highlight-style'
@@ -251,11 +251,33 @@ export function representative(field: Fillable): HTMLElement {
   return field.type === 'radio' ? field.els[0] : field.el
 }
 
+/**
+ * The question shared by a group of radios/checkboxes. Each option usually
+ * sits inside its own wrapping <label> ("Yes"), which counts as a label and
+ * suppresses getContext's preceding-text walk — so the question ("Are you
+ * authorized to work?") must be read off the group's common container instead:
+ * its aria-label, or the nearest short text preceding it (Lever's
+ * .application-label pattern). precedingSiblingText refuses to cross siblings
+ * containing other controls, so it can't leak the previous field's question.
+ */
+function groupQuestion(els: HTMLElement[]): string | undefined {
+  const first = els[0]
+  if (!first) return undefined
+  let container: HTMLElement | null = first.parentElement
+  while (container && els.some((e) => !container!.contains(e))) {
+    container = container.parentElement
+  }
+  if (!container) return undefined
+  const aria = container.getAttribute('aria-label')
+  if (aria) return aria
+  return precedingSiblingText(container) || undefined
+}
+
 export function contextFor(field: Fillable) {
   if (field.type === 'radio') {
-    // Use the group container's question (fieldset legend / aria-label), not a
-    // single option's label.
-    return getContext(field.els[0])
+    // Use the group's question (fieldset legend / aria-label / preceding
+    // label text), not a single option's label.
+    return getContext(field.els[0], groupQuestion(field.els))
   }
   return getContext(field.el)
 }
