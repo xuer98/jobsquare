@@ -48,3 +48,6 @@ Docs per app: [apps/jobsquare/README.md](apps/job-ops/README.md) ·
 The `/jobsquare` Claude skill lives at `.claude/skills/jobsquare` (repo root —
 that's where Claude Code discovers it) and drives the agent modes in
 `apps/jobsquare/modes/`. The scheduled scrape is `.github/workflows/scrape.yaml`.
+An OpenClaw plugin at [apps/job-ops/openclaw](apps/job-ops/openclaw/) exposes
+the pipeline's Pending queue (list / report / prepare kit / mark applied) to an
+OpenClaw assistant.

@@ -1065,10 +1065,21 @@ function normOptions(options: { value: string; label: string }[]): NormOption[] 
   return options.map((o) => ({ value: normalize(o.value), label: normalize(o.label) }))
 }
 
+const YES_WANTS = new Set(['yes', 'y', 'true'])
+const NO_WANTS = new Set(['no', 'n', 'false'])
+
 function chooseYesNo(norm: NormOption[], want: string): number {
+  // A stored value that isn't recognizably yes/no ("US Citizen") must NEVER
+  // guess a polarity — `positive = want === 'yes'` would have routed every
+  // unknown value down the "no" branch and could tick "No, I am not
+  // authorized". Fall back to text matching: land on a matching labeled
+  // option or nothing at all.
+  if (!YES_WANTS.has(want) && !NO_WANTS.has(want)) {
+    return bestTextMatch(norm, want).idx
+  }
   const yesWords = ['yes', 'true', 'y', 'i am', 'i do', 'authorized', 'eligible', 'agree']
   const noWords = ['no', 'false', 'n', 'i am not', 'i do not', 'not authorized', 'decline']
-  const positive = want === 'yes'
+  const positive = YES_WANTS.has(want)
   const wantWords = positive ? yesWords : noWords
   const avoidWords = positive ? noWords : yesWords
   let best = -1

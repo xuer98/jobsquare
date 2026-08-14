@@ -219,6 +219,8 @@ const users = [
   },
 ];
 type User = (typeof users)[number];
+type SortField = "id" | "name" | "age" | "occupation";
+type SortDirection = "asc" | "desc";
 
 const paginateUsers = (
   usersList: Array<User>,
@@ -233,18 +235,49 @@ const paginateUsers = (
   return { pageUsers, totalPages };
 };
 
+const sortUsers = (
+  usersList: Array<User>,
+  field: SortField | null,
+  direction: SortDirection,
+) => {
+  const usersClone = usersList.slice();
+
+  switch (field) {
+    case "id":
+    case "age": {
+      return usersClone.sort((a, b) =>
+        direction === "asc" ? a[field] - b[field] : b[field] - a[field],
+      );
+    }
+    case "name":
+    case "occupation": {
+      return usersClone.sort((a, b) =>
+        direction === "asc"
+          ? a[field].localeCompare(b[field])
+          : b[field].localeCompare(a[field]),
+      );
+    }
+    default: {
+      return usersClone;
+    }
+  }
+};
 const columns = [
   { label: "ID", key: "id" },
   { label: "Name", key: "name" },
   { label: "Age", key: "age" },
   { label: "Occupation", key: "occupation" },
-];
+] as const;
 
 export default function App() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-  const { totalPages, pageUsers } = paginateUsers(users, page, pageSize);
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  const sortedUsers = sortUsers(users, sortField, sortDirection);
+  const { totalPages, pageUsers } = paginateUsers(sortedUsers, page, pageSize);
 
   return (
     <main>
@@ -253,7 +286,29 @@ export default function App() {
         <thead>
           <tr>
             {columns.map(({ label, key }) => (
-              <th key={key}>{label}</th>
+              <th key={key}>
+                <button
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                  }}
+                  onClick={() => {
+                    if (sortField != key) {
+                      setSortField(key);
+                      setSortDirection("asc");
+                    } else {
+                      setSortDirection(
+                        sortDirection === "asc" ? "desc" : "asc",
+                      );
+                    }
+                    setPage(1);
+                  }}
+                >
+                  {label}
+                </button>
+              </th>
             ))}
           </tr>
         </thead>

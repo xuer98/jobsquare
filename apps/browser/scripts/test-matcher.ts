@@ -307,6 +307,21 @@ expectOption(
   'yesno',
   1,
 )
+// yesno with an unrecognized value must NOT default to the "no" branch —
+// "US Citizen" on a Yes/No control matches nothing (safe no-fill)…
+expectOption('yesno-unknown-value', ['Select…', 'Yes', 'No'], 'US Citizen', 'yesno', -1)
+// …but still lands on a matching labeled option via text fallback.
+expectOption('yesno-text-fallback', ['US Citizen', 'Green Card', 'No'], 'US Citizen', 'yesno', 0)
+// And "Yes | US Citizen" answers plain Yes/No via the first candidate.
+{
+  const opts = ['Select…', 'Yes', 'No'].map((o) => ({ value: o, label: o }))
+  const idx = chooseOptionMulti(opts, ['Yes', 'US Citizen'], 'yesno')
+  if (idx === 1) pass++
+  else {
+    fail++
+    console.log(`✗ yesno multi Yes|US Citizen: expected 1, got ${idx}`)
+  }
+}
 expectOption('country', ['Select…', 'Canada', 'United States', 'Mexico'], 'United States', 'text', 2)
 // Phone-country pickers list "Name +code" — prefix matching must resolve them
 expectOption('dial-code', ['United Kingdom +44', 'United States +1', 'Mexico +52'], 'United States', 'text', 1)

@@ -25,6 +25,7 @@ gongzuo.zip
 # --- personal data (not this repo's business) ---
 # unanchored on purpose: they live under apps/job-ops/ post-monorepo
 **/config/profile.yml
+apply-profile.json
 cv.md
 output/
 reports/

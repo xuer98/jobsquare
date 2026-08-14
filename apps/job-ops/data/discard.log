@@ -231,3 +231,127 @@
 2026-07-24T00:00:00+00:00	https://careers.toasttab.com/jobs?gh_jid=8059808	lowscore: eval 3.1/5 <=3.5
 2026-07-30T00:00:00Z	https://www.samsara.com/company/careers/roles/8021301?gh_jid=8021301	JD excludes residents of California and New York, no relocation assistance; also a C/C++ embedded firmware req needing 8+ years
 2026-07-30T00:00:00Z	https://jobs.ashbyhq.com/snowflake/1d34ad09-5d5f-4efc-bdb5-43b9350800ce	requires active TS/SCI clearance with Polygraph and proof before offer, plus US citizenship and air-gap experience
+2026-08-02T00:00:00Z	https://job-boards.greenhouse.io/twilio/jobs/8100236	pre-screen: location contradiction, CA/NY/WA barred
+2026-08-02T00:00:00Z	https://job-boards.greenhouse.io/verkada/jobs/5148053007	rejected: eval 2.3/5 below 3.0 apply threshold
+2026-08-02T00:00:00Z	https://www.amazon.jobs/en/jobs/10488925/lead-software-engineer-ml-network-stack-annapurna-labs	rejected: eval 2.6/5 below 3.0 apply threshold
+2026-08-02T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Senior-Software-Engineer-in-Test--Network-Security--Performance---Hybrid--RTP--NC_2011993/apply	rejected: eval 2.6/5 below 3.0 apply threshold
+2026-08-02T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Distinguished-Software-Engineer--Identity-Engineering---Remote-_2021211/apply	rejected: eval 2.7/5 below 3.0 apply threshold
+2026-08-02T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556944468	rejected: eval 2.8/5 below 3.0 apply threshold
+2026-08-02T00:00:00Z	https://jobs.apple.com/en-us/details/200675289/software-engineer-automations-and-shortcuts-proactive	rejected: eval 2.9/5 below 3.0 apply threshold
+2026-08-04T00:00:00Z	https://seatgeek.com/jobs/8104059?gh_jid=8104059	expired: greenhouse req 404 while board root live
+2026-08-04T00:00:00Z	https://seatgeek.com/jobs/8104061?gh_jid=8104061	expired: greenhouse req 404 while board root live
+2026-08-04T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Boulder-Colorado-US/Software-Engineer_2019428/apply	expired: workday req unposted, absent from Boulder listings
+2026-08-04T00:00:00Z	https://careers.airbnb.com/positions/8095390?gh_jid=8095390	expired: greenhouse 404 while board root live, careers page 404
+2026-08-04T00:00:00Z	https://job-boards.greenhouse.io/twilio/jobs/8103253	pre-screen: bars CA/CT/NJ/NY/PA/WA
+2026-08-04T00:00:00Z	https://job-boards.greenhouse.io/twilio/jobs/8098945	pre-screen: bars CA/CT/NJ/NY/PA/WA
+2026-08-04T00:00:00Z	https://job-boards.greenhouse.io/twilio/jobs/8026203	pre-screen: bars CA/CT/NJ/NY/PA/WA
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556942076	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/72891881825936070	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/127070111126168262	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/119068690132935366	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/141333044681155270	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/72670416132285126	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/82854642584560326	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/133352445689373382	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/115065402655941318	closed: company filter (google)
+2026-08-06T00:00:00Z	https://jobs.ashbyhq.com/openai/4c0a6cb6-d365-4e5b-bdff-c093d951026d	closed: company filter (openai)
+2026-08-06T00:00:00Z	https://jobs.ashbyhq.com/openai/da07ba71-81fd-47c7-adb1-2b2d1eaed325	closed: company filter (openai)
+2026-08-06T00:00:00Z	https://www.amazon.jobs/en/jobs/10494570/senior-software-engineer-aws-commercial-application-services	closed: company filter (amazon)
+2026-08-06T00:00:00Z	https://www.amazon.jobs/en/jobs/10494945/senior-software-engineer-aws-container-registry	closed: company filter (amazon)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/117279545806987974	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.amazon.jobs/en/jobs/10493057/senior-software-engineer-network-connectivity-services	closed: company filter (amazon)
+2026-08-06T00:00:00Z	https://www.amazon.jobs/en/jobs/10493557/sr-software-engineer-aws-continuum-for-code-vulnerabilities	closed: company filter (amazon)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/90842130703884998	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/73211874069357254	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/97751186894922438	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/143348415135130310	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/109323271899357894	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/91621340850594502	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/88514395868406470	closed: company filter (google)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556953704	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556952543	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556943741	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556953379	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556952474	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556953141	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556955762	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556949029	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556957546	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556752268	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/112897852920734406	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/86727416205976262	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/81250748788024006	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/129658397468304070	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/138863919522292422	closed: company filter (google)
+2026-08-06T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/101832367898796742	closed: company filter (google)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556957100	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556956528	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556943805	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556943804	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556953088	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556957819	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556956490	closed: company filter (microsoft)
+2026-08-06T00:00:00Z	https://jobs.apple.com/en-us/details/200676125/software-engineer-agentic-workflows	expired: apple req taken down, role no longer available
+2026-08-13T09:58:00.231338+00:00	https://jobs.ashbyhq.com/applied/4183f0f2-1623-4a92-8cef-cf36b3bc5624	posting removed from Ashby board API
+2026-08-13T10:03:18.222280+00:00	https://jobs.elastic.co/jobs?gh_jid=8119438&gh_jid=8119438	greenhouse job 404 on valid board; page redirects to /404
+2026-08-13T10:03:18.222280+00:00	https://jobs.elastic.co/jobs?gh_jid=8099224&gh_jid=8099224	greenhouse job 404 on valid board; page redirects to /404
+2026-08-13T10:29:55.366989+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineer--Backend--Hybrid-_2021774-1/apply	req 2021774 unposted: CXS 403 vs 200 for live sibling; search total 0
+2026-08-13T10:57:19.694364+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Senior-Software-Engineer--Backend--Hybrid-_2021772/apply	req 2021772 unposted: CXS 403 vs 200 for live sibling 2021771 same path form; board search total 0 (control 2021771 total 1)
+2026-08-13T11:41:25.706562+00:00	https://www.samsara.com/company/careers/roles/7922530?gh_jid=7922530	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://mlp.eightfold.ai/careers/job/755957279618	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-AI-Native-Systems-Software-Engineer--TensorRT_JR2016396	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200676394/ux-and-ui-software-engineer-observability	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://otter.ai/careers?gh_jid=7832658003	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://mlp.eightfold.ai/careers/job/755954587117	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.hudsonrivertrading.com/careers/job/?gh_jid=6703952	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.mongodb.com/careers/job/?gh_jid=8081945	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://nuro.ai/careersitem?gh_jid=8122990	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://job-boards.greenhouse.io/affirm/jobs/7663434003	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://job-boards.greenhouse.io/affirm/jobs/7671388003	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://job-boards.greenhouse.io/amplitude/jobs/8700618002	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677458/systems-software-engineer-platform-architecture	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677399/sr-software-engineer-employee-experience-productivity	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://joinbytedance.com/search/7672457927492946229	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://joinbytedance.com/search/7672525868803197189	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677036/software-engineer-aml-ai-data-platforms-aidp	closed: eval 3.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://app.careerpuck.com/job-board/lyft/job/8678744002?gh_jid=8678744002	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-Engineer--Deep-Learning-Inference---Automotive-Safety_JR2014814	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://job-boards.greenhouse.io/doordashusa/jobs/8024644	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.hudsonrivertrading.com/careers/job/?gh_jid=6703954	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-GPU-System-Software-Engineer_JR2022837	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200676667/senior-software-engineer-navigation-experience-intelligence	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://explore.jobs.netflix.net/careers/job/790317577115	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200674697/full-stack-software-engineer-ai-data-platforms-is-t	closed: eval 3.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Senior-Software-Engineer---Application-Reliability---Hybrid_2013260/apply	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://explore.jobs.netflix.net/careers/job/790317690542	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://careers.withwaymo.com/jobs?gh_jid=7170802	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.hudsonrivertrading.com/careers/job/?gh_jid=7392942	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://job-boards.greenhouse.io/anthropic/jobs/5367585008	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.ashbyhq.com/snowflake/79e0f681-fed6-42cc-9754-9e150e056c5a	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200676774/ai-ml-software-engineer	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://job-boards.greenhouse.io/doordashusa/jobs/8120763	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://nuro.ai/careersitem?gh_jid=8122537	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineering-Technical-Leader--Backend--Hybrid-_2021771/apply	closed: eval 3.3/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://job-boards.greenhouse.io/verkada/jobs/4129304007	closed: eval 3.2/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://lifeattiktok.com/search/7672448952981342517	closed: eval 3.2/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://lifeattiktok.com/search/7672455589666474245	closed: eval 3.2/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-Engineer---NVIDIA-Warp_JR2022492	closed: eval 3.1/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.amazon.jobs/en/jobs/10500315/senior-software-engineer-agentic-ai-amazon-s-talent-solution-s-core-science-and-engineering	closed: eval 3.1/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.metacareers.com/jobs/2565836150513853/	closed: eval 3.0/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.metacareers.com/jobs/1036424292475196/	closed: eval 3.0/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://careers.roblox.com/jobs/8097701?gh_jid=8097701	closed: eval 3.0/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.metacareers.com/jobs/1504555875026789/	closed: eval 3.0/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://lifeattiktok.com/search/7672551886302628149	closed: eval 3.0/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677328/sr-software-engineer-infrastructure-services-sonic	closed: eval 2.9/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.ashbyhq.com/applied/1b268893-9c79-4d59-abc2-4ab0e769f5b5	closed: eval 2.9/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineering-Technical-Leader--Backend--Hybrid-_2021765/apply	closed: eval 2.9/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677349/software-engineer-siri-runtime-systems-and-interaction	closed: eval 2.8/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677404/machine-learning-system-software-engineer	closed: eval 2.8/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://www.mongodb.com/careers/job/?gh_jid=8107198	closed: eval 2.8/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200668234/perception-systems-software-engineer-audio-media-technologies	closed: eval 2.7/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200676478/software-engineer-apple-services	closed: eval 2.6/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineer_2020847/apply	closed: eval 2.6/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://mlp.eightfold.ai/careers/job/755954367614	closed: eval 2.6/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Software-Engineer_2010705-1/apply	closed: eval 2.5/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineer-III--Full-Time----United-States-ENG-CPO-WTG-ETR_2022055/apply	closed: eval 2.4/5 <= 3.5
+2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677740/software-engineer-siri-runtime-systems-and-interaction	closed: eval 2.3/5 <= 3.5

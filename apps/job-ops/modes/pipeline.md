@@ -44,6 +44,15 @@ names their company explicitly.
 
 ## Parallelization — single-writer rule
 
+**Scratchpad isolation (mandatory).** Any temp file a worker writes — curl
+output, extracted hydration JSON — must live at a path unique to that worker:
+`mktemp -d`, or a name containing the job id plus `$$-$RANDOM`. Generic names
+(`page.html`, `hydration.json`) in a shared directory get clobbered by a
+sibling worker, and the victim then evaluates **someone else's JD at HTTP 200
+with no error**. After extracting, assert the JD's own id/title matches the
+assigned entry, against the same bytes just extracted — a guard that passed
+before the clobber does not hold. Observed 2026-07-15 and again 2026-08-13.
+
 - **3+ selected entries:** launch one worker subagent per entry (≤ 5
   concurrent), prompt = output-language directive + `apps/jobsquare/modes/_shared.md` +
   `apps/jobsquare/modes/_custom.md` (if exists) + `apps/jobsquare/modes/match.md` + the worker protocol
