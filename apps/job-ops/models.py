@@ -51,6 +51,23 @@ class Job:
     salary_range: str = ""     # source-provided comp, best-effort (often blank)
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
 
+    _STR_FIELDS = ("source", "company", "external_id", "title", "url", "location",
+                   "department", "employment_type", "posted_at", "salary_range")
+
+    def __post_init__(self) -> None:
+        """Coerce None to "" on every text field.
+
+        ATS payloads routinely carry explicit nulls (`"department": null`), and
+        `payload.get("department", "")` yields None for those — the default only
+        applies when the KEY is absent. Normalizing here instead of in each
+        parser means one null field can never again crash a whole poll:
+        filters.match joins these into a haystack, and a single None used to
+        abort the run and discard every listing fetched that cycle.
+        """
+        for f in self._STR_FIELDS:
+            if getattr(self, f) is None:
+                object.__setattr__(self, f, "")
+
     # --- identity -------------------------------------------------------
     @property
     def key(self) -> str:

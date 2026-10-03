@@ -253,9 +253,9 @@ def parse_workable(company: str, data: dict) -> list[Job]:
             title=j.get("title", ""),
             url=j.get("url") or j.get("shortlink") or j.get("application_url", ""),
             location=loc_str,
-            department=j.get("department", ""),
-            employment_type=j.get("employment_type", ""),
-            posted_at=j.get("published_on") or j.get("created_at", ""),
+            department=j.get("department") or "",
+            employment_type=j.get("employment_type") or "",
+            posted_at=j.get("published_on") or j.get("created_at") or "",
             raw=j,
         ))
     return out
@@ -847,6 +847,33 @@ def _lever_url(c: str) -> tuple[str, str]:
 def _smartrecruiters_url(c: str) -> tuple[str, str]:
     return "GET", f"https://api.smartrecruiters.com/v1/companies/{c}/postings?limit=100"
 
+
+async def fetch_smartrecruiters(client: httpx.AsyncClient, source: dict) -> list[Job]:
+    """SmartRecruiters postings API, paginated via `offset` (100/page). The API
+    caps a page at 100 and reports the true size in `totalFound`, so a
+    single-page fetch silently truncates big boards (ServiceNow ~500).
+    Config: company (the slug in jobs.smartrecruiters.com/<company>);
+    max_pages (default 20 => 2000 postings)."""
+    company = source["company"]
+    max_pages = int(source.get("max_pages", 20))
+    base = f"https://api.smartrecruiters.com/v1/companies/{company}/postings"
+
+    jobs: list[Job] = []
+    seen: set[str] = set()
+    for pg in range(max_pages):
+        data = await _get_json(client, base,
+                               params={"limit": 100, "offset": pg * 100})
+        fresh = [j for j in parse_smartrecruiters(company, data or {})
+                 if j.external_id not in seen]
+        if not fresh:
+            break
+        seen.update(j.external_id for j in fresh)
+        jobs.extend(fresh)
+        total = (data or {}).get("totalFound")
+        if isinstance(total, int) and len(jobs) >= total:
+            break
+    return jobs
+
 def _recruitee_url(c: str) -> tuple[str, str]:
     return "GET", f"https://{c}.recruitee.com/api/offers/"
 
@@ -914,6 +941,7 @@ async def fetch_workday(client: httpx.AsyncClient, source: dict) -> list[Job]:
     cxs = f"https://{host}/wday/cxs/{tenant}/{site}/jobs"
     jobs: list[Job] = []
     offset = 0
+    total: int | None = None
     while True:
         body = {"appliedFacets": {}, "limit": page_size,
                 "offset": offset, "searchText": source.get("query", "")}
@@ -933,9 +961,14 @@ async def fetch_workday(client: httpx.AsyncClient, source: dict) -> list[Job]:
                 posted_at=_workday_posted_at(p.get("postedOn", "")),
                 raw=p,
             ))
-        total = data.get("total", len(jobs)) if isinstance(data, dict) else len(jobs)
+        # `total` is only populated on the FIRST page by some tenants
+        # (salesforce reports 584 then 0); a later 0 must never be read as
+        # "we're done" or every board silently truncates at one page.
+        reported = data.get("total") if isinstance(data, dict) else None
+        if isinstance(reported, int) and reported > 0 and total is None:
+            total = reported
         offset += page_size
-        if not postings or offset >= total or offset > 5000:  # safety cap
+        if not postings or (total is not None and offset >= total) or offset > 5000:
             break
     return jobs
 
@@ -1221,6 +1254,10 @@ async def fetch_amazon(client: httpx.AsyncClient, source: dict) -> list[Job]:
 # instead of failing the poll.
 # --------------------------------------------------------------------------
 _LI_GUEST = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
+# The guest endpoint rate-limits per-IP, hard. Every linkedin source in a run
+# shares this lock so pages are fetched one at a time instead of bursting the
+# host with `concurrency` parallel sources.
+_LI_LOCK = asyncio.Lock()
 _BROWSER_UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 
@@ -1270,18 +1307,23 @@ async def fetch_linkedin(client: httpx.AsyncClient, source: dict) -> list[Job]:
         params = {"f_C": str(cid), "start": str(len(jobs))}
         if source.get("query"):
             params["keywords"] = source["query"]
-        r = await client.get(_LI_GUEST, params=params,
-                             headers={"User-Agent": _BROWSER_UA,
-                                      "Accept-Language": "en-US,en;q=0.9"})
-        if pg > 0 and r.status_code in (400, 429, 999):
-            break                      # rate-limited mid-run: keep what we have
+        async with _LI_LOCK:
+            r = await client.get(_LI_GUEST, params=params,
+                                 headers={"User-Agent": _BROWSER_UA,
+                                          "Accept-Language": "en-US,en;q=0.9"},
+                                 timeout=30)
+            await asyncio.sleep(1.0)   # spacing held while the lock is ours
+        if r.status_code in (400, 429, 999):
+            # Rate-limited. Returning what we have (possibly nothing) keeps one
+            # throttled company from failing the whole poll; the next run
+            # re-reads the same window, so nothing is permanently missed.
+            break
         r.raise_for_status()
         fresh = [j for j in parse_linkedin(company, r.text) if j.external_id not in seen]
         if not fresh:
             break
         seen.update(j.external_id for j in fresh)
         jobs.extend(fresh)
-        await asyncio.sleep(1.0)       # guest endpoint 429s fast; be gentle
     return jobs
 
 
@@ -1296,7 +1338,10 @@ async def fetch_linkedin(client: httpx.AsyncClient, source: dict) -> list[Job]:
 def parse_radancy(company: str, host: str, chunk: str) -> list[Job]:
     out: list[Job] = []
     seen: set[str] = set()
-    anchors = list(re.finditer(r'<a[^>]*href="(/job/[^"]+?/(\d+))"', chunk))
+    # Radancy sites may or may not carry a locale prefix on job links:
+    # jobs.intuit.com uses /job/..., www.disneycareers.com uses /en/job/... .
+    anchors = list(re.finditer(
+        r'<a[^>]*href="((?:/[a-z]{2}(?:-[A-Za-z]{2})?)?/job/[^"]+?/(\d+))"', chunk))
     for i, m in enumerate(anchors):
         jid = m.group(2)
         if jid in seen:                # cards can repeat across page modules
@@ -1378,7 +1423,7 @@ FETCHERS: dict[str, SourceFetcher] = {
     "radancy":         fetch_radancy,
     "ashby":           fetch_ashby,
     "phenom":          fetch_phenom,
-    "smartrecruiters": _simple(_smartrecruiters_url, parse_smartrecruiters),
+    "smartrecruiters": fetch_smartrecruiters,
     "recruitee":       _simple(_recruitee_url, parse_recruitee),
     "workable":        _simple(_workable_url, parse_workable),
     "workday":         fetch_workday,

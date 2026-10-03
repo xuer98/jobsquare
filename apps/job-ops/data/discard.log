@@ -355,3 +355,343 @@
 2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Software-Engineer_2010705-1/apply	closed: eval 2.5/5 <= 3.5
 2026-08-13T11:41:25.706562+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineer-III--Full-Time----United-States-ENG-CPO-WTG-ETR_2022055/apply	closed: eval 2.4/5 <= 3.5
 2026-08-13T11:41:25.706562+00:00	https://jobs.apple.com/en-us/details/200677740/software-engineer-siri-runtime-systems-and-interaction	closed: eval 2.3/5 <= 3.5
+2026-08-14T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineer_2021203/apply	expired: Workday CXS returns 403 S22 permission denied for req 2021203; postingAvailable false; absent from all 1168 live Cisco postings
+2026-08-15T00:00:00Z	https://job-boards.eu.greenhouse.io/stubhubinc/jobs/4920530101	expired: boards-api.greenhouse.io 404 for job 4920530101 while board root returns 200 with 19 live jobs excluding this id; both job-boards hosts fall back to the board index; control fetch of sibling 4920529101 renders a full JD
+2026-08-15T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Software-Engineer_2021976/apply	expired: Workday CXS 403 permission denied for req 2021976 (same signature as confirmed-expired sibling 2021203); careers.cisco.com returns 410 Gone; bogus req ids return 404 so the endpoint discriminates
+2026-08-16T00:00:00Z	https://databricks.com/company/careers/open-positions/job?gh_jid=8715639002	expired: boards-api.greenhouse.io 404 for job 8715639002 while board root /v1/boards/databricks returns 200 (board healthy, token correct); job-boards.greenhouse.io/databricks/jobs/8715639002 302s to the board root with ?error=true
+2026-08-16T00:00:00Z	https://jobs.ashbyhq.com/snowflake/5db01aa4-92eb-4796-bd7e-446ea98402f2	skipped: requires active clearance (JD: "Required: Active TS/SCI clearance with Polygraph"; cv.md holds none)
+2026-08-19T00:00:00Z	https://jobs.ashbyhq.com/snowflake/52892674-342b-4519-9a57-7097e4ef4a8a	expired: official Snowflake careers mirror for this uuid shows "THIS JOB HAS BEEN CLOSED"; uuid also absent from api.ashbyhq.com posting-api list
+2026-08-21T00:00:00Z	https://careers.withwaymo.com/jobs?gh_jid=7259110	expired: greenhouse 404, board root 200
+2026-08-21T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer---Security-Content_2020620/apply	expired: Workday CXS 403 S22 unposted-req; 0 search results for req 2020620
+2026-08-21T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5180605007?gh_jid=5180605007	skipped: requires active U.S. Secret clearance
+2026-08-21T00:00:00Z	https://boards.greenhouse.io/point72/jobs/8372893002?gh_jid=8372893002	expired: greenhouse template posting: content = title only, requisition 'Software Engineer India_9535_001'
+2026-08-27T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5111318007?gh_jid=5111318007	skipped: JD requires a currently-held security clearance
+2026-08-27T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5121947007?gh_jid=5121947007	skipped: JD requires a currently-held security clearance
+2026-08-27T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5111994007?gh_jid=5111994007	skipped: JD requires a currently-held security clearance
+2026-08-27T00:00:00Z	https://jobs.apple.com/en-us/details/200679352/software-engineer-accessibility	expired: hydration data status 404, server-rendered 'no longer available'
+2026-08-27T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Senior-Software-Engineer--Hybrid--Milpitas--CA_2021501-1/apply	expired: CXS 403 S22 while search API 200; searchText 2021501 total 0
+2026-08-27T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer_2023592-1/apply	expired: CXS 403 S22 while search API 200; searchText 2023592 total 0
+2026-08-27T00:00:00Z	https://ebay.wd5.myworkdayjobs.com/apply/job/San-Jose/Software-Engineer-3-Backend---eBay-Live_R0071792/apply	expired: CXS 403 S22 req-specific (control req 200 OK); search total 0 for R0071792
+2026-08-27T00:00:00Z	https://careers.withwaymo.com/jobs?gh_jid=8152556	expired: greenhouse 404 while board root 200 with 354 live postings
+2026-08-31T00:00:00Z	https://careers-apac-atlassian.icims.com/jobs/25565/senior-backend-software-engineer/job	pre-screen-skip: APAC only (Sydney/Auckland/Remote-APAC), no US location
+2026-08-31T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/126567268703183558	pre-screen-skip: Pittsburgh PA, outside California/remote
+2026-08-31T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/97090736352043718	pre-screen-skip: Pittsburgh PA, outside California/remote
+2026-08-31T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-NC-Durham/System-Software-Engineer---Data-Center-Compute-Diagnostics_JR2022612	pre-screen-skip: Durham NC, outside California/remote
+2026-09-05T00:00:00Z	https://www.amazon.jobs/en/jobs/10522799/software-engineer-ii-ai-ml-aws-neuron	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.amazon.jobs/en/jobs/10524938/software-engineer-dynamodb-performance	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.amazon.jobs/en/jobs/10524940/software-engineer-dynamodb-performance	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.amazon.jobs/en/jobs/10524941/software-engineer-dynamodb-performance	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.linkedin.com/jobs/view/senior-confidential-computing-software-engineer-kubernetes-virtualization-at-amd-4458043663	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226473007?gh_jid=5226473007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226471007?gh_jid=5226471007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226942007?gh_jid=5226942007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226925007?gh_jid=5226925007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226928007?gh_jid=5226928007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226927007?gh_jid=5226927007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226933007?gh_jid=5226933007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226937007?gh_jid=5226937007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226949007?gh_jid=5226949007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226948007?gh_jid=5226948007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226950007?gh_jid=5226950007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226936007?gh_jid=5226936007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226943007?gh_jid=5226943007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5131066007?gh_jid=5131066007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226944007?gh_jid=5226944007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5227588007?gh_jid=5227588007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226466007?gh_jid=5226466007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5226472007?gh_jid=5226472007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://jobs.apple.com/en-us/details/200678452/senior-platform-software-engineer	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://jobs.apple.com/en-us/details/200680439/software-engineer-fullstack-retail-and-marcom-engineering	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://jobs.apple.com/en-us/details/200680831/wireless-bluetooth-software-engineer-wireless-technologies-ecosystems	pre-screen-skip: hardware/firmware domain
+2026-09-05T00:00:00Z	https://job-boards.greenhouse.io/attentive/jobs/4386872009	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	http://block.xyz/careers/jobs/5412832008?gh_jid=5412832008	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://joinbytedance.com/search/7680326705132423429	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://joinbytedance.com/search/7680326697339259141	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://joinbytedance.com/search/7680424484210624821	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Software-Engineer_2023919/apply	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer-Full-Stack---Backend-I--Full-Time----United-States_2024035/apply	pre-screen-skip: entry level
+2026-09-05T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-Costa-Rica/Software-Engineer-SF_2005022/apply	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/80030576496517830	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/90988309378933446	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/96263216413188806	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/83915700833264326	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/141212660505944774	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/100318765052240582	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/78750744961786566	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/131727448571028166	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/116982173008831174	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556922732	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556981906	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556972729	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556960466	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556978239	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556982661	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556981198	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556957655	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556982727	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556981149	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.mongodb.com/careers/job/?gh_jid=8167460	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://www.linkedin.com/jobs/view/%23sensors-software-engineer-engineer-or-senior-at-qualcomm-4460602363	pre-screen-skip: hardware/firmware domain
+2026-09-05T00:00:00Z	https://www.linkedin.com/jobs/view/%23windows-audio-software-engineer-voice-ai-%E2%80%94-engineer-senior-at-qualcomm-4424208475	pre-screen-skip: hardware/firmware domain
+2026-09-05T00:00:00Z	https://remitly.wd5.myworkdayjobs.com/en-US/Remitly_Careers/job/Seattle-Washington-United-States/Senior-AI-Native-Software-Engineer_R_106614	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://remitly.wd5.myworkdayjobs.com/en-US/Remitly_Careers/job/Seattle-Washington-United-States/Senior-Software-Engineer_R_106829	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://stripe.com/jobs/search?gh_jid=8128744	pre-screen-skip: entry level
+2026-09-05T00:00:00Z	https://www.linkedin.com/jobs/view/sr-software-engineer-manufacturing-software-analytics-at-tesla-4462071197	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://job-boards.greenhouse.io/thetradedesk/jobs/5162288007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://job-boards.greenhouse.io/thetradedesk/jobs/5200996007	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://jobs.ashbyhq.com/whatnot/29bad846-de60-4be7-a222-69b97e044930	pre-screen-skip: outside California/remote-US
+2026-09-05T00:00:00Z	https://zoom.wd5.myworkdayjobs.com/en-US/Zoom/job/San-Jose-CA/Audio-Software-Engineer_R19591	pre-screen-skip: hardware/firmware domain
+2026-09-05T00:00:00Z	https://www.linkedin.com/jobs/view/software-engineer-at-qualcomm-4460291554	expired: LinkedIn posting closed (no longer accepting applications)
+2026-09-05T00:00:00Z	https://careers.upstart.com/jobs?gh_jid=8060317	expired: greenhouse 404 while board root 200 with 88 live postings
+2026-09-09T00:00:00Z	https://www.amazon.jobs/en/jobs/10525188/senior-delivery-consultant-agentic-software-engineer-aws-professional-services	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.amazon.jobs/en/jobs/10526574/software-engineer-internet-edge-services	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5228636007?gh_jid=5228636007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5228642007?gh_jid=5228642007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5228643007?gh_jid=5228643007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5228644007?gh_jid=5228644007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.apple.com/en-us/details/200681348/senior-software-engineer-compute	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.apple.com/en-us/details/200680648/software-engineer-servicenow-developer-g-a-solutions-engineering	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.apple.com/en-us/details/200681309/software-engineer-apple-pay-wallet-payments-commerce-wpc	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.ashbyhq.com/applied/a561fff8-aa38-4a5d-8b29-66c191f7328e	pre-screen-skip: entry level
+2026-09-09T00:00:00Z	https://www.asana.com/jobs/apply/8174616?gh_jid=8174616	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7766519003	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Austin-Texas-US/Senior-Software-Engineer--Identity-Engineering---SSO-_2023296/apply	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/USA---Austin-TX/Backend-Engineer-III--Falcon-NG-SIEM--Global-Serverless-Platform--Remote--East-Coast-_R25320	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/78052022502204102	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/89549821752287942	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556983191	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556982499	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556668508	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556980793	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556982502	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556982657	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556958208	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556982731	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.ashbyhq.com/snowflake/30c880da-d4ec-4d66-ad2b-1d7a52c6c6b7	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.amazon.jobs/en/jobs/10528962/software-engineer-ii-leo-commerce	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.linkedin.com/jobs/view/systems-design-eng-ai-cluster-software-engineer-at-amd-4460746574	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5117558007?gh_jid=5117558007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5228337007?gh_jid=5228337007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.apple.com/en-us/details/200658914/senior-network-software-engineer	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.apple.com/en-us/details/200658914/senior-network-software-engineer	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.apple.com/en-us/details/200679870/senior-software-engineer-security	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://jobs.apple.com/en-us/details/200681645/senior-software-engineer-icloud-foundation	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://careers-apac-atlassian.icims.com/jobs/27068/software-engineer---search-platform-experience%2c-rovo-experiences-%26-growth/job	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://joinbytedance.com/search/7680424310557673781	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/89726808764621510	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/82829297445675718	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/89507043878019782	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556983218	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556985590	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556986766	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556874947	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556984128	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556988180	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556972464	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556983343	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.weareroku.com/jobs/7032137?gh_jid=7032137	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.weareroku.com/jobs/7032060?gh_jid=7032060	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://stripe.com/jobs/search?gh_jid=8177860	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://www.amazon.jobs/en/jobs/10530494/software-engineer-ii-prime-air	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5134065007?gh_jid=5134065007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5134069007?gh_jid=5134069007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5127000007?gh_jid=5127000007	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Senior-Software-Engineer--DNS_2024060/apply	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556979250	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556986780	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556984792	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556988234	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556981268	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556983003	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556988036	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556982728	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://boards.greenhouse.io/point72/jobs/8773519002?gh_jid=8773519002	pre-screen-skip: outside California/remote-US
+2026-09-09T00:00:00Z	https://job-boards.greenhouse.io/scaleai/jobs/4730836005	pre-screen-skip: entry level
+2026-09-09T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Senior-Software-Engineer---Solution-Testing---Quality_2021629/apply	expired: req taken down: CXS 403 req-specific (sibling 200), postingAvailable:false, absent from 360-row board
+2026-09-09T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/88160039054779078	expired: google careers ErrorDetails cp.v1.e/30 (job not found); control req hydrates normally
+2026-09-09T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/96140844204991174	expired: google careers job pane: Job not found / taken down (search-list blocks are siblings, not this req)
+2026-09-09T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-Engineer--Platforms_JR2022913	expired: req unposted: CXS 403 req-specific (control 200), search API total 0 for JR2022913, board alive
+2026-09-09T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/System-Software-Engineer--Performance---CUDA-Driver_JR2024918	expired: req unposted: CXS S22 permission-denied on exact anchor (wrong slugs give S21), siblings 200, absent from paged board
+2026-09-09T00:00:00Z	https://jobs.smartrecruiters.com/ServiceNow/744000147320930	expired: SmartRecruiters API active=false, visibility=INTERNAL; page body says job has expired
+2026-09-09T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineer_2022740/apply	expired: req taken down: CXS 403 S22, board search total 0, controls 200; live same-titled req 2020847 is a different job
+2026-09-09T00:00:00Z	https://instacart.careers/job/?gh_jid=8175843	pre-screen-skip: PERM labor-cert filing, not open headcount (requisition_id PERM-CAPS40, '(Multiple Openings)')
+2026-09-09T00:00:00Z	https://instacart.careers/job/?gh_jid=8178568	expired: greenhouse 404 while board alive with 104 open reqs incl sibling 8178502
+2026-09-09T00:00:00Z	https://stripe.com/jobs/search?gh_jid=8175099	pre-screen-skip: PERM labor-cert filing, not open headcount (greenhouse offices=[US-PERM], #LI-DNI, Multiple Positions Available)
+2026-09-09T00:00:00Z	https://careers.toasttab.com/jobs?gh_jid=8154719	expired: greenhouse 404, careers page 404, board alive with 329 jobs and req absent
+2026-09-09T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Senior-Software-Engineer--CX-Platform_2021686-1/apply	expired: req taken down: CXS 403 on both path variants, control req 200, absent from 1307-posting board sweep
+2026-09-09T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer--IQ-Platform-Infrastructure_2021689/apply	expired: req taken down: CXS 403 S22, board search total 0, two control reqs 200, sibling IQ reqs still listed
+2026-09-09T00:00:00Z	https://careers.upstart.com/jobs?gh_jid=8014391	expired: greenhouse 404 and careers 404 while board alive with 88 postings
+2026-09-12T00:00:00Z	https://www.amazon.jobs/en/jobs/10530854/sr-software-engineer-ai-ml-aws-neuron	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/USA---New-York-NY/Sr-Backend-Engineer---Cloud--Hybrid-_R29007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Denmark---Aarhus/Sr-Software-Engineer---LogScale-Search--Hybrid-_R29531	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/USA---Austin-TX/Sr-Software-Engineer--LogScale-Search--Hybrid-_R29418	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/129987398405628614	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.linkedin.com/jobs/view/risc-v-software-engineer-at-qualcomm-4453574998	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://adobe.wd5.myworkdayjobs.com/external_experienced/job/New-York/Software-Development-Engineer-4_R171183-1/apply	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.amazon.jobs/en/jobs/10531826/software-development-engineer-ii-aws-workspaces-aws-workspaces-control-plane-backend	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.amazon.jobs/en/jobs/10532969/software-engineer-xr-fauna	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5232514007?gh_jid=5232514007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5232513007?gh_jid=5232513007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5152227007?gh_jid=5152227007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5232402007?gh_jid=5232402007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5232395007?gh_jid=5232395007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Software-Engineer--Collaboration-Devices_2023927-1/apply	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://databricks.com/company/careers/open-positions/job?gh_jid=7737233002	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556991222	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556985572	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://mlp.eightfold.ai/careers/job/755955306170	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.amazon.jobs/en/jobs/10534029/senior-software-engineer-prime-video-personalization-and-discovery	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.amazon.jobs/en/jobs/10534383/software-engineer-internet-edge-services	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.apple.com/en-us/details/200682687/senior-software-engineer-security-frameworks	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.apple.com/en-us/details/200671804/senior-software-engineer-full-stack-node-js-typescript-functional	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.apple.com/en-us/details/200682706/software-engineer-apple-ads	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7499970003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.ashbyhq.com/cursor/d0e5b41d-84ab-4887-bd3a-55589b11dd7b	pre-screen-skip: entry level
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/doordashusa/jobs/8180903	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/127388101377958598	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556988778	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556988735	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556984019	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556992027	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556983220	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.linkedin.com/jobs/view/senior-software-engineer-%E2%80%93-ai-tools-data-engineering-experienced-hire-at-susquehanna-international-group-4406733036	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.ashbyhq.com/airwallex/396cd4cf-a1c6-47fa-829b-b7ee6c963206	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.amazon.jobs/en/jobs/10536015/senior-software-engineer-ai-ml-aws-neuron-inference	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5152584007?gh_jid=5152584007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5234789007?gh_jid=5234789007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5234791007?gh_jid=5234791007	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.apple.com/en-us/details/200683061/senior-software-engineer	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.apple.com/en-us/details/200682996/senior-software-engineer-apple-ads	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.apple.com/en-us/details/200683088/wireless-bluetooth-software-engineer-wireless-technologies-ecosystems	pre-screen-skip: hardware/firmware domain
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7504120003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7576939003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7704335003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7811542003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7832053003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7790089003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7576935003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7576610003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/7504906003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://job-boards.greenhouse.io/axon/jobs/6308836003	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://joinbytedance.com/search/7683240946894833925	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://joinbytedance.com/search/7683293945720375605	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Austin-Texas-US/Senior-Software-Engineer--CEA---ThousandEyes--Hybrid-_2023941-1/apply	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://careers.datadoghq.com/detail/8193518/?gh_jid=8193518	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://ebay.wd5.myworkdayjobs.com/apply/job/Portland/Software-Engineer-2_R0076856/apply	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/92579968424256198	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/120920593594753734	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556992147	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556938830	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556979106	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://apply.careers.microsoft.com/careers/job/1970393556994428	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://mlp.eightfold.ai/careers/job/755953889410	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.ashbyhq.com/openai/b6a86e39-8059-4ccf-8d33-1bf5bd92fa86	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://seatgeek.com/jobs/8191922?gh_jid=8191922	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://jobs.ashbyhq.com/sentry/f345b525-b2e9-4dc1-bec1-85fb4c3b3cf2	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://lifeattiktok.com/search/7683402977852131589	pre-screen-skip: outside California/remote-US
+2026-09-12T00:00:00Z	https://careers.twosigma.com/careers/JobDetail/New-York-New-York-United-States-Software-Engineer-Technology-Risk/14215	pre-screen-skip: outside California/remote-US
+2026-09-13T00:00:00Z	https://jobs.smartrecruiters.com/ServiceNow/744000148314159	expired: SmartRecruiters active=false, page says expired, absent from 632-entry board; control sibling active=true
+2026-09-13T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5138370007?gh_jid=5138370007	expired: greenhouse 404 while board alive with 2293 jobs; control sibling 200; browser URL redirects to generic listing
+2026-09-13T00:00:00Z	https://jobs.apple.com/en-us/details/200681778/software-engineer-accessibility	expired: apple hydration jobDetails RouteErrorResponse 404, page says role no longer available; control sibling returned full jobDetails
+2026-09-13T00:00:00Z	https://job-boards.greenhouse.io/boxinc/jobs/8186622	expired: greenhouse 404, control sibling 200, absent from 128-job board, page 302s to error=true
+2026-09-13T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/99532077367468742	expired: google ds:0 ErrorDetails cp.v1.e/30 for own id; control live req returned full payload
+2026-09-13T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/140448684608234182	expired: google ds:0 ErrorDetails cp.v1.e/30; control live req returned full payload; no such title on board
+2026-09-13T00:00:00Z	https://jobs.smartrecruiters.com/ServiceNow/744000148572229	expired: SmartRecruiters active=false, page renders expired with disabled apply; control sibling active=true, board has 632 live
+2026-09-13T00:00:00Z	https://jobs.smartrecruiters.com/ServiceNow/744000148581229	expired: SmartRecruiters active=false, page renders expired; control sibling active=true, board alive with 632 postings
+2026-09-13T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/133180328633082566	expired: google ds:0 ErrorDetails cp.v1.e/30 scoped to own id; control live req returned full payload
+2026-09-13T00:00:00Z	https://paloaltonetworks.wd5.myworkdayjobs.com/en-US/panwexternalcareers/job/Office---USA---CA---Headquarters/Senior-IT-Software-Engineer_JR-022045	expired: workday CXS 403 S22, board search 0 hits for JR-022045, two control siblings 200 with full JD
+2026-09-13T00:00:00Z	https://www.linkedin.com/jobs/view/%23software-engineer-at-qualcomm-4463862739	expired: linkedin empty apply-CTA container on both endpoints; control sibling populated; absent from 270-req live index
+2026-09-13T00:00:00Z	https://boards.greenhouse.io/andurilindustries/jobs/5235253007?gh_jid=5235253007	expired: greenhouse 404 while board 200 with 2293 jobs; control sibling 200; page is generic board shell
+2026-09-13T00:00:00Z	https://joinbytedance.com/search/7683257703213369653	pre-screen-skip: PERM labor-cert filing, not open headcount
+2026-09-13T00:00:00Z	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Software-Engineer_2024422/apply	expired: CXS 403 S22 all variants; two control siblings 200; board 624 live, 0 hits for 2024422
+2026-09-13T00:00:00Z	https://www.coinbase.com/careers/positions/8193862?gh_jid=8193862	expired: greenhouse 404 while board 200 with 218 live jobs; control sibling 200; page 302s to error=true
+2026-09-14T00:00:00Z	https://jobs.apple.com/en-us/details/200662766/sr-software-engineer-employee-experience-productivity	Posting removed: hydration errors.jobDetails 404 RouteErrorResponse; control fetch of live sibling 200683519 returned full jobsData
+2026-09-14T00:00:00Z	https://www.disneycareers.com/en/job/glendale/software-engineer-ii/391/100139009072	Req 100139009072 removed: direct job URL 404s (Custom Job Error); control fetch of sibling req 95381347248 through identical endpoint returns HTTP 200 full job page; slug/city segments proven irrelevant to resolution
+2026-09-23T00:00:00Z	https://www.google.com/about/careers/applications/jobs/results/136934133271012038	Req removed: ds:0 hydration is corp.hiring.cportal.api.v1.ErrorDetails [cp.v1.e,30]; job pane renders 'Job not found. This job may have been taken down.' Control fetch of live sibling 83336424635409094 through identical endpoint returns full job payload, so board alive and only this req gone.
+2026-09-23T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/System-Software-Engineer---CUDA-Chips_JR2026249-1	Req JR2026249 removed: Workday CXS returns 403 errorCode S22 permission denied; board search API 200 with 377 hits for the title but total:0 for JR2026249; browser URL 200s as an empty SPA shell. Control fetch of live sibling JR2013322 through identical CXS endpoint returned full jobPostingInfo, so the 403 is req-specific.
+2026-09-23T00:00:00Z	https://job-boards.greenhouse.io/gusto/jobs/7947424	Greenhouse boards-api 404 'Job not found'; id absent from gusto's 91 live board jobs; control req gusto/8143038 returned 200 through identical endpoint
+2026-09-23T00:00:00Z	https://job-boards.greenhouse.io/bitgo/jobs/8709045002	Greenhouse boards-api 404 'Job not found'; id absent from bitgo's 38-job board list; control req bitgo/8644530002 returned 200 through identical endpoint
+2026-09-23T00:00:00Z	https://jobs.ashbyhq.com/snowflake/22c61c00-65a5-4952-9a02-d897d4960437	Ashby: UUID absent from snowflake posting-api feed while same 200 feed call resolved control a51a1e30; role re-posted under new UUID ab0abd7e
+2026-09-23T00:00:00Z	https://jobs.ashbyhq.com/whatnot/6647e271-c7c7-4c9f-9b76-1404024e3f88	Ashby: jobPosting:null and UUID absent from whatnot's 142-posting board; control c7509615 resolved live through identical endpoint
+2026-09-23T00:00:00Z	https://jobs.ashbyhq.com/snowflake/db4f0492-ae21-49b7-a7eb-100be61e92bb	Ashby: UUID absent from snowflake's 345-job board, jobPosting:null; control e47d5736 resolved live with isListed:true
+2026-09-23T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Infrastructure-Software-Engineer--Deep-Learning-Libraries_JR2020105	Workday CXS 403 S22 permission denied; board search 0 hits for JR2020105; control JR2015068 returned 200 with full jobPostingInfo through identical endpoint
+2026-09-23T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-Engineer--Developer-Experience_JR2023498	Workday CXS 403 S22 permission denied; board search 0 hits for JR2023498; control JR2015068 returned 200 through identical endpoint
+2026-09-23T00:00:00Z	https://www.coinbase.com/careers/positions/8203429?gh_jid=8203429	Greenhouse boards-api 404 'Job not found'; id absent from coinbase's 213-job board; controls 8175363 and 7961318 returned 200 through identical endpoint
+2026-09-23T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Platform-Service-Software-Engineer_JR2020652	Workday CXS 403 S22; board search 0 hits for JR2020652; control JR2015068 returned full jobPostingInfo through identical endpoint
+2026-09-23T00:00:00Z	https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-Engineer--Capacity-Management---DGX-Cloud_JR2025391	Workday CXS 403 S22; board search 0 hits for JR2025391; control JR2015068 returned full jobPostingInfo through identical endpoint
+2026-09-23T00:00:00Z	https://adobe.wd5.myworkdayjobs.com/external_experienced/job/San-Jose/Software-Engineer---Model---Partnerships-Management--Agentic-Builders-Experience-team-_R170139/apply	Workday CXS 403 S22; Adobe search 0 hits for R170139; control R170582 returned full jobPostingInfo through identical endpoint
+2026-09-23T00:00:00Z	https://careers.airbnb.com/positions/8209244?gh_jid=8209244	Greenhouse boards-api 404 'Job not found' and careers.airbnb.com 404 'Page not found'; control airbnb/8197816 returned 200 with full payload through identical endpoint
+2026-09-23T00:00:00Z	https://jobs.smartrecruiters.com/ServiceNow/744000144649929	SmartRecruiters active=false and 200 shell has zero apply CTAs; control 744000151526980 shows active=true with 5 CTAs through identical endpoint
+2026-09-23T00:00:00Z	https://jobs.apple.com/en-us/details/200683319/software-engineer-aml-ai-data-platforms-aidp	Apple hydration errors.jobDetails 404 RouteErrorResponse, no jobsData/reqId; control 200313970 returned full jobsData through identical endpoint
+2026-09-23T00:00:00Z	https://www.linkedin.com/jobs/view/software-engineer-at-docusign-4453282586	LinkedIn jobs-guest 200 with empty top-card-layout__cta-container (zero apply CTAs); controls 4457143809 and 4469491248 render Apply CTA through identical endpoint
+2026-09-23T00:00:00Z	https://www.linkedin.com/jobs/view/senior-software-engineer-at-docusign-4428426047	LinkedIn jobs-guest 200, stripped 23KB body, empty CTA container; same two controls render Apply CTA
+2026-09-23T00:00:00Z	https://jobs.disneycareers.com/job/glendale/senior-software-engineer-innovation/391/96268337728	Disney 404 'Custom Job Error - Disney Careers' after 301 to www.disneycareers.com; control 96254197408 returns 200 through identical endpoint
+2026-09-23T00:00:00Z	https://abnormal.ai/careers/jobs/7981482003?gh_jid=7981482003	Greenhouse boards-api 404 'Job not found'; id absent from abnormalsecurity's 84-job board; control 7832743003 returned 200 through identical endpoint
+2026-09-26T00:00:00+00:00	https://careers-americas.icims.com/jobs/26956/senior-software-engineer/job	unfilled internal template: Responsibilities is literally [[INSERT JOB DESCRIPTION HERE]]
+2026-09-26T00:00:00+00:00	https://ebay.wd5.myworkdayjobs.com/apply/job/San-Jose/Software-Engineer-3_R0077005/apply	PERM labor-certification filing, not open headcount
+2026-09-26T00:00:00+00:00	https://www.weareroku.com/jobs/8232158?gh_jid=8232158	PERM labor-certification filing, not open headcount
+2026-09-26T00:00:00+00:00	https://jobs.ashbyhq.com/snowflake/c03acc32-f60b-40de-9838-e954d3f419b9	PERM labor-certification filing, not open headcount
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5241676007?gh_jid=5241676007	eval 3.9/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.ashbyhq.com/thumbtack/f82051f8-b3f1-498d-b273-58e1b56f4925	eval 3.9/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://servicetitan.wd1.myworkdayjobs.com/en-US/ServiceTitan/job/US-Remote/Senior-Software-Engineer_JR112971	eval 3.9/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.pinterestcareers.com/jobs/?gh_jid=5412514	eval 3.9/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://careers.roblox.com/jobs/8213903?gh_jid=8213903	eval 3.8/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.apple.com/en-us/details/200685742/software-engineer-music-search	eval 3.8/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.ashbyhq.com/openai/7caed1e8-c6f6-4569-9d45-2d7a7a56a025	eval 3.8/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/86779871715304134	eval 3.8/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5244194007?gh_jid=5244194007	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/chime/jobs/8770314002?gh_jid=8770314002	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://careers.withwaymo.com/jobs?gh_jid=7347335	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.apple.com/en-us/details/200685555/senior-software-engineer-development-engineering-workflows-core-os	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.ashbyhq.com/snowflake/6e96b818-2350-4601-8bdd-7ddd6c4a5f6d	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.coinbase.com/careers/positions/8204215?gh_jid=8204215	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/118209686473188038	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/133001828718518982	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.linkedin.com/jobs/view/software-engineer-at-docusign-4470045385	eval 3.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/USA---Sunnyvale-CA/Sr-Full-Stack-Engineer--Cloud-Native---AI-Detection-and-Response--AIDR---Hybrid--Sunnyvale-_R29845	eval 3.6/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/126978429143655110	eval 3.6/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5217318007?gh_jid=5217318007	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5247821007?gh_jid=5247821007	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5249750007?gh_jid=5249750007	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://instacart.careers/job/?gh_jid=8234282	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://job-boards.greenhouse.io/affirm/jobs/7985860003	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://servicetitan.wd1.myworkdayjobs.com/en-US/ServiceTitan/job/US-Remote/Senior-Software-Engineer_JR114418	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/111619643273028294	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/77406122771653318	eval 3.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5244366007?gh_jid=5244366007	eval 3.4/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.smartrecruiters.com/ServiceNow/744000151896179	eval 3.4/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.linkedin.com/jobs/view/senior-software-engineer-at-docusign-4470055150	eval 3.4/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.metacareers.com/jobs/1104959738740874/	eval 3.4/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5247868007?gh_jid=5247868007	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Senior-Software-Engineer--Remote-_2023799/apply	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Senior-Software-Engineer--Remote-_2024310/apply	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://explore.jobs.netflix.net/careers/job/790317912743	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.apple.com/en-us/details/200685683/sr-software-engineer-employee-experience-productivity	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.ashbyhq.com/notion/ab383335-1dd5-4d6a-971f-439cebf48a9d	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.intuit.com/job/mountain-view/senior-software-engineer-iks-service-and-agent-platform/27595/100730647680	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/100310324367762118	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/110132811494499014	eval 3.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.apple.com/en-us/details/200684521/software-engineer-applied-ai	eval 3.2/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.apple.com/en-us/details/200685752/sr-software-engineer-machine-learning-ops-sales-engineering	eval 3.2/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://nuro.ai/careersitem?gh_jid=8221208	eval 3.2/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.disneycareers.com/en/job/glendale/software-engineer-ii/391/92167402528	eval 3.2/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.google.com/about/careers/applications/jobs/results/91655260891685574	eval 3.2/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.mongodb.com/careers/job/?gh_jid=8221182	eval 3.2/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.okta.com/company/careers/opportunity/8212358?gh_jid=8212358	eval 3.2/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://careers.roblox.com/jobs/8168881?gh_jid=8168881	eval 3.1/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Senior-Software-Engineer---Application-Reliability--Kubernetes--GCP--SQL---Hybrid_2024899/apply	eval 3.1/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.apple.com/en-us/details/200684823/senior-software-engineer-sdet-infrastructure-services	eval 3.1/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://lifeattiktok.com/search/7688211031676979509	eval 3.1/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://careers.roblox.com/jobs/8171283?gh_jid=8171283	eval 3.0/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/USA---Remote/Engineer-II--Full-Stack--Remote-_R30113	eval 3.0/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.asana.com/jobs/apply/8078102?gh_jid=8078102	eval 3.0/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://job-boards.greenhouse.io/smartsheet/jobs/8230517	eval 2.9/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.smartrecruiters.com/ServiceNow/744000151949130	eval 2.8/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://careers-americas.icims.com/jobs/26952/senior-software-engineer/job	eval 2.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://job-boards.greenhouse.io/okx/jobs/7786389003	eval 2.7/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://boards.greenhouse.io/andurilindustries/jobs/5002801007?gh_jid=5002801007	eval 2.6/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.ashbyhq.com/applied/6b7aacaa-32e3-4d58-93e6-7d7068f44617	eval 2.6/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://www.metacareers.com/jobs/1086005087697425/	eval 2.5/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://jobs.ashbyhq.com/applied/ccee2574-f12a-4a0c-bc57-427a34d6d59b	eval 2.4/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://apply.careers.microsoft.com/careers/job/1970393556995345	eval 2.3/5 below apply bar (close eval <4.0)
+2026-09-26T00:00:00+00:00	https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer-II--Full-Time----United-States_2026694/apply	eval 2.0/5 below apply bar (close eval <4.0)
